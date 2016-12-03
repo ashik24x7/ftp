@@ -1,0 +1,224 @@
+﻿div.content {
+	/* The display of content is enabled using jQuery so that the slideshow content won't display unless javascript is enabled. */
+	display: none;
+	border-radius: 5px;
+}
+div.content a, div.navigation a {
+	text-decoration: none;
+	color: #777;
+}
+div.controls {
+}
+div.controls a {
+	padding: 0;
+	/* float: right; */   display: inline-block;
+	font-family: FontAwesome;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	transform: translate(0, 0);
+	position:relative;
+	font-size: 0px;
+	left: 40px;
+	margin-top:-40px;
+	color:#fff;
+	width: 40px;
+	height:40px;
+	background: rgba(0, 0, 0, 0.37);
+	line-height: 42px;
+	border-radius:50%;
+	text-align:center
+}
+div.controls a.prev:before{
+	content: "\f053";
+	font-size:15px;
+}
+div.controls a.next {
+	right: 40px;
+	left:auto
+}
+div.controls a.next:before{
+	content: "\f054";
+	font-size:15px;
+}
+div.ss-controls {
+	float: left;
+	display: none;
+}
+div.nav-controls a {
+	position: absolute;
+	top: 50%;
+	z-index: 9;
+}
+div.slideshow-container {
+	position: relative;
+	clear: both; /* This should be set to be at least the height of the largest image in the slideshow */
+}
+div.loader {
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-image: url('../images/ajax-loader.gif');
+	background-repeat: no-repeat;
+	background-position: center;
+	width: 550px;
+	height: 502px; /* This should be set to be at least the height of the largest image in the slideshow */
+}
+div.controls a.play,div.controls a.pause{
+	display: inline-block;
+	font: normal normal normal 14px/1 FontAwesome;
+	font-size: inherit;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	transform: translate(0, 0);
+	font-size:0px;
+	position:relative;
+	padding: 0;
+}
+div.controls a.play:before{
+	content: "\f04b";
+	font-size:14px
+}
+div.controls a.pause:before{
+	content: "\f04c";
+	font-size:14px
+}
+div.slideshow {
+    height: 502px;
+}
+div.slideshow span.image-wrapper {
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	padding: 15px;
+	background: #1D1D1D;
+	border: 1px #474747 solid;
+	border-radius: 3px;
+}
+div.slideshow a.advance-link {
+	display: block;
+	text-align: center;
+	margin-top: -17px;
+}
+div.slideshow img {
+    width: 100%;
+	
+    max-height: 483px;
+}
+div.download {
+	float: right;
+	display: inline-block;
+	font: normal normal normal 14px/1 FontAwesome;
+	font-size: inherit;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	transform: translate(0, 0);
+	font-size:0px;
+	position:relative;
+}
+div.download a:before{
+	content: "\f0ed";
+	font-size:14px
+}
+div.caption-container {
+	position: relative;
+	clear: both;
+	padding: 10px;
+	background: #1D1D1D;
+	border: 1px #474747 solid;
+	overflow: hidden;
+	border-radius: 3px;
+	margin-top: 25px;
+	height: 80px;
+}
+span.image-caption {
+	display: block;
+	position: absolute;
+	width: 100%;
+	top: 0;
+	left: 0;
+}
+div.caption {
+	padding: 12px;
+}
+div.image-title {
+	font-weight: bold;
+	font-size: 1.4em;
+}
+div.image-desc {
+	line-height: 1.3em;
+	padding-top: 12px;
+}
+div.navigation {
+    background: #1D1D1D;
+    padding: 10px 0px 10px 12px;
+    border-radius: 4px;
+    border: 1px #474747 solid;
+}
+ul.thumbs {
+	clear: both;
+	margin: 0;
+	padding: 0;
+	overflow:hidden
+}
+ul.thumbs li {
+	float: left;
+	padding: 0;
+	margin: 5px 0 5px 4px;
+	list-style: none;
+}
+a.thumb {
+	padding: 2px;
+	display: block;
+	border: 1px solid #626262;
+}
+a.thumb:focus {
+	outline: none;
+}
+ul.thumbs img {
+	border: none;
+	display: block;
+}
+div.pagination {
+	clear: both;
+}
+div.navigation div.top {
+	margin-bottom: 12px;
+	height: 11px;
+}
+div.navigation div.bottom {
+	display:table;
+	margin:12px auto 0
+}
+div.pagination a, div.pagination span.current, div.pagination span.ellipsis {
+	display: block;
+	float: left;
+	margin-right: 2px;
+	padding: 5px 10px;
+	border: 1px solid #3F3F3F;
+}
+div.pagination a:hover {
+	background-color: #000000;
+	text-decoration: none;
+}
+div.pagination span.current {
+	font-weight: bold;
+	background-color: #494949;
+	border-color: #5A5A5A;
+	color: #fff;
+}
+div.pagination span.ellipsis {
+	border: none;
+	padding: 5px 0 3px 2px;
+}
+
+.our_gallery .top.pagination{
+	display:none
+}
+.our_gallery ul.thumbs{
+	border:0
+}

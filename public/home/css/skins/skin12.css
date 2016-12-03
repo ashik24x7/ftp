@@ -1,0 +1,183 @@
+﻿/***** Main Colors *******/
+a, .top-search a, .main-color, .hr-style4:after, .hr-style4:before, .block-head, .widget-head, footer a:hover, .title-2 .breadcrumbs a, .title-3 .breadcrumbs a, .title-4 .breadcrumbs a, .nav-3 .top-nav > ul > li.current > a,.nav-3 .top-nav > ul > li.current > a i,.nav-3 .top-nav > ul > li.selected > a i,.nav-3 .top-nav > ul > li > a:hover i, .nav-3 .top-nav > ul > li > a:hover, .nav-3 .top-nav > ul > li.selected > a, .nav-3 .top-nav > ul > li.selected > a i, .footer-top a:hover:before, .list.prim li:before, #filters li a, .team-box-2 .t-position, .team-box-2 .team-socials a, .head-style3 .top-bar li a, .author-name, .add-items i.fa, .copyrights b, .dark-bg .btn-large:before, .box-top .more-btn, .service-box-1:hover a, .box-top i.fa, .item-box:hover .item-tools i, .item-cart a:hover, .main-border, .fun-title, .staff-1 .fun-icon, .top-bar ul.social-list li a:hover span, .nav-2 .top-nav > ul > li > a:hover i, .nav-2 .top-nav > ul > li.current > a i, .nav-2 .top-nav > ul > li.selected > a i, .nav-2 .top-nav > ul > li.selected > a i, .project-name, .slick-dots li.slick-active button:before, .title-1 h1,
+.list.alt li:before,.product-price, .title-2 h1,.main-title, .accordion li.active a, .accordion li > h3 i.fa, .post-info h2 a:hover, .siteMap-nav ul ul li a:hover, .head2-lft-links li i, .head-style3 .top-bar li i, .item-tools i, .product-specs a.btn.selected,.widget-content a:hover,
+.service-box-4 h3 span,.service-box-5 h3 span,.service-box-5 h3,.block-head-News a span,.block-head-News:hover  {
+	color: #fa3aab;
+}
+.sticky .top-nav > ul > li.selected > a, .sticky .top-nav > ul > li.current > a{
+	color: #fa3aab !important;
+}
+.main-bg, .top-nav > ul li a:hover, .top-nav > ul > li.selected > a, .top-search.selected a, .top-nav li.current > a, .plan-year:after, .team-boxes-2 .cell-3:hover .team-box-2, .head-style3 .top-search a, .service-box-1:hover .box-top, .top-nav-style3, .sticky .top-nav > ul > li > a:hover, .item-box:hover .item-title, .tp-bullets.simplebullets.round .bullet, .top-nav li li a, .fixedHead .top-nav > ul > li > a:hover, .fixedHead .top-nav > ul > li.selected > a, .fixedHead .top-nav > ul > li.current > a, .top-search a:hover, .service-box-2:hover a.r-more, .service-box-3:hover a.r-more, .pager ul li.selected, .slick-prev:hover, .slick-next:hover, .hr-style1:before, .hr-style1:after, .social-list li a:hover, .footer-top .tags a:hover, hr:before, hr:after, .tp-arr-allwrapper:hover, .level-in, .tabs-vertical .tabs-pane .tab-panel:before, .table-style2 th, .menuBtn, .service-box-1:hover:after, .portfolio-item:hover:after, #filters li:hover, #filters li.active, .head-style2 .top-search a, .team-box .team-details, .title-4 h1, .tabs > ul li:hover, .tabs > ul li.active, .steps li.selected span, .icon-cont, .view-all-projects a:hover,
+.accordion-horizontal > li.active a, .list-grid a.selected, .testimonials-2 .slick-prev:hover, .testimonials-2 .slick-next:hover, .comment-reply:hover, .service-box-2:hover .fa, .service-box-3:hover .icon, .share-post ul li a:hover, .item-price, .accordion li.active h3 u, .pager ul li:hover, .tp-bullets.simplebullets.round .bullet:hover, .tp-bullets.simplebullets.round .bullet.selected, footer .NL .NL-btn:hover,
+.search-w .btn,.cart-icon,.sale,.flex-control-paging li a.flex-active,.responsive-one ul,.menuBtnOne,.service-box-4 a,.service-box-5 a,.block-head-News:hover .icon {
+	background-color: #fa3aab;
+	color: #fff;
+}
+.sale:before{
+	border-color: transparent #fa3aab transparent transparent;
+}
+.footer-menu-inline li a:hover,.footer-menu-center li a:hover {
+    color: #fa3aab;
+    border-bottom:2px solid #fa3aab
+}
+.item-box:hover:after, .item-box:hover .item-price, .team-box:hover:after, .team-box-2:hover:after, .responsive-nav, .search-box:before, .block-head:before, .block-head:after, .widget-head:before, .widget-head:after, .details-img:after, .post-image:after,
+.team-box:after, .team-box-2:after, .item-box:after, .team-box .team-socials li a:hover, .service-box-1:after, .portfolio-item:after {
+	background-color: #fa3aab;
+}
+.main-border {
+	border: 1px #fa3aab solid !important;
+}
+.Newsslider {
+	border-bottom:6px #fa3aab solid;
+}
+.nav-3 .top-nav > ul > li.hasChildren > a:after {
+	border-color: transparent transparent #fa3aab transparent;
+}
+.head-style3 .login-btn .tri{
+	border-color: #fa3aab transparent transparent transparent;
+}
+.alter-border {
+	border: 1px #e1e1e1 solid !important;
+	color: #777;
+}
+.nav-3 .top-nav > ul > li.current > a, .nav-3 .top-nav > ul > li > a:hover, .nav-3 .top-nav > ul > li > a:hover, .nav-3 .top-nav > ul > li.selected > a,.pageWrapper.fixedPage,.footer-top-2,
+.sub-menu-white .div-mega,.sub-menu-dark .div-mega,.sub-menu-white.top-nav > ul li ul li:first-child, .sub-menu-dark.top-nav > ul li ul li:first-child {
+	border-top-color: #fa3aab;
+}
+.item-box:hover .item-title {
+	border-top: 1px #fa3aab solid;
+}
+.tabs-pane {
+	border-top: 2px #fa3aab solid;
+}
+blockquote {
+	background: #f9f9f9;
+	border-left: 2px #fa3aab solid;
+}
+.level-out .tr {
+	border-right: 6px solid transparent;
+	border-top: 6px solid transparent;
+	border-left: 6px solid #fa3aab;
+	border-bottom: 6px solid #fa3aab;
+}
+.service-box-1:hover h3, .clients > div a:hover,.sticky {
+	border-bottom-color: #fa3aab;
+}
+.icon-middle, .product-img li a.active img {
+	border: 2px #fa3aab solid;
+}
+.title-3 {
+	background-color: #41a1b7;
+}
+.tri-col, .icon-cont:after {
+	border-color: #fa3aab transparent transparent transparent;
+}
+.head-style3 .top-bar {
+	border-top: 5px #fa3aab solid;
+}
+.steps li.selected span:after {
+	border-left: 16px solid #fa3aab;
+}
+.item-title {
+	border-top: 1px #777 solid;
+}
+.product-specs a.btn.selected {
+	border: 1px #777 solid !important;
+}
+header.top-head .logo a, .foot-logo {
+	background: transparent url('../../images/logos/logo-12.png') no-repeat 50% 50%;
+}
+.footer-top-2 .foot-logo {
+    background: transparent url('../../images/logos/logo-12.png') no-repeat;
+}
+.head-style2 .top-head .logo a, .head-style3 .logo a {
+	background: transparent url('../../images/logo-white.png') no-repeat 50% 0 !important;
+}
+.head-style2 .logo a, .head-style3 .logo a {
+	background-position: 50% 50% !important;
+}
+.accordion li.active h3 u,.accordion li.active h3 a {
+	border-color: #fa3aab;
+}
+.post-image a .mask {
+	background: rgba(250,58,171,0.5);
+}
+.pricing-table.selected,.cart-popup {
+	border-color: #fa3aab;
+}
+.list-grid a.selected:after {
+	border-color: #fa3aab transparent transparent transparent;
+}
+.continue-btn .btn.right:after {
+	border-left: 15px solid #fa3aab;
+}
+.continue-btn .btn.right:hover:after {
+	border-left: 15px solid #e2058a;
+}
+.continue-btn .btn.left:after {
+	border-right: 15px solid #777;
+}
+.continue-btn .btn.left:hover:after {
+	border-right: 15px solid #666;
+}
+.accordion-horizontal li.active > h3 i.fa, .item-box:hover .item-title a, .breadcrumbs .line-separate {
+	color: #fff;
+}
+.top-nav li li {
+	border-bottom: 1px #e2058a solid;
+}
+.top-nav li li a:hover, .top-nav li li.selected > a, .top-nav li li.current > a, .responsive-nav ul li a:hover, .top-nav > ul > li:hover:after, .top-nav > ul > li.current:after {
+	background: #e2058a !important;
+	color: #fff;
+}
+.btn.main-bg:hover, .team-box .team-socials li a {
+	background-color: #e2058a !important;
+	color: #fff;
+}
+.btn.main-border:hover {
+	border-color: #333 !important;
+	color: #333;
+	background:transparent
+}
+.flickr-stream-w .img-overlay {
+	background: rgba(250,58,171,.8);
+}
+.service-box-1:hover p, .service-box-1:hover i.fa {
+	color: #fff;
+}
+.contact-form input[type=text]:focus, .contact-form input[type=password]:focus, .contact-form input[type=email]:focus, .contact-form textarea:focus {
+	border: 1px #fa3aab solid;
+}
+.img-over a.link, .block-bg-1:before, .block-bg-2:before, .block-bg-3:before, .block-bg-4:before, .block-bg-5:before {
+	background-color: rgba(250,58,171,0.7);
+}
+.img-over a.zoom {
+	background-color: rgba(119,119,119,0.7);
+}
+.level-in:before {
+	border-color: transparent transparent transparent #fa3aab;
+}
+.btn.main-bg.btn-3d {
+	-webkit-box-shadow: 0 5px 0 #da0585;
+	box-shadow: 0 5px 0 #da0585;
+	margin-bottom: 5px;
+}
+
+/* Retina Ready Fix */
+@media (min--moz-device-pixel-ratio: 1.5),
+       (-o-min-device-pixel-ratio: 3/2),
+       (-webkit-min-device-pixel-ratio: 1.5),
+       (min-device-pixel-ratio: 1.5),
+       (min-resolution: 144dpi),
+       (min-resolution: 1.5dppx) {
+
+		header.top-head .logo a, .foot-logo {
+			background: transparent url('../../images/logo@2x.png') no-repeat;
+			background-size: 200px 38px;
+		}
+		.footer-top-2 .foot-logo {
+		    background: transparent url('../../images/logo@2x.png') no-repeat;
+		    background-size: 200px 38px;
+		}
+}
+
