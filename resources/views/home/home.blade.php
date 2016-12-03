@@ -61,7 +61,7 @@
 			<!-- login box End -->
 
 			<!-- Header Start -->
-			@include('partial.head')
+			 @include('home.partial.header')
 			<!-- Header End -->
 			
 			<!-- Content Start -->
