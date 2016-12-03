@@ -12,3 +12,11 @@
 */
 
 Route::get('/','HomeController@index');
+Route::get('/admin','AdminController@getLogin');
+Route::post('/admin','AdminController@postLogin');
+Route::get('/admin/register','AdminController@getRegister');
+Route::post('/admin/register','AdminController@postRegister');
+
+Route::group(['middleware'=>'admin'],function(){
+	Route::get('/admin/home','AdminController@getHome');
+});
