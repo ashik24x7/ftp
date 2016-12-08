@@ -36,6 +36,8 @@ class CreateMoviesTable extends Migration
             $table->string('published')->nullable();
             $table->string('uploaded_by');
             $table->timestamps();
+
+            $table->foreign('quality')->reference('id')->on('qualities')->onDelete('cascade')
         });
     }
 

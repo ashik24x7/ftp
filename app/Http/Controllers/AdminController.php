@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Admin;
 use Auth;
+use App\Submenu;
 
 class AdminController extends Controller
 {
@@ -57,6 +58,8 @@ class AdminController extends Controller
     public function getHome(){
     	return view('admin.home');
     }
+	
+	
 
 
 }

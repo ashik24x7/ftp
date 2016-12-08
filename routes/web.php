@@ -19,4 +19,14 @@ Route::post('/admin/register','AdminController@postRegister');
 
 Route::group(['middleware'=>'admin'],function(){
 	Route::get('/admin/home','AdminController@getHome');
+	Route::get('/admin/movie/manual','MovieController@getAddMovieManual');
+	Route::post('/admin/movie/manual','MovieController@AddMovieManual');
+	Route::post('/movie/api','MovieController@movieApi');
+	Route::get('/admin/menu','MenuController@getMenu');
+	Route::post('/admin/menu','MenuController@postMenu');
+	Route::get('/admin/sub-menu','MenuController@getSubMenu');
+	Route::post('/admin/sub-menu','MenuController@postSubMenu');
+
+	Route::get('/admin/movie/quality','MovieController@getAddQuality');
+	Route::post('/admin/movie/quality','MovieController@postQuality');
 });

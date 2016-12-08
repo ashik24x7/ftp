@@ -57,13 +57,36 @@
                                 </li>
                             </ul>
                         </li>
-                      
+                        <li class="nav-item start <?php // echo active('tvseries.php'); ?>">
+                            <a href="#" class="nav-link nav-toggle">
+                                <i class="fa fa-television"></i>
+                                <span class="title">Menues</span>
+                                <span class="selected"></span>
+                                <span class="arrow open"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item start  <?php // echo active('tvseries.php'); ?>">
+                                    <a href="/admin/menu" class="nav-link ">
+                                        <i class="fa fa-plus"></i>
+                                        <span class="title">Add Main Menu</span>
+                                        <span class="selected"></span>
+                                    </a>
+                                </li>
+                                <li class="nav-item start <?php // echo active('add_episodes.php'); ?>"> 
+                                    <a href="/admin/sub-menu" class="nav-link ">
+                                        <i class="fa fa-edit"></i>
+                                        <span class="title">Add Sub Menu<span>
+                                        <span class="selected"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                         
                         <li class="heading">
                             <h3 class="uppercase">Movies</h3>
                         </li>
                         <li class="nav-item <?php // echo active('addmovies.php'); ?>">
-                            <a href="addmovies.php" class="nav-link nav-toggle">
+                            <a href="/admin/movie/manual" class="nav-link nav-toggle">
                                 <i class="fa fa-plus"></i>
                                 <span class="title">Add Movie (Manual)</span> 
                             </a>
@@ -91,6 +114,30 @@
                                 <i class="fa fa-sort-amount-asc"></i>
                                 <span class="title">Automatic Upload Movies</span> 
                             </a>
+                        </li>
+                        <li class="nav-item start <?php // echo active('tvseries.php'); ?>">
+                            <a href="#" class="nav-link nav-toggle">
+                                <i class="fa fa-television"></i>
+                                <span class="title">Movie Quality</span>
+                                <span class="selected"></span>
+                                <span class="arrow open"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item start  <?php // echo active('tvseries.php'); ?>">
+                                    <a href="/admin/movie/quality" class="nav-link ">
+                                        <i class="fa fa-plus"></i>
+                                        <span class="title">Add Quality</span>
+                                        <span class="selected"></span>
+                                    </a>
+                                </li>
+                                <li class="nav-item start <?php // echo active('add_episodes.php'); ?>"> 
+                                    <a href="/admin/movie/quality/view" class="nav-link ">
+                                        <i class="fa fa-edit"></i>
+                                        <span class="title">View Quality<span>
+                                        <span class="selected"></span>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
 						
 						<li class="nav-item start <?php // echo active('tvseries.php'); ?>">
