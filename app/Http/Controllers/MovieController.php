@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Submenu;
 use App\Quality;
+use App\Movie;
 
 class MovieController extends Controller
 {	
@@ -36,43 +37,44 @@ class MovieController extends Controller
     	
     	$category = Submenu::where('id',$request->category)->pluck('menu_name');
     	
-    	$path = 'fs1/'.$category[0].'/'.$request->year.'/'.$request->title.' ['.$request->year.']';
+    	$path = 'fs1'. DIRECTORY_SEPARATOR .$category[0]. DIRECTORY_SEPARATOR .$request->year. DIRECTORY_SEPARATOR .$request->title.' ['.$request->year.']';
 
     	if($poster = $request->file('poster')){
     		$poster_name = str_random(20).'.'.$poster->extension();
     		$poster->move(public_path($path),$poster_name);
     	}else{
-    		$contents = file_get_contents($request->poster_path);
-    		chmod($path, 0777);
-    		
-    		// file_put_contents($path, $contents);
+			chmod($path, 0777);
+    		$data['poster'] = $poster_name = str_random(20).'.png';
+			file_put_contents($path. DIRECTORY_SEPARATOR .$poster_name, file_get_contents($request->poster_path));
     	}
 
     	$data = $request->except('_token','poster_path');
-
-
     	if (is_dir(public_path($path))){
     		$dir = opendir($path);
     		while ($files = readdir($dir)) {
-    			if(stripos($files,'.mkv') || stripos($files,'.mp4') || stripos($files,'.avi') || stripos($files,'.vob')){
+    			if(strpos($files,'.mkv') || stripos($files,'.mp4') || stripos($files,'.avi') || stripos($files,'.vob')){
     				$data['path'] = $files;
-    			}else{
-    				$errors[] = 'There is no movies file in '.$path;
-    			}
-
-    			if(stripos($files,'.png') || stripos($files,'.jpg')){
+    			}elseif(stripos($files,'.png') || stripos($files,'.jpg')){
     				$data['poster'] = $files;
-    			}else{
-    				$errors[] = 'There is no movies file in '.$path;
     			}
     		}
 		}else{
 			$errors[] = 'This is not directory';
 		}
 
+		if(!isset($data['path'])){
+			$errors[1] = 'There is no movies in '.$path;
+		}elseif(!isset($data['poster'])){
+			$errors[1] = 'There is no poster in '.$path;
+		}
 
-    	foreach ($data as $key => $value) {
-    		echo $key.' - '.$value.'<br>';
+
+    	if(count($errors) !== 0){
+    		return redirect()->to('/admin/movie/manual')->with($errors);
+    	}else{
+    		$data['uploaded_by'] = auth()->guard('admin')->user()->id;
+    		Movie::create($data);
+    		return redirect()->to('/admin/movie/manual')->with('message','Movie has added successfully');
     	}
     }
 

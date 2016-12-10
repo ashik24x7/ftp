@@ -106,28 +106,29 @@
 									</a></h3>
 						
 						<div class="portfolioGallery portfolio" style="margin-top: -6px;">
+						@foreach($movies as $movie)
 							<div>
 								<div class="team-box" style="">
 				    					<div class="team-img" style="margin-right:5px;margin-left:5px;">
-				    						<img alt="" style="height:274px;" src="../../Admin/main/images/<?php //  echo $item['MovieID'].'/poster/'.$item['poster']; ?>">
-				    					    <span class="yellowbox"><?php // echo $item['MovieYear']; ?></span>
-											<span class="imdb-rating"><b><b class="fa fa-star"></b></b> <?php // echo $item['MovieRatings']; ?></span>
+				    						<img alt="" style="height:274px;" src="{{$path = 'fs1'.'/Hollywood'.'/2006/'.$movie->title.' [2006]/'.$movie->poster}}">
+				    					    <span class="yellowbox">{{$movie->year}}</span>
+											<span class="imdb-rating"><b><b class="fa fa-star"></b></b>{{$movie->rating}}</span>
 										</div>
 
 										<a href="single-movie.php?imdbid=<?php // echo $item['MovieID']; ?>">
 				    					<div class="team-details"  href="single-movie.php?imdbid=<?php // echo $item['MovieID']; ?>" style="height:280px;background-color:rgba(0, 0, 0, 0.5);margin-left:0px;width:97.5%;">
 			                               
 											<p style="height: 100px !important; margin: -4px 0px 0px 0px;">
-											<?php //  echo $item['MovieTitle'].' ['.$item['MovieYear'].']'; ?>
+											{{ $movie->title.' ['.$movie->year.']' }}
 											</p>
 											
 											<?php // $oneTrailer = explode(",",$item['MovieTrailer']); ?>
 											<a href="single-movie.php?imdbid=<?php // echo $item['MovieID']; ?>" class="play-hover" ><i class="fa fa-play-circle play-btn"></i></a>
 											<br>
-											<p style="background: radial-gradient(#1E8CAB, #09009a); width:40%; font-size:13px;float:right;margin-left:5px;"><i class="fa fa-eye"></i> <?php // echo $item['views']; ?></p>
+											<p style="background: radial-gradient(#1E8CAB, #09009a); width:40%; font-size:13px;float:right;margin-left:5px;"><i class="fa fa-eye"></i> {{$movie->views}}</p>
 											
-											<p style="background:radial-gradient(#EA0A5D, #5A0000);font-size:13px;"><?php // echo $item['MovieQuality']; ?></p>
-											<p style="background: radial-gradient(#5bf77d, #1f730a);font-size:13px;width:60%;float:left;"><span style="color:#000;font-family:impact;"></span><span style="font-family:tahoma;font-weight:bold;color:#333;margin-bottom:10%;"><?php // echo ucfirst($item['MovieCategory']); ?></span></p>
+											<p style="background:radial-gradient(#EA0A5D, #5A0000);font-size:13px;">{{$movie->quality}}</p>
+											<p style="background: radial-gradient(#5bf77d, #1f730a);font-size:13px;width:60%;float:left;"><span style="color:#000;font-family:impact;"></span><span style="font-family:tahoma;font-weight:bold;color:#333;margin-bottom:10%;">{{$movie->category}}</span></p>
 											<p style="background: radial-gradient(#b0e2ff, #337ab7);font-size:13px;width:37%;float:right;"><span style="color:#000;font-family:impact;"></span><span style="font-family:tahoma;font-weight:bold;color:#333;margin-bottom:10%;"><?php // if(strpos($item['MovieSize'], 'GB') !== false){ echo $item['MovieSize'];}else{echo floor($item['MovieSize']).' MB';} ?></span></p>
 											
 				    					    
@@ -141,6 +142,7 @@
 										</a>
 				    			</div>
 							</div>
+						@endforeach
 						</div>
 						
 						<div class="clearfix"></div>
