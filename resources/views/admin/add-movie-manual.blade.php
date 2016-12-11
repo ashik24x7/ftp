@@ -63,7 +63,7 @@
         <h3 class="page-title" id="pagetitle"> Manual Add Movie
 
             <small id="test"></small>
-            <pre>{{var_dump($errors)}}
+            <pre>
         </h3>
         <!-- END PAGE TITLE-->
         <!-- END PAGE HEADER-->

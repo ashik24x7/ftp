@@ -10,13 +10,69 @@ use App\Movie;
 
 class MovieController extends Controller
 {	
-	public function getAddMovieManual(){
+	public function getAddMovieAuto(){
+    	$data['category'] = Submenu::where('visible',1)->get();
+    	return view('admin.auto-add-movie',$data);
+    }
+
+    public function addMovieAuto(Request $request){
+    	$this->validate($request,[
+    		'path' => 'required',
+	    	'category' => 'required',
+	    	'year' => 'required'
+    	]);
+
+    	$category = Submenu::where('id',$request->category)->pluck('menu_name');
+    	
+    	$path = $request->path. DIRECTORY_SEPARATOR .$category[0]. DIRECTORY_SEPARATOR .$request->year;
+
+    	if (is_dir(public_path($path))){
+    		$dir = opendir($path);
+    		while ($files = readdir($dir)) {
+    			if($files == '.' || $files == '..'){
+    				continue;
+    			}else{
+    				$data = explode('[', $files);
+    				$movie_name = trim($data[0]);
+    				$tmp_movie_name = $movie_name;
+    				$movie_name = str_replace(" ","%20",$movie_name);
+    				$omdbapi = file_get_contents("http://www.omdbapi.com/?t=$movie_name&y=$request->year&plot=full");
+    				$json_imdb = json_decode($omdbapi, true);
+    				$api_id = $json_imdb['imdbID'];
+
+    				$api = file_get_contents("http://api.themoviedb.org/3/movie/".$api_id."?append_to_response=credits,images&api_key=f7d5dae12ee54dc9f51ccac094671b00");
+
+    				$json = json_decode($api);
+
+                    $movie_Poster = "http://image.tmdb.org/t/p/w342/".$json->poster_path;
+
+                    $path .= DIRECTORY_SEPARATOR.$tmp_movie_name;
+                    if(is_dir(public_path($path))){
+                    	return $path;
+                    }else{
+                    	return 'dsfsa';
+                    }
+                 //    if(is_dir(public_path($path))){
+	                //     $sub_dir = opendir($path)
+	                //     while ($sub_files = readdir($sub_dir)) {
+	                //     	echo $sub_files;
+	                //     }
+	                // }
+    			}
+    		}
+    	}
+
+    	// return $request->all();
+    }
+
+
+    public function getAddMovieManual(){
     	$data['category'] = Submenu::where('visible',1)->get();
     	$data['quality'] = Quality::where('visible',1)->get();
     	return view('admin.add-movie-manual',$data);
     }
 
-    public function AddMovieManual(Request $request){
+    public function addMovieManual(Request $request){
     	$this->validate($request,[
     		'title' => 'required',
 	    	'year' => 'required',
