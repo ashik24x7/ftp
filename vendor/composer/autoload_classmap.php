@@ -6,11 +6,12 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'CreateAdminsTable' => $baseDir . '/database/migrations/2016_12_03_052100_create_admins_table.php',
-    'CreateMenusTable' => $baseDir . '/database/migrations/2016_12_07_115447_create_menus_table.php',
+    'AddForeignKeyToMenus' => $baseDir . '/database/migrations/2016_12_13_085357_add_foreign_key_to_menus.php',
+    'CreateAdminsTable' => $baseDir . '/database/migrations/2016_11_03_050942_create_admins_table.php',
+    'CreateMenusTable' => $baseDir . '/database/migrations/2016_11_07_050942_create_menus_table.php',
     'CreateMoviesTable' => $baseDir . '/database/migrations/2016_12_03_050943_create_movies_table.php',
     'CreateQualitiesTable' => $baseDir . '/database/migrations/2016_12_08_045800_create_qualities_table.php',
-    'CreateSubmenusTable' => $baseDir . '/database/migrations/2016_12_07_121409_create_submenus_table.php',
+    'CreateSubmenusTable' => $baseDir . '/database/migrations/2016_11_07_121409_create_submenus_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
     'File_Iterator' => $vendorDir . '/phpunit/php-file-iterator/src/Iterator.php',
     'File_Iterator_Facade' => $vendorDir . '/phpunit/php-file-iterator/src/Facade.php',

@@ -110,7 +110,14 @@
 							<div>
 								<div class="team-box" style="">
 				    					<div class="team-img" style="margin-right:5px;margin-left:5px;">
-				    						<img alt="" style="height:274px;" src="{{$path = 'fs1'.'/Hollywood'.'/2006/'.$movie->title.' [2006]/'.$movie->poster}}">
+				    					@php
+				    						$path = 'fs1/movies/'.$movie->category_name->menu_name.'/'.$movie->year.'/'.$movie->title.' ['.$movie->year.']/'.$movie->poster;
+				    						$path = str_replace(' ','%20',$path);
+				    						$path = str_replace('[','%5B',$path);
+				    						$path = str_replace(']','%5D',$path);
+
+				    					@endphp
+				    						<img alt="" style="height:274px;" src="{{$path}}">
 				    					    <span class="yellowbox">{{$movie->year}}</span>
 											<span class="imdb-rating"><b><b class="fa fa-star"></b></b>{{$movie->rating}}</span>
 										</div>
@@ -122,19 +129,21 @@
 											{{ $movie->title.' ['.$movie->year.']' }}
 											</p>
 											
-											<?php // $oneTrailer = explode(",",$item['MovieTrailer']); ?>
-											<a href="single-movie.php?imdbid=<?php // echo $item['MovieID']; ?>" class="play-hover" ><i class="fa fa-play-circle play-btn"></i></a>
+											@php
+												$trailer = explode(",",$movie->trailer);
+											@endphp
+											<a href="single-movie.php?imdbid={{$movie->api_id}}" class="play-hover" ><i class="fa fa-play-circle play-btn"></i></a>
 											<br>
 											<p style="background: radial-gradient(#1E8CAB, #09009a); width:40%; font-size:13px;float:right;margin-left:5px;"><i class="fa fa-eye"></i> {{$movie->views}}</p>
 											
 											<p style="background:radial-gradient(#EA0A5D, #5A0000);font-size:13px;">{{$movie->quality}}</p>
-											<p style="background: radial-gradient(#5bf77d, #1f730a);font-size:13px;width:60%;float:left;"><span style="color:#000;font-family:impact;"></span><span style="font-family:tahoma;font-weight:bold;color:#333;margin-bottom:10%;">{{$movie->category}}</span></p>
-											<p style="background: radial-gradient(#b0e2ff, #337ab7);font-size:13px;width:37%;float:right;"><span style="color:#000;font-family:impact;"></span><span style="font-family:tahoma;font-weight:bold;color:#333;margin-bottom:10%;"><?php // if(strpos($item['MovieSize'], 'GB') !== false){ echo $item['MovieSize'];}else{echo floor($item['MovieSize']).' MB';} ?></span></p>
+											<p style="background: radial-gradient(#5bf77d, #1f730a);font-size:13px;width:60%;float:left;"><span style="color:#000;font-family:impact;"></span><span style="font-family:tahoma;font-weight:bold;color:#333;margin-bottom:10%;">{{$movie->category_name->menu_name}}</span></p>
+											<p style="background: radial-gradient(#b0e2ff, #337ab7);font-size:13px;width:37%;float:right;"><span style="color:#000;font-family:impact;"></span><span style="font-family:tahoma;font-weight:bold;color:#333;margin-bottom:10%;">{{$movie->size}}</span></p>
 											
 				    					    
 											<ul class="gallery clearfix">
-											<a href="http://www.youtube.com/watch?v=<?php // echo $oneTrailer[0]; ?>" rel="prettyPhoto" style="margin: 2.5% 0 5% 30%;width: 40%;"  title="<?php // echo $item['MovieTitle']; ?>">
-											<img src="<?php // echo URL.'/themes/'.THEME;?>/trailer.png" style="margin-left: -48px;margin-top:0px;margin-bottom: 10px;" />
+											<a href="http://www.youtube.com/watch?v={{$trailer[0]}}" rel="prettyPhoto" style="margin: 2.5% 0 5% 30%;width: 40%;"  title="{{$movie->title}}" />
+											<img src="/home/images/trailer.png" style="position: absolute;top: 70px;margin-left: -59px;" />
 											</a>
 											</ul>
 											

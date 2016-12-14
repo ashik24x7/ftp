@@ -10,9 +10,16 @@ use App\Movie;
 
 class MovieController extends Controller
 {	
+	private function human_filesize($bytes, $dec = 2) {
+	    $size   = array('B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
+	    $factor = floor((strlen($bytes) - 1) / 3);
+
+	    return sprintf("%.{$dec}f", $bytes / pow(1024, $factor)) . @$size[$factor];
+	}
+
 	public function getAddMovieAuto(){
     	$data['category'] = Submenu::where('visible',1)->get();
-    	return view('admin.auto-add-movie',$data);
+    	return view('admin.add-movie-auto',$data);
     }
 
     public function addMovieAuto(Request $request){
@@ -21,48 +28,133 @@ class MovieController extends Controller
 	    	'category' => 'required',
 	    	'year' => 'required'
     	]);
-
+    	$errors = [];
+    	$message = [];
     	$category = Submenu::where('id',$request->category)->pluck('menu_name');
     	
-    	$path = $request->path. DIRECTORY_SEPARATOR .$category[0]. DIRECTORY_SEPARATOR .$request->year;
+    	$path = $request->path . DIRECTORY_SEPARATOR . 'movies' . DIRECTORY_SEPARATOR .$category[0]. DIRECTORY_SEPARATOR .$request->year;
 
     	if (is_dir(public_path($path))){
     		$dir = opendir($path);
+    		$movies = Movie::pluck('title')->toArray();
     		while ($files = readdir($dir)) {
     			if($files == '.' || $files == '..'){
     				continue;
     			}else{
-    				$data = explode('[', $files);
-    				$movie_name = trim($data[0]);
-    				$tmp_movie_name = $movie_name;
-    				$movie_name = str_replace(" ","%20",$movie_name);
-    				$omdbapi = file_get_contents("http://www.omdbapi.com/?t=$movie_name&y=$request->year&plot=full");
-    				$json_imdb = json_decode($omdbapi, true);
-    				$api_id = $json_imdb['imdbID'];
+	    			$tmp_data = explode('[', $files);
+	    			$movie_name = trim($tmp_data[0]);
+    				if(!in_array($movie_name, $movies)){
+	    				$tmp_movie_name = $files;
+	    				$movie_name = str_replace(" ","%20",$movie_name);
+	    				$omdbapi = file_get_contents("http://www.omdbapi.com/?t=$movie_name&y=$request->year&plot=full");
+	    				$movie_name = '';
 
-    				$api = file_get_contents("http://api.themoviedb.org/3/movie/".$api_id."?append_to_response=credits,images&api_key=f7d5dae12ee54dc9f51ccac094671b00");
+	    				$json_imdb = json_decode($omdbapi, true);
+	    				$api_id = $json_imdb['imdbID'];
 
-    				$json = json_decode($api);
+	    				$api = file_get_contents("http://api.themoviedb.org/3/movie/".$api_id."?append_to_response=credits,images&api_key=f7d5dae12ee54dc9f51ccac094671b00");
 
-                    $movie_Poster = "http://image.tmdb.org/t/p/w342/".$json->poster_path;
+	    				$json = json_decode($api);
 
-                    $path .= DIRECTORY_SEPARATOR.$tmp_movie_name;
-                    if(is_dir(public_path($path))){
-                    	return $path;
-                    }else{
-                    	return 'dsfsa';
-                    }
-                 //    if(is_dir(public_path($path))){
-	                //     $sub_dir = opendir($path)
-	                //     while ($sub_files = readdir($sub_dir)) {
-	                //     	echo $sub_files;
-	                //     }
-	                // }
+	                    $movie_poster = "http://image.tmdb.org/t/p/w342/".$json->poster_path;
+	                    $poster_exist = '';
+
+	                    $data['genre'] = '';
+	                    foreach ($json->genres as $key) {
+	                    	$data['genre'] .= $key->name.',';
+	                    }
+	                    $data['genre'] = trim($data['genre'],',');
+
+	                    $data['language'] = '';
+	                    foreach ($json->spoken_languages as $key) {
+	                    	$data['language'] .= $key->name.',';
+	                    }
+	                    $data['language'] = trim($data['language'],',');
+	                    $data['title'] = $json->title;
+				    	$data['year'] = $request->year;
+				    	$data['api_id'] = $json->imdb_id;
+				    	$data['category'] = $request->category;
+
+				    	$fp2 = file_get_contents("http://api.themoviedb.org/3/movie/".$api_id."/videos?api_key=f7d5dae12ee54dc9f51ccac094671b00");
+						$json2 = json_decode($fp2, true);
+						$trailer = $json2['results'];
+								
+
+						foreach($trailer as $trailers=>$keytrailers){
+						   foreach($keytrailers as $alltrailers=>$allkeytrailers){
+							   	if($alltrailers == 'key'){
+							   		@ $finaltrailers .=  $allkeytrailers.',';
+							   	}
+						   } 
+						}
+				    	$data['trailer'] = trim($finaltrailers,',');
+
+				    	$fp3 = file_get_contents("http://api.themoviedb.org/3/movie/".$api_id."/keywords?api_key=f7d5dae12ee54dc9f51ccac094671b00");
+						$json3 = json_decode($fp3, true);
+						$keywords = $json3['keywords'];
+						
+						foreach($keywords as $allkeywords=>$keykeywords){
+						   foreach($keykeywords as $totalkeywords=>$keytotalkeywords){
+							   if($totalkeywords == 'name'){
+									  @ $finalkeywords .=  $keytotalkeywords.',';
+							   }
+						   }
+					    }
+
+					    $data['cast'] = '';
+	                    foreach ($json->credits->cast as $key) {
+	                    	$data['cast'] .= $key->name.',';
+	                    }
+
+
+				    	$data['cast'] = trim($data['cast'],',');
+				    	$data['rating'] = $json->vote_average;
+				    	$data['release_date'] = $json->release_date;
+				    	$data['website'] = $json->homepage;
+				        $data['time'] = $json->runtime;
+				    	$data['keyword'] = trim($finalkeywords,',');
+				    	$data['story'] = $json->overview;
+				    	$data['uploaded_by'] = auth()->guard('admin')->user()->id;
+
+	                    $sub_path = $path.DIRECTORY_SEPARATOR.$tmp_movie_name;
+	                    if (is_dir(public_path($sub_path))){
+				    		$sub_dir = opendir($sub_path);
+				    		while ($sub_files = readdir($sub_dir)) {
+				    			if(strpos($sub_files,'.mkv') || stripos($sub_files,'.mp4') || stripos($sub_files,'.avi') || stripos($sub_files,'.vob')){
+				    				$data['path'] = $sub_files;
+				    				$data['size'] = $this->human_filesize(filesize($sub_path.DIRECTORY_SEPARATOR.$sub_files));
+				    				$quality = explode('__', $sub_files);
+				    				$data['quality'] = $quality[1];
+				    			}elseif(stripos($sub_files,'.png') || stripos($sub_files,'.jpg')){
+				    				$data['poster'] = $sub_files;
+				    				$poster_exist = 1;
+				    			}
+				    		}
+						}else{
+							$errors[] = 'This is not directory';
+						}
+						if(empty($poster_exist)){
+							$data['poster'] = $poster_name = str_random(20).'.png';
+							file_put_contents($sub_path.DIRECTORY_SEPARATOR .$poster_name, file_get_contents($movie_poster));
+
+						}
+						if(empty($errors) && Movie::create($data)){
+							$message['message'] = $tmp_movie_name.' has added successfully';
+						}else{
+							return redirect()->to('/admin/movie/auto')->with($errors);
+						}
+					}
+
     			}
     		}
+    	}else{
+    		return 'This is not a direcotry';
     	}
 
-    	// return $request->all();
+    	if(!empty($message)){
+    		return redirect()->to('/admin/movie/auto')->with($message);
+    	}
+
     }
 
 
@@ -77,7 +169,6 @@ class MovieController extends Controller
     		'title' => 'required',
 	    	'year' => 'required',
 	    	'api_id' => 'required',
-	    	'quality' => 'required',
 	    	'category' => 'required',
 	    	'trailer' => 'required',
 	    	'rating' => 'required',
@@ -88,50 +179,63 @@ class MovieController extends Controller
 	    	'keyword' => 'required',
 	    	'story' => 'required'
     	]);
+    	
     	$errors = [];
+    	$message = [];
 
     	
     	$category = Submenu::where('id',$request->category)->pluck('menu_name');
     	
-    	$path = 'fs1'. DIRECTORY_SEPARATOR .$category[0]. DIRECTORY_SEPARATOR .$request->year. DIRECTORY_SEPARATOR .$request->title.' ['.$request->year.']';
+    	$path = 'fs1'. DIRECTORY_SEPARATOR .'movies'. DIRECTORY_SEPARATOR .$category[0]. DIRECTORY_SEPARATOR .$request->year. DIRECTORY_SEPARATOR .$request->title.' ['.$request->year.']';
 
     	if($poster = $request->file('poster')){
     		$poster_name = str_random(20).'.'.$poster->extension();
     		$poster->move(public_path($path),$poster_name);
-    	}else{
-			chmod($path, 0777);
-    		$data['poster'] = $poster_name = str_random(20).'.png';
-			file_put_contents($path. DIRECTORY_SEPARATOR .$poster_name, file_get_contents($request->poster_path));
     	}
 
     	$data = $request->except('_token','poster_path');
+    	$data['uploaded_by'] = auth()->guard('admin')->user()->id;
+
     	if (is_dir(public_path($path))){
     		$dir = opendir($path);
-    		while ($files = readdir($dir)) {
-    			if(strpos($files,'.mkv') || stripos($files,'.mp4') || stripos($files,'.avi') || stripos($files,'.vob')){
-    				$data['path'] = $files;
-    			}elseif(stripos($files,'.png') || stripos($files,'.jpg')){
-    				$data['poster'] = $files;
-    			}
+    		$movies = Movie::pluck('title')->toArray();
+
+    		if(!in_array($request->title, $movies)){
+    			$poster_exist = '';
+    			while ($files = readdir($dir)) {
+	    			if(strpos($files,'.mkv') || stripos($files,'.mp4') || stripos($files,'.avi') || stripos($files,'.vob')){
+	    				$data['path'] = $files;
+	    				$data['size'] = $this->human_filesize(filesize($path.DIRECTORY_SEPARATOR.$files));
+	    				$quality = explode('__', $files);
+	    				$data['quality'] = $quality[1];
+	    			}elseif(stripos($files,'.png') || stripos($files,'.jpg')){
+	    				$data['poster'] = $files;
+	    				$poster_exist = 1;
+	    			}
+	    		}
+    		}else{
+    			$errors[] = $request->title.' is already exists';
     		}
 		}else{
 			$errors[] = 'This is not directory';
 		}
 
 		if(!isset($data['path'])){
-			$errors[1] = 'There is no movies in '.$path;
+			$errors[] = 'There is no movies in '.$path;
 		}elseif(!isset($data['poster'])){
-			$errors[1] = 'There is no poster in '.$path;
+			$errors[] = 'There is no poster in '.$path;
 		}
 
+		if(empty($poster_exist) && !in_array($request->title, $movies)){
+			$data['poster'] = $poster_name = str_random(20).'.png';
+			file_put_contents($path. DIRECTORY_SEPARATOR .$poster_name, file_get_contents($request->poster_path));
 
-    	if(count($errors) !== 0){
-    		return redirect()->to('/admin/movie/manual')->with($errors);
-    	}else{
-    		$data['uploaded_by'] = auth()->guard('admin')->user()->id;
-    		Movie::create($data);
-    		return redirect()->to('/admin/movie/manual')->with('message','Movie has added successfully');
-    	}
+		}
+		if(empty($errors) && Movie::create($data)){
+			$message[] = $request->title.' has added successfully';
+		}else{
+			return redirect()->to('/admin/movie/manual')->with($errors);
+		}
     }
 
 

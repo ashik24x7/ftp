@@ -18,14 +18,20 @@ class Movie extends Model
     	'release_date',
     	'language',
     	'website',
-    	'time',
+        'time',
+    	'size',
     	'keyword',
     	'story',
     	'path',
     	'subtitle',
-    	'poster',
+        'poster',
+    	'cast',
     	'uploaded_by',
     	'views',
     	'published',
     ];
+
+    public function category_name(){
+        return $this->belongsTo('App\Submenu','category');
+    }
 }

@@ -110,7 +110,7 @@
                             </a>
                         </li>
 						<li class="nav-item  <?php // echo active('autoinsert.php'); ?>">
-                            <a href="autoinsert.php" class="nav-link nav-toggle">
+                            <a href="/admin/movie/auto" class="nav-link nav-toggle">
                                 <i class="fa fa-sort-amount-asc"></i>
                                 <span class="title">Automatic Upload Movies</span> 
                             </a>

@@ -109,6 +109,7 @@
                                     <form  action="{{ url('/admin/movie/manual')}}" role="form" method="post" name="myForm" id="myForm" enctype="multipart/form-data" >
                                     {{csrf_field()}}
                                         <input type="hidden" id="poster_path" name="poster_path">
+                                        <input type="hidden" id="castname" name="cast">
                                         <div class="form-group">
                                             <div class="fileinput fileinput-new" data-provides="fileinput">
                                                 <div class="fileinput-new thumbnail">
@@ -275,19 +276,7 @@
                                                     <p>
                                                         <!-- ========== Movie Information ============-->
                                                         <div class="col-md-12">
-                                                            <div class="col-md-3">
-                                                                <div class="form-group">
-                                                                    <label for="MovieQuality" class="control-label">Select Movie Quality</label>
-                                                                    <!-- this is Select Movie Quality -->
-                                                                    <select class="web form-control" id="MovieQuality" name="quality" style="border:1px solid red;">
-                                                                        <option value="0">Select Quality</option>
-                                                                        @foreach($quality as $key)
-                                                                        <option value="{{$key->id}}">{{$key->quality}}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-9">
+                                                            <div class="col-md-12">
                                                                 <div class="form-group">
                                                                     <label for="MovieTrailer" class="control-label">Youtube Trailer.</label>
                                                                     <!-- this is Youtube Trailer -->
@@ -622,6 +611,7 @@ $(document).ready(function() {
                 document.getElementById("Moviehomepage").value = homepage;
                 document.getElementById("Movielang").value = spokenLanguages;
                 document.getElementById("Moviesbackdrops").value = images;
+                document.getElementById("castname").value = castname;
 
 
 

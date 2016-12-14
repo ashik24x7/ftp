@@ -2,6 +2,18 @@
 
 All notable changes of the PHPUnit 5.7 release series are documented in this file using the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## [5.7.3] - 2016-12-09
+
+### Fixed
+
+* Fixed [#2384](https://github.com/sebastianbergmann/phpunit/pull/2384): Handle `PHPUnit_Framework_Exception` correctly when expecting exceptions
+
+## [5.7.2] - 2016-12-03
+
+### Fixed
+
+* Fixed [#2382](https://github.com/sebastianbergmann/phpunit/issues/2382): Uncloneable test doubles passed via data provider do not work
+
 ## [5.7.1] - 2016-12-02
 
 ### Fixed
@@ -25,6 +37,8 @@ All notable changes of the PHPUnit 5.7 release series are documented in this fil
 * The `--tap` and `--log-tap` commandline options have been deprecated
 * The `--self-update` and `--self-upgrade` commandline options have been deprecated (PHAR binary only)
 
+[5.7.3]: https://github.com/sebastianbergmann/phpunit/compare/5.7.2...5.7.3
+[5.7.2]: https://github.com/sebastianbergmann/phpunit/compare/5.7.1...5.7.2
 [5.7.1]: https://github.com/sebastianbergmann/phpunit/compare/5.7.0...5.7.1
 [5.7.0]: https://github.com/sebastianbergmann/phpunit/compare/5.6...5.7.0
 

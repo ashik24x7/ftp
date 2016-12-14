@@ -17,27 +17,31 @@ class CreateMoviesTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->string('year')->nullable();
-            $table->string('api_id');
+            $table->string('api_id')->unique();
             $table->string('quality');
-            $table->string('category');
+            $table->integer('category')->unsigned();
             $table->string('trailer')->nullable();
             $table->string('rating')->nullable();
-            $table->string('genre')->nullable();
+            $table->string('genre'1500)->nullable();
+            $table->string('cast',1500)->nullable();
             $table->string('release_date')->nullable();
-            $table->string('language',800)->nullable();
+            $table->string('language',1500)->nullable();
             $table->string('website')->nullable();
             $table->string('time')->nullable();
-            $table->string('keyword',800)->nullable();
-            $table->string('story',800)->nullable();
+            $table->string('size');
+            $table->string('keyword',1500)->nullable();
+            $table->string('story',1500)->nullable();
             $table->string('path');
             $table->string('subtitle')->nullable();
             $table->string('poster');
             $table->string('views')->nullable();
             $table->string('published')->nullable();
-            $table->string('uploaded_by');
+            $table->integer('uploaded_by')->unsigned();
             $table->timestamps();
 
-            $table->foreign('quality')->reference('id')->on('qualities')->onDelete('cascade')
+            
+            $table->foreign('category')->references('id')->on('submenus')->onDelete('cascade');
+            $table->foreign('uploaded_by')->references('id')->on('admins')->onDelete('cascade');
         });
     }
 
