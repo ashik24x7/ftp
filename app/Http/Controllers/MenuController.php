@@ -35,7 +35,8 @@ class MenuController extends Controller
     public function postSubMenu(Request $request){
     	$this->validate($request,[
     		'main_menu' => 'required',
-    		'menu_name' => 'required'
+            'menu_name' => 'required',
+    		'drive' => 'required'
     	]);
 
     	$data = $request->except('_token');

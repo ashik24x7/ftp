@@ -63,8 +63,33 @@
         <h3 class="page-title" id="pagetitle"> Manual Add Movie
 
             <small id="test"></small>
-            <pre>
         </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="task-list" style="list-style: none">
+                @if(session('errors'))
+                    @foreach(session('errors') as $error)
+                        <li>
+                            <div class="task-title">
+                                <span class="task-title-sp" style="color: red"><i class="fa fa-times" aria-hidden="true"></i> {!!$error!!}</span>
+                                <span class="label label-sm label-danger"></span>
+                            </div>
+                        </li>
+                    @endforeach
+                @endif
+                @if(session('messages'))
+                    @foreach(session('messages') as $message)
+                        <li>
+                            <div class="task-title">
+                                <span class="task-title-sp"><i class="fa fa-check-square-o" aria-hidden="true" style="color:green"></i> {!!$message!!}</span>
+                                <span class="label label-sm label-success"></span>
+                            </div>
+                        </li>
+                    @endforeach
+                @endif
+                </ul>
+            </div>
+        </div>
         <!-- END PAGE TITLE-->
         <!-- END PAGE HEADER-->
         <div class="row">
@@ -241,12 +266,6 @@
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="#tab3" data-toggle="tab">
-                                                        <i class="fa fa-play"></i> Watch Online
-              
-                                                    </a>
-                                                </li>
-                                                <li>
                                                     <a href="#tab4" data-toggle="tab">
                                                         <i class="fa fa-youtube-play"></i> Youtube Trailer
               
@@ -292,7 +311,7 @@
                                                                     <select class="form-control" id="MovieCategory" name="category" style="border:1px solid red;">
                                                                         <option value="0">Select Catagory</option>
                                                                         @foreach($category as $key)
-                                                                        <option value="{{$key->id}}">{{$key->menu_name}}</option>
+                                                                        <option value="{{$key->id}}">{{ucfirst($key->menu_name)}}</option>
                                                                         @endforeach
                                                                     </select>
                                                                 </div>
@@ -368,26 +387,6 @@
                                                                 </div>
                                                             </p>
                                                             <!-- ==========Movie Story END============-->
-                                                        </div>
-                                                        <div class="tab-pane" id="tab3">
-                                                            <!-- ========== Movie Watch Online ============-->
-                                                            <p>
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group form-md-line-input">
-                                                                        <label for="MovieWatchLink" class="control-label">Enter Movie Link</label>
-                                                                        <!-- this is Movie Watch Link -->
-                                                                        <input type="text" id="MovieWatchLink" name="path" class="form-control"  placeholder="Enter Movie Link" />
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group form-md-line-input">
-                                                                        <label for="MovieSubtitle" class="control-label">Enter Movie Subtitle Link</label>
-                                                                        <!-- this is Movie Subtitle Link -->
-                                                                        <input type="url" id="MovieSubtitle" name="subtitle" class="form-control"  placeholder="Enter Movie Subtitle"/>
-                                                                    </div>
-                                                                </div>
-                                                            </p>
-                                                            <!-- ==========/////// Movie Watch Online END ///// ============-->
                                                         </div>
                                                         <div class="tab-pane" id="tab4">
                                                             <div id="youtubetrailers"></div>

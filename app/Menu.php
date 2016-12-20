@@ -11,4 +11,8 @@ class Menu extends Model
     	'position',
     	'visible'
     ];
+
+    public function submenu(){
+    	return $this->hasMany(Submenu::class,'main_menu');
+    }
 }

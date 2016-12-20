@@ -20,22 +20,22 @@ class CreateMoviesTable extends Migration
             $table->string('api_id')->unique();
             $table->string('quality');
             $table->integer('category')->unsigned();
-            $table->string('trailer')->nullable();
+            $table->string('trailer',1500)->nullable();
             $table->string('rating')->nullable();
-            $table->string('genre'1500)->nullable();
-            $table->string('cast',1500)->nullable();
+            $table->string('genre',1500)->nullable();
+            $table->string('cast',2500)->nullable();
             $table->string('release_date')->nullable();
             $table->string('language',1500)->nullable();
             $table->string('website')->nullable();
             $table->string('time')->nullable();
             $table->string('size');
-            $table->string('keyword',1500)->nullable();
+            $table->string('keyword',2500)->nullable();
             $table->string('story',1500)->nullable();
             $table->string('path');
             $table->string('subtitle')->nullable();
             $table->string('poster');
-            $table->string('views')->nullable();
-            $table->string('published')->nullable();
+            $table->integer('views')->nullable();
+            $table->tinyInteger('published')->nullable();
             $table->integer('uploaded_by')->unsigned();
             $table->timestamps();
 

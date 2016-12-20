@@ -12,10 +12,14 @@
 */
 
 Route::get('/','HomeController@index');
+Route::get('/movies','HomeController@allMovies');
+Route::get('/movie/{id}','HomeController@singleMovie');
 Route::get('/admin','AdminController@getLogin');
 Route::post('/admin','AdminController@postLogin');
 Route::get('/admin/register','AdminController@getRegister');
 Route::post('/admin/register','AdminController@postRegister');
+Route::post('/shout','HomeController@shout');
+
 
 Route::group(['middleware'=>'admin'],function(){
 	Route::get('/admin/home','AdminController@getHome');
@@ -30,6 +34,9 @@ Route::group(['middleware'=>'admin'],function(){
 	Route::get('/admin/sub-menu','MenuController@getSubMenu');
 	Route::post('/admin/sub-menu','MenuController@postSubMenu');
 
-	Route::get('/admin/movie/quality','MovieController@getAddQuality');
-	Route::post('/admin/movie/quality','MovieController@postQuality');
+	Route::get('/admin/movie/all','MovieController@getAllMovies');
+	Route::get('/admin/movie/filter/{id}','MovieController@getFilterMovies');
+
+	Route::get('/admin/software/add','SoftwareController@getAddSoftware');
+	Route::post('/admin/software/add','SoftwareController@postAddSoftware');
 });

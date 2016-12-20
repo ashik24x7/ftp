@@ -101,7 +101,7 @@
 				<div class="welcome gry-pattern" style="padding: 9px 0px 17px 0px;">
 					<div class="container">
 						<h3 class="block-head" style="margin-left:-9px;margin-bottom: 12px;margin-top: 2px;">Recently Added Movies 
-						<a class="btn btn-md btn-3d main-bg fx animated fadeInUp pull-right" href="allmovies.php?page=1" data-animate="fadeInUp" data-animation-delay="100" style="animation-delay: 100ms;-webkit-box-shadow: 0 0 0 0;box-shadow: 0 0 0 0;margin-right: -9px;padding: 2px 10px;">
+						<a class="btn btn-md btn-3d main-bg fx animated fadeInUp pull-right" href="/movies" data-animate="fadeInUp" data-animation-delay="100" style="animation-delay: 100ms;-webkit-box-shadow: 0 0 0 0;box-shadow: 0 0 0 0;margin-right: -9px;padding: 2px 10px;">
 										<span>View All Movies</span>
 									</a></h3>
 						
@@ -111,7 +111,7 @@
 								<div class="team-box" style="">
 				    					<div class="team-img" style="margin-right:5px;margin-left:5px;">
 				    					@php
-				    						$path = 'fs1/movies/'.$movie->category_name->menu_name.'/'.$movie->year.'/'.$movie->title.' ['.$movie->year.']/'.$movie->poster;
+				    						$path = $movie->category_name->drive.'/'.$movie->category_name->menu_name.'/'.$movie->year.'/'.$movie->title.' ['.$movie->year.']/'.$movie->poster;
 				    						$path = str_replace(' ','%20',$path);
 				    						$path = str_replace('[','%5B',$path);
 				    						$path = str_replace(']','%5D',$path);
@@ -122,8 +122,8 @@
 											<span class="imdb-rating"><b><b class="fa fa-star"></b></b>{{$movie->rating}}</span>
 										</div>
 
-										<a href="single-movie.php?imdbid=<?php // echo $item['MovieID']; ?>">
-				    					<div class="team-details"  href="single-movie.php?imdbid=<?php // echo $item['MovieID']; ?>" style="height:280px;background-color:rgba(0, 0, 0, 0.5);margin-left:0px;width:97.5%;">
+										<a href="/movie/{{strtolower(str_replace(' ','-',$movie->title))}}">
+				    					<div class="team-details"  href="/movie/{{strtolower(str_replace(' ','-',$movie->title))}}" style="height:280px;background-color:rgba(0, 0, 0, 0.5);margin-left:0px;width:97.5%;">
 			                               
 											<p style="height: 100px !important; margin: -4px 0px 0px 0px;">
 											{{ $movie->title.' ['.$movie->year.']' }}
@@ -132,7 +132,7 @@
 											@php
 												$trailer = explode(",",$movie->trailer);
 											@endphp
-											<a href="single-movie.php?imdbid={{$movie->api_id}}" class="play-hover" ><i class="fa fa-play-circle play-btn"></i></a>
+											<a href="/movie/{{strtolower(str_replace(' ','-',$movie->title))}}" class="play-hover" ><i class="fa fa-play-circle play-btn"></i></a>
 											<br>
 											<p style="background: radial-gradient(#1E8CAB, #09009a); width:40%; font-size:13px;float:right;margin-left:5px;"><i class="fa fa-eye"></i> {{$movie->views}}</p>
 											
@@ -143,7 +143,7 @@
 				    					    
 											<ul class="gallery clearfix">
 											<a href="http://www.youtube.com/watch?v={{$trailer[0]}}" rel="prettyPhoto" style="margin: 2.5% 0 5% 30%;width: 40%;"  title="{{$movie->title}}" />
-											<img src="/home/images/trailer.png" style="position: absolute;top: 70px;margin-left: -59px;" />
+											<img src="/home/images/trailer.png" style="top: 70px;margin-left: -50px;" />
 											</a>
 											</ul>
 											

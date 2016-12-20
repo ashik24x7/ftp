@@ -1725,6 +1725,7 @@ header.top-head-4 .logo {
 	color: #fff;
 	font-size: 14px;
 	line-height: 38px;
+	transform: skew(25deg, 0);
 }
 .pager ul li i {
 	font-weight: bold;

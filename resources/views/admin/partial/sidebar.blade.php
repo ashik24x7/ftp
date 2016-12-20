@@ -60,7 +60,7 @@
                         <li class="nav-item start <?php // echo active('tvseries.php'); ?>">
                             <a href="#" class="nav-link nav-toggle">
                                 <i class="fa fa-television"></i>
-                                <span class="title">Menues</span>
+                                <span class="title">Menu</span>
                                 <span class="selected"></span>
                                 <span class="arrow open"></span>
                             </a>
@@ -85,62 +85,33 @@
                         <li class="heading">
                             <h3 class="uppercase">Movies</h3>
                         </li>
-                        <li class="nav-item <?php // echo active('addmovies.php'); ?>">
-                            <a href="/admin/movie/manual" class="nav-link nav-toggle">
-                                <i class="fa fa-plus"></i>
-                                <span class="title">Add Movie (Manual)</span> 
-                            </a>
-                        </li>
-						<li class="nav-item  <?php // echo active('allmovies.php'); ?>">
-                            <a href="allmovies.php" class="nav-link nav-toggle">
-                                <i class="fa fa-edit"></i>
-                                <span class="title">all Movies</span> 
-                            </a>
-                        </li>
-						<li class="nav-item  <?php // echo active('unpublished.php'); ?>">
-                            <a href="unpublished.php" class="nav-link nav-toggle">
-                                <i class="fa fa-ban"></i>
-                                <span class="title">unpublished Movies</span> 
-                            </a>
-                        </li>
-						<li class="nav-item  <?php // echo active('trash.php'); ?>">
-                            <a href="trash.php" class="nav-link nav-toggle">
-                                <i class="fa fa-trash"></i>
-                                <span class="title">trash Movies</span> 
-                            </a>
-                        </li>
-						<li class="nav-item  <?php // echo active('autoinsert.php'); ?>">
+
+                        <li class="nav-item">
                             <a href="/admin/movie/auto" class="nav-link nav-toggle">
                                 <i class="fa fa-sort-amount-asc"></i>
-                                <span class="title">Automatic Upload Movies</span> 
+                                <span class="title">Add Movies (Automatic)</span> 
                             </a>
                         </li>
-                        <li class="nav-item start <?php // echo active('tvseries.php'); ?>">
-                            <a href="#" class="nav-link nav-toggle">
-                                <i class="fa fa-television"></i>
-                                <span class="title">Movie Quality</span>
-                                <span class="selected"></span>
-                                <span class="arrow open"></span>
+                        <li class="nav-item">
+                            <a href="/admin/movie/manual" class="nav-link nav-toggle">
+                                <i class="fa fa-plus"></i>
+                                <span class="title">Add Movies (Manual)</span> 
                             </a>
-                            <ul class="sub-menu">
-                                <li class="nav-item start  <?php // echo active('tvseries.php'); ?>">
-                                    <a href="/admin/movie/quality" class="nav-link ">
-                                        <i class="fa fa-plus"></i>
-                                        <span class="title">Add Quality</span>
-                                        <span class="selected"></span>
-                                    </a>
-                                </li>
-                                <li class="nav-item start <?php // echo active('add_episodes.php'); ?>"> 
-                                    <a href="/admin/movie/quality/view" class="nav-link ">
-                                        <i class="fa fa-edit"></i>
-                                        <span class="title">View Quality<span>
-                                        <span class="selected"></span>
-                                    </a>
-                                </li>
-                            </ul>
+                        </li>
+						<li class="nav-item">
+                            <a href="/admin/movie/all" class="nav-link nav-toggle">
+                                <i class="fa fa-edit"></i>
+                                <span class="title">View/Edit Movies</span> 
+                            </a>
+                        </li>
+						<li class="nav-item">
+                            <a href="/admin/movie/unpublished" class="nav-link nav-toggle">
+                                <i class="fa fa-ban"></i>
+                                <span class="title">Unpublished Movies</span> 
+                            </a>
                         </li>
 						
-						<li class="nav-item start <?php // echo active('tvseries.php'); ?>">
+						<li class="nav-item start">
                             <a href="dashboard.php" class="nav-link nav-toggle">
                                 <i class="fa fa-television"></i>
                                 <span class="title">tv-series</span>
@@ -250,7 +221,7 @@
                             </a>
                             <ul class="sub-menu">
                                 <li class="nav-item start  <?php // echo active('software.php'); ?>">
-                                    <a href="software.php" class="nav-link ">
+                                    <a href="/admin/software/add" class="nav-link ">
                                         <i class="fa fa-plus"></i>
                                         <span class="title">add Software</span>
                                         <span class="selected"></span>

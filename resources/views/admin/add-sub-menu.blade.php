@@ -58,6 +58,13 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="col-md-3 control-label">Drive: </label>
+                                <div class="col-md-6">
+                                    <input type="text" name="drive" class="form-control input-circle" placeholder="Enter text" required>
+                                    <span class="help-block">{{ $errors->first('drive') }}</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="control-label col-md-3">Position</label>
                                 <div class="col-md-2">
                                     <select class="form-control input-circle" name="position">
