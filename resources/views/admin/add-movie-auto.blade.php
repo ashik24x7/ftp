@@ -201,9 +201,7 @@
                                                     <!-- </div><div class="slimScrollBar" style="background: rgb(215, 220, 226); width: 7px; position: absolute; top: 60px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px; height: 221.515px;"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(234, 234, 234); opacity: 0.2; z-index: 90; right: 1px;"></div></div> -->
                                                 </div>
                                                 <div class="task-footer">
-                                                    <div class="btn-arrow-link pull-right">
-                                                        <a href="javascript:;">See All Tasks</a>
-                                                    </div>
+                                                    
                                                 </div>
                                             </div>
                                         </div>

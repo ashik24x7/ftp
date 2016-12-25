@@ -13,13 +13,18 @@
 
 Route::get('/','HomeController@index');
 Route::get('/movies','HomeController@allMovies');
-Route::get('/movie/{id}','HomeController@singleMovie');
+Route::get('/movie/{id}','MovieController@singleMovie');
 Route::get('/admin','AdminController@getLogin');
 Route::post('/admin','AdminController@postLogin');
 Route::get('/admin/register','AdminController@getRegister');
 Route::post('/admin/register','AdminController@postRegister');
 Route::post('/shout','HomeController@shout');
 
+Route::get('/admin/games','GameController@getAllGame');
+Route::get('/admin/game/{id}','GameController@getSingleGame');
+
+
+Route::get('/softwares','HomeController@allSoftwares');
 
 Route::group(['middleware'=>'admin'],function(){
 	Route::get('/admin/home','AdminController@getHome');
@@ -39,4 +44,9 @@ Route::group(['middleware'=>'admin'],function(){
 
 	Route::get('/admin/software/add','SoftwareController@getAddSoftware');
 	Route::post('/admin/software/add','SoftwareController@postAddSoftware');
+
+	Route::get('/admin/game/add','GameController@getAddGame');
+	Route::post('/admin/game/add','GameController@postAddGame');
+
+
 });

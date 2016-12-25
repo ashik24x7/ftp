@@ -84,49 +84,46 @@
                                     <div class="tools"> </div>
                                 </div>
                                 <div class="portlet-body">
-                                    <table class="table table-striped table-bordered table-hover dt-responsive" width="100%" id="sample_3" cellspacing="0" width="100%">
+                                    <table class="table" width="100%" id="" cellspacing="0" width="100%">
                                         <thead>
                                             <tr>
-                                                <th class="all">Movie Title</th>
-                                                <th class="min-phone-l">Movie Category</th>
-                                                <th class="min-tablet">Movie quality</th>
+                                                <th class="all">Movie Cover</th>
+                                                <th class="min-phone-l">Movie Title</th>
+                                                <th class="min-tablet">Movie Category</th>
+                                                <th class="min-tablet">Movie Quality</th>
                                                 <th class="desktop">Movie Filesize</th>
                                                 <th class="min-tablet">Imdb Ratings</th>
-                                                <th class="min-tablet">Uploader</th>
                                                 <th class="min-tablet">Edit</th>
                                                 <th class="min-tablet">Delete</th>
-												<th class="none">uploaded Time</th>
-												<th class="none">IMDB id</th>
-												<th class="none">release date</th>
-												<th class="none">runtime</th>
-                                                <th class="none">original language</th>
-                                                <th class="none">overview</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                         @foreach($movies as $movie)
+                                            @php
+                                                $path = '/'.$movie->category_name->drive.'/'.$movie->category_name->menu_name.'/'.$movie->year.'/'.$movie->title.' ['.$movie->year.']/'.$movie->poster;
+                                                $path = str_replace(' ','%20',$path);
+                                                $path = str_replace('[','%5B',$path);
+                                                $path = str_replace(']','%5D',$path);
+
+                                            @endphp
                                             <tr>
-                                                <td><img src="" width="75px" height="100px"/> &nbsp;&nbsp;{{$movie->title}} [{{$movie->year}}]</td>
-                                                <td><p style='opacity:1;background:radial-gradient(#EA0A5D, #5A0000); color:#fff; padding:3.3px; max-width:150px;text-align:center;font-size:14px;margin-left:5px;'>{{$movie->category_name->menu_name}}</p></td>
-                                                <td><p style='opacity:1;background:radial-gradient(#F76F76, #FF0000); padding:3.3px; max-width:150px;text-align:center; color:#fff;font-size:14px;margin-left:5px;'>{{$movie->quality}}</p></td>
-                                                <td><p style='opacity:1;background:radial-gradient(#013100, #1F9A00); color:#fff; padding:3.3px; width:75px;text-align:center;font-size:14px;margin-left:5px;float:left;'>{{$movie->size}}</p></td>
-                                                <td><p style='opacity:1;background:radial-gradient(#ffffb8, #ce981d); padding:3px; max-width:150px;text-align:center; color:#000; font-size:14px;margin-left:5px;'><span style='color:#000;font-family:impact;'>IMDb &nbsp;</span> <span style='font-family:tahoma;font-weight:bold;'>{{$movie->ratings}}/10</span></p></td>
-                                                <td><span class="label label-warning">{{$movie->uploaded_by}}</span></td>
+                                                <td><img src="{{$path}}" width="75px" height="100px"/>
+                                                </td>
                                                 <td>
-                                                <a href="/admin/movie/{{$movie->title}}" target="_blank" class="btn btn-primary" data-toggle="tooltip" title="View" ><i class="fa fa-eye"></i></a>
+                                                {{$movie->title}} [{{$movie->year}}]</td>
+                                                <td><p>{{ucfirst($movie->category_name->menu_name)}}</p></td>
+                                                <td><p>{{$movie->quality}}</p></td>
+                                                <td><p>{{$movie->size}}</p></td>
+                                                <td><p><span style='font-family:tahoma;font-weight:bold;'>{{$movie->rating}}/10</span></p></td>
+                                                <td>
                                 				<a class="btn purple btn-outline sbold" href="/admin/movie/{{$movie->title}}/edit" data-toggle="tooltip" title="Edit"> <i class="fa fa-edit"></i> </a>
                                 				 </td>
                                 				<td><a href="/admin/movie/{{$movie->title}}" class="btn btn-warning delete" data-toggle="tooltip" title="delete"><i class="fa fa-trash"></i></a></td>
-                                				<td>{{$movie->created_at}}</td>
-                                				<td>{{$movie->id}}</td>
-                                				<td>{{$movie->release_date}}</td>
-                                				<td>{{$movie->time}}</td>
-                                				<td>{{$movie->language}}</td>
-                                				<td>{{$movie->story}}</td>
                                             </tr>
                                         @endforeach
                                         </tbody>
                                     </table>
+                                    {{$movies->links()}}
                                 </div>
                             </div>
                             <!-- END EXAMPLE TABLE PORTLET-->

@@ -18,11 +18,11 @@
 							    <nav class="top-nav mega-menu">
 								<ul>
 									@foreach($menu as $key)
-										<li class="hasChildren"><a href="/{{$key->menu_name}}"><i class="fa fa-film"></i><span>{{$key->menu_name}}</span></a>
+										<li class="hasChildren"><a href="/{{strtolower($key->menu_name)}}"><i class="fa fa-film"></i><span>{{$key->menu_name}}</span></a>
 									      	<ul style="max-width: 609px;">
 										      	@foreach($key->submenu as $submenu)
 											    <li style="transition-delay: 0ms;" class="">
-											    	<a href="/admin/filter/{{$submenu->menu_name}}">
+											    	<a href="/admin/filter/{{strtolower($submenu->menu_name)}}">
 
 											    	<i class="fa fa-send"></i>
 											    		{{ucfirst($submenu->menu_name)}}

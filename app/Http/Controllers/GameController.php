@@ -4,20 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Submenu;
-use App\Software;
+use App\Game;
+use App\Menu;
 
-class SoftwareController extends Controller
+class GameController extends Controller
 {
-    private function mysql_escape($inp){ 
-        if(is_array($inp)) return array_map(__METHOD__, $inp);
-
-        if(!empty($inp) && is_string($inp)) { 
-            return str_replace(array('\\', "\0", "\n", "\r", "'", '"', "\x1a"), array('\\\\', '\\0', '\\n', '\\r', "\\'", '\\"', '\\Z'), $inp); 
-        } 
-
-        return $inp; 
-    }
-
     private function byte_to_human($filesize){
         if($filesize <1024){ $size = ceil($filesize) . ' Byte'; }
         elseif($filesize <1048576){ $size = ceil($filesize/1024) . ' KB'; }
@@ -26,25 +17,25 @@ class SoftwareController extends Controller
         else{ $size = number_format($filesize/1073741824,2) . ' TB'; }
         return $size;
     }
-
-
-    public function getAddSoftware(){
-    	$data['submenu'] = Submenu::where('visible',1)->where('main_menu',2)->get();
-    	return view('admin.add-software',$data);
+    public function getAddGame(){
+    	$data['submenu'] = Submenu::where('visible',1)->where('main_menu',3)->get();
+    	return view('admin.add-games',$data);
     }
 
-    public function postAddSoftware(Request $request){
+    public function postAddGame(Request $request){
     	$this->validate($request,[
     		'name' => 'required',
-	    	'category' => 'required'
+            'category' => 'required',
+            'trailer' => 'required',
+	    	'details' => 'required',
     	]);
+
 
         $errors = [];
         $message = [];
-        $software = Software::pluck('name')->toArray();
-        if(!in_array($request->name, $software)){
-            $data = $request->only('name','category','requirement');
-            $data['requirement'] = $request->requirement;
+        $game = Game::pluck('name')->toArray() or NULL;
+        if(!in_array($request->name, $game)){
+            $data = $request->only('name','category','trailer','details');
 
             $data['added_by'] = auth()->guard('admin')->user()->id;
 
@@ -60,10 +51,10 @@ class SoftwareController extends Controller
         			}elseif(stripos($files,'.png') || stripos($files,'.jpg')){
                         $data['cover'] = $files;
                         $poster_exist = 1;
-                    }elseif(stripos($files,'.exe')){
+                    }elseif(stripos($files,'.iso') || stripos($files,'.rar')){
                         $data['path'] = $files;
                         $data['size'] = $this->byte_to_human(filesize($path.DIRECTORY_SEPARATOR.$files));
-                        $data['platform'] = 'Windows';
+                        $data['platform'] = '';
                         $data['views'] = 1;
                     }
         		}
@@ -76,7 +67,7 @@ class SoftwareController extends Controller
                 }
 
                 if(!isset($data['path'])){
-                    $errors[] = 'There is no software in <b style="font-weight:bold;">'.$path.'</b>';
+                    $errors[] = 'There is no Game in <b style="font-weight:bold;">'.$path.'</b>';
                 }elseif(!isset($data['cover'])){
                     $errors[] = 'There is no cover in <b style="font-weight:bold;">'.$path.'</b>';
                 }
@@ -87,12 +78,23 @@ class SoftwareController extends Controller
         }else{
             $errors[] = $request->name.' is already exist!';
         }
+
         
-        if(empty($errors) && Software::create($data)){
+        if(empty($errors) && Game::create($data)){
             $message[] = '<b style="color:green;font-weight:bold;">'.$request->name.'</b> has added successfully';
-            return redirect()->to('/admin/software/add')->with('messages', $message);
+            return redirect()->to('/admin/game/add')->with('messages', $message);
         }else{
-            return redirect()->to('/admin/software/add')->with('errors', $errors);
+            return redirect()->to('/admin/game/add')->with('errors', $errors);
         }
     }
+
+    public function getAllGame(){
+        $data['menu'] = Menu::with(['submenu'])->get();
+        $data['games'] = Game::with(['category_name'])->orderBy('id','DESC')->paginate(18);
+        return view('home.all-games',$data);
+    }
+
+
+
+
 }

@@ -174,27 +174,31 @@
 									</a>
 								</h3> 
 									<div class="portfolio-items" id="container">
-                                <?php // $results = GamesCategory(18,0,4);
-									      //foreach($results as $item)
-										// {
-										
-									?>
+                                @foreach($games as $game)
+                                	@php
+				    						$path = $game->category_name->drive.'/'.$game->name.'/'.$game->cover;
+				    						$path = str_replace(' ','%20',$path);
+				    						$path = str_replace('[','%5B',$path);
+				    						$path = str_replace(']','%5D',$path);
+
+				    					@endphp
 									<div class="cell-3 seo" data-category="seo" style="position: absolute; left: 877px; top: 0px;">
 										<div class="portfolio-item">
 											<div class="img-holder">
 												<div class="img-over" style="display: none;">
-													<a href="about-games.php?t=<?php // echo str_replace(" ","-",$item['title']);?>" class="fx link undefined animated fadeOutUp"><b class="fa fa-link"></b></a>
-													<a href="<?php // echo URL.'/'.$item['cover_pic']; ?>" class="fx zoom undefined animated fadeOutDown" data-gal="prettyPhoto[pp_gal]" title="Project Title"><b class="fa fa-search-plus"></b></a>
+													<a href="/admin/game/{{strtolower(str_replace(' ','-',$game->name))}}" class="fx link undefined animated fadeOutUp"><b class="fa fa-link"></b></a>
+													<a href="" class="fx zoom undefined animated fadeOutDown" data-gal="prettyPhoto[pp_gal]" title="Project Title"><b class="fa fa-search-plus"></b></a>
 												</div>
-												<a href="about-games.php?t=<?php // echo str_replace(" ","-",$item['title']);?>"><img alt="" src="<?php // echo URL.'/'.$item['cover_pic']; ?>"></a>
+												<a href="/admin/game/{{strtolower(str_replace(' ','-',$game->name))}}"><img alt="" src="{{$path}}"></a>
 											</div>
 											<div class="name-holder">
-											<a href="about-games.php?t=<?php // echo str_replace(" ","-",$item['title']);?>" class="project-name" style="height:45px;"><?php // echo $item['title']; ?></a>
-											<span class="project-options"><?php // $t = takeQuality($item['con_cat']); echo $t['menu_name']; ?> (<?php // echo $item['filesize']; ?>)</span>
+											<a href="/admin/game/{{strtolower(str_replace(' ','-',$game->name))}}" class="project-name" style="height:45px;">{{$game->name}} [ {{$game->size}} ]</a>
+											<p style="width:40%; font-size:13px;float:right;margin-left:5px;"><i class="fa fa-eye"></i> {{$game->views}}</p>
+											<span class="project-options"> {{$game->category_name->menu_name}}</span>
 										</div>
 										</div>
 									</div>
-										 <?php // } ?>
+								@endforeach
 								</div>
 									
 									<!-- staff item end -->
@@ -269,19 +273,23 @@
 						<div class="row">
 							<div class="cell-12">
 			
-			                <?php // $results = AllSoftwareBYCat(0,0,12);
-									      //foreach($results as $item)
-										 //{	
-									?>
+			             	@foreach($softwares as $software)
+                            	@php
+		    						$path = $software->category_name->drive.'/'.$software->name.'/';
+		    						$path = str_replace(' ','%20',$path);
+		    						$path = str_replace('[','%5B',$path);
+		    						$path = str_replace(']','%5D',$path);
+
+		    					@endphp
 							<div class="cell-2 service-box-2 fx" data-animate="fadeInDown">
 								<div class="box-2-cont">
-									<i><img src="<?php // echo URL.'/'.$item['cover']; ?>" style="margin-top:-50px;width:100px;height:100px;" /></i>
-									<h4 style="height:54px;font-size:14px;margin-top:10px;"><?php // echo $item['title']; ?></h4>
-									<div class="center sub-title main-color"> Filesize: - (<?php // echo $item['filesize']; ?>)</div>
-									<a class="r-more main-color" href="<?php // echo $item['downLink']; ?>">Download</a>
+									<i><img src="{{$path.$software->cover}}" style="margin-top:-50px;width:100px;height:100px;" /></i>
+									<h4 style="height:54px;font-size:14px;margin-top:10px;">{{$software->name}}</h4>
+									<div class="center sub-title main-color"> Filesize: - ({{$software->size}})</div>
+									<a class="r-more main-color" href="{{$path.$software->path}}">Download</a>
 								</div>
 							</div>
-						<?php // } ?>
+							@endforeach
 			
 							</div>
 						</div>

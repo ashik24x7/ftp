@@ -5,7 +5,7 @@
 
     <head>
         <meta charset="utf-8" />
-        <title><?php // echo WEBNAME; ?> | Add Software Manual</title>
+        <title>Fileserver | Add Games</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <meta content="" name="View All Movies Information" />
@@ -61,15 +61,28 @@
                     <div class="page-bar">
                         <ul class="page-breadcrumb">
                             <li>
-                                <a href="dashboard.php">Home</a>
+                                <a href="index.html">Home</a>
                                 <i class="fa fa-circle"></i>
                             </li>
                             <li>
-                                <span>Add Saftware</span>
+                                <span>Add Games</span>
                             </li>
                         </ul>
                     </div>
-                    <h3 class="page-title"> Add Software (Manual)
+                    <!-- END PAGE BAR -->
+                    <!-- BEGIN PAGE TITLE-->
+					<?php // 
+    //           if(isset($_SESSION["infoError"]) && !empty($_SESSION["infoError"]) == true){  
+    //             foreach($_SESSION["infoError"] as $error) {
+				// 	if(!empty($error) == true){
+				// 		echo $error;
+				// 	}
+					
+    //             }
+				// unset($_SESSION["infoError"]);
+    //           }
+               ?>
+                    <h3 class="page-title"> Add Games
                     
                     </h3>
                     <div class="row">
@@ -115,14 +128,14 @@
                                     </div>
                                 </div>
                                 <div class="portlet-body form">
-                                    <form role="form" action="{{url('/admin/software/add')}}" role="form" method="post" enctype="multipart/form-data">
-                                        {{csrf_field()}}
+                                    <form role="form" action="{{url('/admin/game/add')}}" role="form" method="post" enctype="multipart/form-data">
+                                    {{csrf_field()}}
                                         <div class="form-body">
 										<div class="form-group">
                                                                 <div class="fileinput fileinput-new" data-provides="fileinput">
-                                                                    <div class="fileinput-new thumbnail" style="width: 250px; height: 250px;">
-                                                                        <img src="http://www.placehold.it/250x250/EFEFEF/AAAAAA&amp;text=no+image" alt="" /> </div>
-                                                                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 250px; max-height: 250px;"> </div>
+                                                                    <div class="fileinput-new thumbnail" style="">
+                                                                        <img src="http://www.placehold.it/600x250/EFEFEF/AAAAAA&amp;text=no+image" alt="" /> </div>
+                                                                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 600px; max-height: 250px;"> </div>
                                                                     <div>
                                                                         <span class="btn default btn-file">
                                                                             <span class="fileinput-new"> Select image </span>
@@ -131,30 +144,38 @@
                                                                         <a href="javascript:;" class="btn default fileinput-exists" data-dismiss="fileinput"> Remove </a>
                                                                     </div>
                                                                 </div>
-                                        </div> 
+                                                                
+                                                            </div>
+                                                            
                                             <div class="form-group form-md-line-input form-md-floating-label">
                                                 <input type="text" class="form-control" id="form_control_1" name="name" />
-                                                <label for="form_control_1">Software Title</label>
-                                                <span class="help-block">Give Unique Software Title</span>
+                                                <label for="form_control_1">Games Name</label>
+                                                <span class="help-block">Write Games Name</span>
                                             </div>
-                                            <div class="form-group form-md-line-input form-md-floating-label">
-                                                <label for="form_control_1">Requirement: </label>
-                                                <textarea name="requirement" class="form-control" id="form_control_1" cols="30" rows="5" style="border: 1px solid #c2cad8"></textarea>
-                                                
+                                            <div class="form-group form-md-line-input form-md-floating-label has-error">
+                                                <input type="text" class="form-control" id="form_control_1" name="trailer">
+                                                <label for="form_control_1">Youtube Trailer Link</label>
+												<span class="help-block">Example - (watch?v=N5wJ3m7UdNk)</span>
+                                            </div>
+											<div class="form-group form-md-line-input form-md-floating-label">
+                                                <textarea class="form-control" rows="3" name="details"></textarea>
+                                                <label for="form_control_1">Details</label>
+												<span class="help-block">Some Details About Games</span>
                                             </div>
 											
                                             <div class="form-group form-md-line-input form-md-floating-label has-info">
                                                 <select class="form-control edited" id="form_control_1" name="category">
                                                     @foreach($submenu as $key)
-                                                    <option value="{{$key->id}}">{{ucwords($key->menu_name)}}</option>
+                                                        <option value="{{$key->id}}">{{ucwords($key->menu_name)}}</option>
                                                     @endforeach
                                                 </select>
-												
+                                                <label for="form_control_1">Select Games Category</label>
                                             </div>
 
                                         </div>
                                         <div class="form-actions noborder">
                                             <input type="submit" name="submit" class="btn btn-primary" value="submit">
+                                            <button type="button" class="btn default">Cancel</button>
                                         </div>
                                     </form>
                                 </div>
@@ -172,7 +193,7 @@
                                 <div class="portlet-title">
                                     <div class="caption">
                                         <i class=" icon-layers font-green"></i>
-                                        <span class="caption-subject font-green sbold uppercase">Recent software Upload</span>
+                                        <span class="caption-subject font-green sbold uppercase">Recent Games Upload</span>
                                     </div>
                                     
                                 </div>
@@ -183,34 +204,33 @@
                                                 <th class="table-checkbox">
                                                     <input type="checkbox" class="group-checkable" data-set="#sample_2 .checkboxes" /> </th>
                                                 <th> Cover Image </th>
-                                                <th> Title </th>
-                                                <th> Category </th>
+                                                <th> Games Title </th>
+                                                <th> Download Link </th>
                                                 <th> Edit </th>
                                             </tr>
                                         </thead>
                                         <tbody>
 										
-										<?php // $Software = AllSoftware(0);
-										      // foreach($Software as $Softwares){
+										<?php // //$games = AllGames(0);
+										      //foreach($games as $allGames){
 										?>
-										
                                             <tr class="odd gradeX">
                                                 <td>
-                                                    <input type="checkbox" class="checkboxes" value="<?php // echo $Softwares['id']; ?>" name="check[]" /> 
+                                                    <input type="checkbox" class="checkboxes" value="1" /> 
 												</td>
-                                                <td> <img src="<?php // echo URL.'/'.$Softwares['cover'];?>" width="50px"> </td>
+                                                <td> <img src="<?php // echo URL.'/'.$allGames['cover_pic'];?>" width="132px"> </td>
                                                 <td>
-                                                    <?php // echo $Softwares['title']; ?>
+                                                    <?php // echo $allGames['title']; ?>
                                                 </td>
                                                 <td>
-                                                    <span class="label label-sm label-success"> <?php // $q = takeQuality($Softwares['cata']); echo $q['menu_name']; ?> </span>
+                                                    <span class="label label-sm label-success"> <?php // echo substr($allGames['download'],0,20).'...'; ?> </span>
                                                 </td>
 												<td>
-                                                    <a href="action/trashgames.php?delSid=<?php // echo $Softwares['id']; ?>" class="btn btn-warning delete" data-toggle="tooltip" title="delete"><i class="fa fa-trash"></i></a>
+                                                    <a href="action/trashgames.php?id=<?php // echo $allGames['id']; ?>" class="btn btn-danger delete" data-toggle="tooltip" title="delete"><i class="fa fa-trash"></i></a>
                                                 </td>
                                             </tr>
-										<?php // } ?>
-                                       
+										<?php // } ?>	
+											
                                             
 											
                                         </tbody>
@@ -275,7 +295,7 @@
 });
 		$(document).ready(function(){
     $("a.delete").click(function(e){
-        if(!confirm('Are you sure? it will Store in Trash Software!')){
+        if(!confirm('Are you sure? it will Store in Trash Games!')){
             e.preventDefault();
             return false;
         }

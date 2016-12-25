@@ -51,16 +51,16 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-3 control-label">Menu Name: </label>
+                                <label class="col-md-3 control-label">Sub Menu Name: </label>
                                 <div class="col-md-6">
-                                    <input type="text" name="menu_name" class="form-control input-circle" placeholder="Enter text">
+                                    <input type="text" name="menu_name" class="form-control input-circle" placeholder="Enter sub menu name">
                                     <span class="help-block">{{ $errors->first('menu_name') }}</span>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-3 control-label">Drive: </label>
+                                <label class="col-md-3 control-label">Destination: </label>
                                 <div class="col-md-6">
-                                    <input type="text" name="drive" class="form-control input-circle" placeholder="Enter text" required>
+                                    <input type="text" name="drive" class="form-control input-circle" placeholder="fs1/movies" value="" required>
                                     <span class="help-block">{{ $errors->first('drive') }}</span>
                                 </div>
                             </div>

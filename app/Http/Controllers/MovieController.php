@@ -10,12 +10,15 @@ use App\Movie;
 
 class MovieController extends Controller
 {	
-	private function human_filesize($bytes, $dec = 2) {
-	    $size   = array('B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
-	    $factor = floor((strlen($bytes) - 1) / 3);
-
-	    return sprintf("%.{$dec}f", $bytes / pow(1024, $factor)) . @$size[$factor];
-	}
+	
+	private function byte_to_human($filesize){
+        if($filesize <1024){ $size = ceil($filesize) . ' Byte'; }
+        elseif($filesize <1048576){ $size = ceil($filesize/1024) . ' KB'; }
+        elseif($filesize <1073741824){ $size = ceil($filesize/1048576) . ' MB'; }
+        elseif($filesize <1099511627776){ $size = number_format($filesize/1073741824,2) . ' GB'; }
+        else{ $size = number_format($filesize/1073741824,2) . ' TB'; }
+        return $size;
+    }
 
 	public function getAddMovieAuto(){
     	$data['category'] = Submenu::where('visible',1)->get();
@@ -51,7 +54,7 @@ class MovieController extends Controller
 	    				$movie_name = str_replace(" ","%20",$movie_name);
 	    				$omdbapi = @file_get_contents("http://www.omdbapi.com/?t=$movie_name&y=$request->year&plot=full");
 	    				if(!$omdbapi){
-	    					$errors[] = 'Not found any info form api for <b style="font-weight:bold">'.$tmp_movie_name.'</b>';
+	    					$errors[] = 'No information found from api for <b style="font-weight:bold">'.$tmp_movie_name.'</b>';
 	    					continue;
 	    				}
 
@@ -62,7 +65,7 @@ class MovieController extends Controller
 	    				$api = @file_get_contents("http://api.themoviedb.org/3/movie/".$api_id."?append_to_response=credits,images&api_key=f7d5dae12ee54dc9f51ccac094671b00");
 
 	    				if(!$api){
-	    					$errors[] = 'Not found any info form api for <b style="font-weight:bold">'.$tmp_movie_name.'</b>';
+	    					$errors[] = 'No information found from api for <b style="font-weight:bold">'.$tmp_movie_name.'</b>';
 	    					continue;
 	    				}
 
@@ -95,7 +98,7 @@ class MovieController extends Controller
 
 				    	$fp2 = @file_get_contents("http://api.themoviedb.org/3/movie/".$api_id."/videos?api_key=f7d5dae12ee54dc9f51ccac094671b00");
 				    	if(!$fp2){
-	    					$errors[] = 'Not found any info form api for <b style="font-weight:bold">'.$tmp_movie_name.'</b>';
+	    					$errors[] = 'No information found from api for <b style="font-weight:bold">'.$tmp_movie_name.'</b>';
 	    					continue;
 	    				}
 
@@ -114,7 +117,7 @@ class MovieController extends Controller
 
 				    	$fp3 = @file_get_contents("http://api.themoviedb.org/3/movie/".$api_id."/keywords?api_key=f7d5dae12ee54dc9f51ccac094671b00");
 				    	if(!$fp3){
-	    					$errors[] = 'Not found any info form api for <b style="font-weight:bold">'.$tmp_movie_name.'</b>';
+	    					$errors[] = 'No information found from api for <b style="font-weight:bold">'.$tmp_movie_name.'</b>';
 	    					continue;
 	    				}
 						$json3 = json_decode($fp3, true);
@@ -156,7 +159,7 @@ class MovieController extends Controller
 				    		while ($sub_files = readdir($sub_dir)) {
 				    			if(strpos($sub_files,'.mkv') || stripos($sub_files,'.mp4') || stripos($sub_files,'.avi') || stripos($sub_files,'.vob')){
 				    				$data['path'] = $sub_files;
-				    				$data['size'] = $this->human_filesize(filesize($sub_path.DIRECTORY_SEPARATOR.$sub_files));
+				    				$data['size'] = $this->byte_to_human(filesize($sub_path.DIRECTORY_SEPARATOR.$sub_files));
 				    				$quality = explode('__', $sub_files);
 				    				$data['quality'] = $quality[1];
 				    			}elseif(stripos($sub_files,'.png') || stripos($sub_files,'.jpg')){
@@ -164,6 +167,9 @@ class MovieController extends Controller
 				    				$poster_exist = 1;
 				    			}elseif(stripos($sub_files,'.srt')){
 				    				$data['subtitle'] = $sub_files;
+				    			}elseif(strpos($sub_files,'.m4v')){
+				    				$errors[] = '<b style="font-weight:bold;">'.$sub_files.'</b>\'s extension is unsupported';
+				    				continue(2);
 				    			}
 				    		}
 						}else{
@@ -252,7 +258,7 @@ class MovieController extends Controller
     			while ($files = readdir($dir)) {
 	    			if(strpos($files,'.mkv') || stripos($files,'.mp4') || stripos($files,'.avi') || stripos($files,'.vob')){
 	    				$data['path'] = $files;
-	    				$data['size'] = $this->human_filesize(filesize($path.DIRECTORY_SEPARATOR.$files));
+	    				$data['size'] = $this->byte_to_human(filesize($path.DIRECTORY_SEPARATOR.$files));
 	    				$quality = explode('__', $files);
 	    				$data['quality'] = $quality[1];
 	    			}elseif(stripos($files,'.png') || stripos($files,'.jpg')){
@@ -275,8 +281,8 @@ class MovieController extends Controller
 		}
 
 		if(empty($poster_exist) && !in_array($request->title, $movies)){
-			$data['poster'] = $poster_name = str_random(20).'.png';
-			@file_put_contents($path. DIRECTORY_SEPARATOR .$poster_name, file_get_contents($request->poster_path));
+			$data['poster'] =  str_random(20).'.png';
+			@file_put_contents($path. DIRECTORY_SEPARATOR .$data['poster'], file_get_contents($request->poster_path));
 
 		}
 		if(empty($data['poster'])){
@@ -284,6 +290,8 @@ class MovieController extends Controller
 		}
 		
 		$data['views'] = 1;
+
+		
 		if(empty($errors) && Movie::create($data)){
 			$message[] = '<b style="color:green;font-weight:bold;">'.$request->title.'</b> has added successfully';
 			return redirect()->to('/admin/movie/manual')->with('messages', $message);
@@ -435,7 +443,7 @@ class MovieController extends Controller
     }
 
     public function getAllMovies(){
-    	$data['movies'] = Movie::paginate(18);
+    	$data['movies'] = Movie::paginate(5);
     	return view('admin.all-movies',$data);
     }
 
@@ -446,6 +454,15 @@ class MovieController extends Controller
         $data['menu'] = Menu::with(['submenu'])->get();
         $data['shout'] = Shout::orderBy('created_at','DESC')->paginate(15);
     	$data['movie'] = Movie::with(['category_name'])->where('category',$id)->first();
+        return view('home.single-movie',$data);
+    }
+
+    public function singleMovie($id){
+        $id = str_replace('-', ' ', $id);
+        DB::table('movies')->where('title',$id)->increment('views',1);
+        $data['menu'] = Menu::with(['submenu'])->get();
+        $data['shout'] = Shout::orderBy('created_at','DESC')->paginate(15);
+    	$data['movie'] = Movie::with(['category_name'])->where('title',$id)->first();
         return view('home.single-movie',$data);
     }
 
