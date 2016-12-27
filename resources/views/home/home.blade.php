@@ -169,7 +169,7 @@
 							<div class="row" style="margin-top:-70px;margin-bottom:-20px;">
 									<!-- staff item start -->
 								<h3 class="block-head" style="margin-left:12px;">Recently Added Games
-								<a class="btn btn-md btn-3d main-bg fx animated fadeInUp pull-right" href="allgames.php?page=1" data-animate="fadeInUp" data-animation-delay="100" style="animation-delay: 100ms;-webkit-box-shadow: 0 0 0 0;box-shadow: 0 0 0 0;margin-right: 14px;margin-top: 4px;padding: 2px 10px;">
+								<a class="btn btn-md btn-3d main-bg fx animated fadeInUp pull-right" href="/games" data-animate="fadeInUp" data-animation-delay="100" style="animation-delay: 100ms;-webkit-box-shadow: 0 0 0 0;box-shadow: 0 0 0 0;margin-right: 14px;margin-top: 4px;padding: 2px 10px;">
 										<span>View All Games</span>
 									</a>
 								</h3> 

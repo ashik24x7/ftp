@@ -20,8 +20,8 @@ Route::get('/admin/register','AdminController@getRegister');
 Route::post('/admin/register','AdminController@postRegister');
 Route::post('/shout','HomeController@shout');
 
-Route::get('/admin/games','GameController@getAllGame');
-Route::get('/admin/game/{id}','GameController@getSingleGame');
+Route::get('/games','GameController@getAllGame');
+Route::get('/game/{id}','GameController@getSingleGame');
 
 
 Route::get('/softwares','HomeController@allSoftwares');
@@ -47,6 +47,12 @@ Route::group(['middleware'=>'admin'],function(){
 
 	Route::get('/admin/game/add','GameController@getAddGame');
 	Route::post('/admin/game/add','GameController@postAddGame');
+	
+	Route::get('/admin/tv-series/add','TvseriesController@getAddTvSeries');
+	Route::post('/admin/tv-series/add','TvseriesController@postAddGame');
+	
+	Route::get('/admin/tv-series/auto','TvseriesController@getAutoTvSeries');
+	Route::post('/admin/tv-series/auto','TvseriesController@postAutoTvSeries');
 
 
 });
