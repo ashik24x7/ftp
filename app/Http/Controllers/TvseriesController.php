@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Submenu;
 use App\Tvseries;
+use App\Episode;
+use App\Menu;
 
 class TvseriesController extends Controller
 {
@@ -185,5 +187,19 @@ class TvseriesController extends Controller
     	}
 
 
+    }
+
+
+    public function getAllTvSeries(){
+    	$data['tvseries'] = Tvseries::with(['category_name'])->orderBy('id','DESC')->paginate(18);
+    	return view('admin.view-tv-series',$data);
+    }
+
+
+    public function allTvSeries(){
+
+        $data['tvseries'] = Tvseries::with(['category_name','episode'])->orderBy('id','DESC')->paginate(18);
+    	$data['menu'] = Menu::with(['submenu'])->get();
+    	return view('home.all-tv-series',$data);
     }
 }

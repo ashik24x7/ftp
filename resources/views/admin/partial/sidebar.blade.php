@@ -114,50 +114,29 @@
 						<li class="nav-item start">
                             <a href="dashboard.php" class="nav-link nav-toggle">
                                 <i class="fa fa-television"></i>
-                                <span class="title">tv-series</span>
+                                <span class="title">Tv Series</span>
                                 <span class="selected"></span>
                                 <span class="arrow open"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li class="nav-item start  <?php // echo active('tvseries.php'); ?>">
-                                    <a href="tvseries.php" class="nav-link ">
+                                <li class="nav-item start">
+                                    <a href="/admin/tv-series/auto" class="nav-link ">
                                         <i class="fa fa-plus"></i>
-                                        <span class="title">add tv series</span>
+                                        <span class="title">Add Tv Series (Automatic)</span>
                                         <span class="selected"></span>
                                     </a>
                                 </li>
-								<li class="nav-item start <?php // echo active('add_episodes.php'); ?>"> 
-                                    <a href="add_episodes.php" class="nav-link ">
+                                <li class="nav-item start">
+                                    <a href="/admin/tv-series/add" class="nav-link ">
+                                        <i class="fa fa-plus"></i>
+                                        <span class="title">Add Tv Series (Manual)</span>
+                                        <span class="selected"></span>
+                                    </a>
+                                </li>
+								<li class="nav-item start"> 
+                                    <a href="/admin/tv-series/all" class="nav-link ">
                                         <i class="fa fa-edit"></i>
-                                        <span class="title">Add Episodes<span>
-                                        <span class="selected"></span>
-                                    </a>
-                                </li>
-								<li class="nav-item start  <?php // echo active('dashboard.php'); ?>">
-                                    <a href="dashboard.php" class="nav-link ">
-                                        <i class="fa fa-edit"></i>
-                                        <span class="title">Edit tv series<span>
-                                        <span class="selected"></span>
-                                    </a>
-                                </li>
-								<li class="nav-item start  <?php // echo active('untvseries.php'); ?>">
-                                    <a href="untvseries.php" class="nav-link ">
-                                        <i class="fa fa-ban"></i>
-                                        <span class="title">Unpublished tv series<span>
-                                        <span class="selected"></span>
-                                    </a>
-                                </li>
-								<li class="nav-item start  <?php // echo active('dashboard.php'); ?>">
-                                    <a href="dashboard.php" class="nav-link ">
-                                        <i class="fa fa-trash-o"></i>
-                                        <span class="title">Trash tv series<span>
-                                        <span class="selected"></span>
-                                    </a>
-                                </li>
-								<li class="nav-item start  <?php // echo active('autotvseries.php'); ?>">
-                                    <a href="autotvseries.php" class="nav-link ">
-                                        <i class="fa fa-sort-amount-asc"></i>
-                                        <span class="title">Automatic add tv series<span>
+                                        <span class="title">View Tv Series<span>
                                         <span class="selected"></span>
                                     </a>
                                 </li>

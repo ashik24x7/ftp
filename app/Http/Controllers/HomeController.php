@@ -8,6 +8,7 @@ use App\Software;
 use App\Game;
 use App\Menu;
 use App\Shout;
+use App\Episode;
 use DB;
 
 class HomeController extends Controller
@@ -16,6 +17,7 @@ class HomeController extends Controller
     {
         $data['menu'] = Menu::with(['submenu'])->get();
         $data['movies'] = Movie::with(['category_name'])->orderBy('id','DESC')->paginate(18);
+        $data['episodes'] = Episode::with(['category_name','tvseries'])->orderBy('id','DESC')->paginate(6);
     	$data['softwares'] = Software::with(['category_name'])->orderBy('id','DESC')->paginate(18);
         $data['games'] = Game::with(['category_name'])->orderBy('id','DESC')->paginate(18);
     	return view('home.home',$data);

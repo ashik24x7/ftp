@@ -230,32 +230,33 @@
 }
 						</style>
 						<h3 class="block-head" style="margin-top:-10px;" >Recently Added TV Series
-						<a class="btn btn-md btn-3d main-bg fx animated fadeInUp pull-right" href="alltvseries.php?page=1" data-animate="fadeInUp" data-animation-delay="100" style="animation-delay: 100ms;-webkit-box-shadow: 0 0 0 0;box-shadow: 0 0 0 0;margin-right: 8px;margin-top: 4px;
+						<a class="btn btn-md btn-3d main-bg fx animated fadeInUp pull-right" href="/tv-series" data-animate="fadeInUp" data-animation-delay="100" style="animation-delay: 100ms;-webkit-box-shadow: 0 0 0 0;box-shadow: 0 0 0 0;margin-right: 8px;margin-top: 4px;
     padding: 2px 10px;">
 										<span>View All TV Series</span>
 									</a>
 						</h3> 
-					<?php // $items = tvSeries(6); 
-					//foreach($items as $item){
-					?>
-		
+					@foreach($episodes as $episode)
+					@php
+                        $path = $episode->category_name->drive.'/'.$episode->tvseries->title.'/';
+                        $path = str_replace(' ','%20',$path);
+                    @endphp
 					   <div class="cell-2 fx shop-item animated fadeInUp" data-animate="fadeInUp" style="padding-left:0px;padding-right:8px;">
 							
 							<div class="item-box">
 							
 								<div class="item-img">
-					<a href="single_episode.php?tvid=<?php // echo $item['TVID']; ?>&s=<?php // echo $item['epSeasons']; ?>&e=<?php // echo $item['epEpisode']; ?>">
-					<span class="sale" style="width: 80px;">Episode: <?php // echo $item['epEpisode']; ?></span>
-					<span class="sale2" style="width: 72px;">Seasons: <?php // echo $item['epSeasons']; ?></span>
-					<img alt="" src="../../Admin/main/TVseries/<?php // echo $item['TVtitle'].'/'.$item['TVID'].'/poster/'.$item['TVposter']; ?>"></a>
+					<a href="">
+					<span class="sale" style="width: 80px;">Episode: {{$episode->episode}}</span>
+					<span class="sale2" style="width: 72px;">Seasons: {{$episode->season}}</span>
+					<img alt="" src="{{'/'.$path.$episode->tvseries->poster}}"></a>
 								</div>
 								<h3 class="item-title">
-							<a href="single_episode.php?tvid=<?php // echo $item['TVID']; ?>&s=<?php // echo $item['epSeasons']; ?>&e=<?php // echo $item['epEpisode']; ?>"><?php // echo $item['TVtitle']; ?></a>
+							<a href="single_episode.php?tvid=<?php // echo $item['TVID']; ?>&s=<?php // echo $item['epSeasons']; ?>&e=<?php // echo $item['epEpisode']; ?>">{{$episode->tvseries->title}}</a>
 							</h3>
 							</div>
 					   </div>
 					   
-					<?php // } ?>	
+					@endforeach	
 										
 										
 						

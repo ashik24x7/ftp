@@ -24,4 +24,12 @@ class Tvseries extends Model
     	'published',
     	'uploaded_by'
     ];
+
+    public function category_name(){
+        return $this->belongsTo('App\Submenu','category');
+    }
+
+    public function episode(){
+        return $this->HasMany('App\Episode','tvseries_id');
+    }
 }
