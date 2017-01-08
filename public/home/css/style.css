@@ -1483,7 +1483,10 @@ header.top-head-4 .logo {
 	background: transparent url('../images/patterns/dots.png');
 }
 .gry-pattern {
-	background: #3D3D3D url('../images/dark-fine-wood.jpg');
+	background: linear-gradient(to bottom, #222 0%,#666 100%);
+	background: -moz-linear-gradient(to bottom, #222 0%,#666 100%);
+	background: -webkit-linear-gradient(to bottom, #222 0%,#666 100%);
+	background: -o-linear-gradient(to bottom, #222 0%,#666 100%);
 	background-repeat: repeat-x;
 	border-top: 1px #555 solid;
 	border-bottom: 1px #555 solid;

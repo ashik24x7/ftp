@@ -16,7 +16,7 @@
 		<!-- CSS StyleSheets -->
 		<link rel="shortcut icon" href="/home/images/favicon.ico">
 		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,800&amp;amp;subset=latin,latin-ext">
-		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="/home/css/font-awesome.min.css">
 
 		<link rel="stylesheet" href="/home/css/prettyPhoto.css">
 		<link rel="stylesheet" href="/home/css/slick.css">
@@ -66,7 +66,7 @@
 								<div class="portfolio-items" id="container">
                                 @foreach($games as $game)
                                 	@php
-			    						$path = '/'.$game->category_name->drive.'/'.$game->name.'/'.$game->cover;
+			    						$path = '/'.$game->category_name->drive.'/'.$game->name.'/';
 			    						$path = str_replace(' ','%20',$path);
 			    						$path = str_replace('[','%5B',$path);
 			    						$path = str_replace(']','%5D',$path);
@@ -76,13 +76,13 @@
 										<div class="portfolio-item" style="margin-top: 5px;margin-bottom:10px;">
 											<div class="img-holder">
 												<div class="img-over" style="display: none;">
-													<a href="/admin/game/{{strtolower(str_replace(' ','-',$game->name))}}" class="fx link undefined // animated fadeOutUp"><b class="fa fa-link"></b></a>
-													<a href="/admin/game/{{strtolower(str_replace(' ','-',$game->name))}}" class="fx zoom undefined animated fadeOutDown" data-gal="prettyPhoto[pp_gal]" title="Project Title"><b class="fa fa-search-plus"></b></a>
+													<a href="{{$path.$game->path}}" class="fx link undefined // animated fadeOutUp"><b class="fa fa-link"></b></a>
+													<a href="{{$path.$game->path}}" class="fx zoom undefined animated fadeOutDown" data-gal="prettyPhoto[pp_gal]" title="Project Title"><b class="fa fa-search-plus"></b></a>
 												</div>
-												<img alt="" src="{{$path}}">
+												<img alt="" src="{{$path.$game->cover}}">
 											</div>
 											<div class="name-holder">
-											<a href="/admin/game/{{strtolower(str_replace(' ','-',$game->name))}}" class="project-name" style="height:45px;" >{{$game->name}}</a>
+											<a href="{{$path.$game->path}}" class="project-name" style="height:45px;" >{{$game->name}}</a>
 											<span class="project-options">{{$game->category_name->menu_name}} ({{$game->size}})</span>
 										</div>
 										</div>

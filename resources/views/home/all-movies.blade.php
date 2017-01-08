@@ -15,7 +15,7 @@
 		<!-- CSS StyleSheets -->
 		<link rel="shortcut icon" href="/home/images/favicon.ico">
 		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,800&amp;amp;subset=latin,latin-ext">
-		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="/home/css/font-awesome.min.css">
 
 		<link rel="stylesheet" href="/home/css/prettyPhoto.css">
 		<link rel="stylesheet" href="/home/css/slick.css">
@@ -83,7 +83,7 @@
 									<div class="row">
 										@foreach($movies as $movie)
 											@php
-					    						$path = $movie->category_name->drive.'/'.$movie->category_name->menu_name.'/'.$movie->year.'/'.$movie->title.' ['.$movie->year.']/'.$movie->poster;
+					    						$path = '/'.$movie->category_name->drive.'/'.$movie->year.'/'.$movie->title.' ['.$movie->year.']/'.$movie->poster;
 					    						$path = str_replace(' ','%20',$path);
 					    						$path = str_replace('[','%5B',$path);
 					    						$path = str_replace(']','%5D',$path);

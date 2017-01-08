@@ -15,7 +15,7 @@
 		<!-- CSS StyleSheets -->
 		<link rel="shortcut icon" href="/home/images/favicon.ico">
 		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,800&amp;amp;subset=latin,latin-ext">
-		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="/home/css/font-awesome.min.css">
 
 		<link rel="stylesheet" href="/home/css/prettyPhoto.css">
 		<link rel="stylesheet" href="/home/css/slick.css">
@@ -111,7 +111,7 @@
 								<div class="team-box" style="">
 				    					<div class="team-img" style="margin-right:5px;margin-left:5px;">
 				    					@php
-				    						$path = $movie->category_name->drive.'/'.$movie->category_name->menu_name.'/'.$movie->year.'/'.$movie->title.' ['.$movie->year.']/'.$movie->poster;
+				    						$path = $movie->category_name->drive.'/'.$movie->year.'/'.$movie->title.' ['.$movie->year.']/'.$movie->poster;
 				    						$path = str_replace(' ','%20',$path);
 				    						$path = str_replace('[','%5B',$path);
 				    						$path = str_replace(']','%5D',$path);
@@ -176,7 +176,7 @@
 									<div class="portfolio-items" id="container">
                                 @foreach($games as $game)
                                 	@php
-				    						$path = $game->category_name->drive.'/'.$game->name.'/'.$game->cover;
+				    						$path = $game->category_name->drive.'/'.$game->name.'/';
 				    						$path = str_replace(' ','%20',$path);
 				    						$path = str_replace('[','%5B',$path);
 				    						$path = str_replace(']','%5D',$path);
@@ -186,15 +186,14 @@
 										<div class="portfolio-item">
 											<div class="img-holder">
 												<div class="img-over" style="display: none;">
-													<a href="/admin/game/{{strtolower(str_replace(' ','-',$game->name))}}" class="fx link undefined animated fadeOutUp"><b class="fa fa-link"></b></a>
+													<a href="/game/{{strtolower(str_replace(' ','-',$game->name))}}" class="fx link undefined animated fadeOutUp"><b class="fa fa-link"></b></a>
 													<a href="" class="fx zoom undefined animated fadeOutDown" data-gal="prettyPhoto[pp_gal]" title="Project Title"><b class="fa fa-search-plus"></b></a>
 												</div>
-												<a href="/admin/game/{{strtolower(str_replace(' ','-',$game->name))}}"><img alt="" src="{{$path}}"></a>
+												<a href="{{$path.$game->path}}"><img alt="" src="{{$path.$game->cover}}"></a>
 											</div>
 											<div class="name-holder">
-											<a href="/admin/game/{{strtolower(str_replace(' ','-',$game->name))}}" class="project-name" style="height:45px;">{{$game->name}} [ {{$game->size}} ]</a>
-											<p style="width:40%; font-size:13px;float:right;margin-left:5px;"><i class="fa fa-eye"></i> {{$game->views}}</p>
-											<span class="project-options"> {{$game->category_name->menu_name}}</span>
+											<a href="{{$path.$game->path}}" class="project-name" style="height:45px;">{{$game->name}} [ {{$game->size}} ]</a>
+											<p style="width:40%; font-size:13px;float:right;margin-left:5px;"><i class="fa fa-eye"></i> {{$game->views}}</p><span class="project-options"> {{$game->category_name->menu_name}}</span>
 										</div>
 										</div>
 									</div>
@@ -245,13 +244,13 @@
 							<div class="item-box">
 							
 								<div class="item-img">
-					<a href="">
+					<a href="/tv-series/{{$episode->tvseries->id}}/season/{{$episode->season}}/episode/{{$episode->episode}}">
 					<span class="sale" style="width: 80px;">Episode: {{$episode->episode}}</span>
 					<span class="sale2" style="width: 72px;">Seasons: {{$episode->season}}</span>
 					<img alt="" src="{{'/'.$path.$episode->tvseries->poster}}"></a>
 								</div>
 								<h3 class="item-title">
-							<a href="single_episode.php?tvid=<?php // echo $item['TVID']; ?>&s=<?php // echo $item['epSeasons']; ?>&e=<?php // echo $item['epEpisode']; ?>">{{$episode->tvseries->title}}</a>
+							<a href="/tv-series/{{$episode->tvseries->id}}/season/{{$episode->season}}/episode/{{$episode->episode}}">{{$episode->tvseries->title}}</a>
 							</h3>
 							</div>
 					   </div>
@@ -270,7 +269,9 @@
 				<div class="sectionWrapper" style="background-color:#171717;height:330px;">
 				
 					<div class="container" >
-					<h3 class="block-head" style="margin-top: -70px;margin-bottom: 28px;" >Recently Added Softwares</h3> 
+					<h3 class="block-head" style="margin-top: -70px;margin-bottom: 28px;" >Recently Added Softwares
+						<a class="btn btn-md btn-3d main-bg fx animated fadeInUp pull-right" href="/softwares" data-animate="fadeInUp" data-animation-delay="100" style="animation-delay: 100ms;-webkit-box-shadow: 0 0 0 0;box-shadow: 0 0 0 0;margin-right: 14px;margin-top: 4px;padding: 2px 10px;"><span>View All Softwares</span></a>
+					</h3> 
 						<div class="row">
 							<div class="cell-12">
 			
@@ -359,8 +360,7 @@
 			<!-- Content End -->
 			
 			<!-- Footer start -->
-	<?php // include('includes/footer.php'); ?>
-		    <!-- Footer end -->
+			@include('home.partial.footer')
 		    
 			<!-- Back to top Link -->
 			<div id="to-top" class="main-bg"><span class="fa fa-chevron-up"></span></div>

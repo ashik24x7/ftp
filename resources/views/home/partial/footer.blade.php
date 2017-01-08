@@ -12,7 +12,7 @@
 						    <div class="cell-7">
 							    <ul class="social-list right">
 								    
-								    <li class="skew-25"><a href="#" data-title="facebook" data-tooltip="true"><span class="fa fa-facebook skew25"></span></a></li>
+								    <li class="skew-25"><a href="https://www.facebook.com/ebox.live/" data-title="facebook" data-tooltip="true" target="_blank"><span class="fa fa-facebook skew25"></span></a></li>
 								    <li class="skew-25"><a href="#" data-title="linkedin" data-tooltip="true"><span class="fa fa-linkedin skew25"></span></a></li>
 								   
 							    </ul>

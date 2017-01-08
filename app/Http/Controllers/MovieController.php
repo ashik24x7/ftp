@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Submenu;
+use App\Menu;
+use App\Shout;
 use App\Quality;
 use App\Movie;
+use \DB;
 
 class MovieController extends Controller
 {	
@@ -36,7 +39,7 @@ class MovieController extends Controller
     	$message = [];
     	$category = Submenu::where('id',$request->category)->first();
     	
-    	$path = $category->drive . DIRECTORY_SEPARATOR . $category->menu_name . DIRECTORY_SEPARATOR .$request->year;
+    	$path = $category->drive . DIRECTORY_SEPARATOR .$request->year;
 
     	if (is_dir(public_path($path))){
     		$dir = opendir($path);
@@ -238,7 +241,7 @@ class MovieController extends Controller
     	
     	$category = Submenu::where('id',$request->category)->first();
     	
-    	$path = $category->drive. DIRECTORY_SEPARATOR .$category->menu_name. DIRECTORY_SEPARATOR .$request->year. DIRECTORY_SEPARATOR .$request->title.' ['.$request->year.']';
+    	$path = $category->drive. DIRECTORY_SEPARATOR .  $request->year. DIRECTORY_SEPARATOR .$request->title.' ['.$request->year.']';
 
     	if($poster = $request->file('poster')){
     		$poster_name = str_random(20).'.'.$poster->extension();
@@ -464,6 +467,64 @@ class MovieController extends Controller
         $data['shout'] = Shout::orderBy('created_at','DESC')->paginate(15);
     	$data['movie'] = Movie::with(['category_name'])->where('title',$id)->first();
         return view('home.single-movie',$data);
+    }
+
+    public function allMovies()
+    {
+        $data['menu'] = Menu::with(['submenu'])->get();
+        $data['movies'] = Movie::with(['category_name'])->orderBy('id','DESC')->paginate(42);
+        return view('home.all-movies',$data);
+    }
+
+    public function getEditMovie($id){
+    	$data['category'] = Submenu::where(['visible' => 1, 'main_menu' => 1])->get();
+    	$data['movies'] = Movie::findOrFail($id);
+    	return view('admin.edit-movie',$data);
+    }
+
+    public function updateMovie(Request $request){
+    	$this->validate($request,[
+    		'trailer' => 'required',
+	    	'title' => 'required',
+	    	'id' => 'required',
+	    	'year' => 'required',
+	    	'category' => 'required',
+	    	'rating' => 'required',
+	    	'published' => 'required',
+	    	'time' => 'required',
+	    	'story' => 'required',
+	    	'path' => 'required'
+    	]);
+
+    	$data = $request->only('trailer','title','year','category','rating','published','genre','release_date','language','website','time','kewyword','story','path','poster');
+    	$category = Submenu::where('id',$request->category)->first();
+    	$new_poster = request()->file('new_poster');
+    	if($new_poster){
+    		$destination_path ='/'.$category->drive.'/'.$request->year.'/'.$request->title.' ['.$request->year.']';
+    		$poster_name = str_random(20).'.'.$new_poster->extension();
+    		if($new_poster->move(public_path($destination_path),$poster_name)){
+    			unlink(public_path($destination_path).'/'.$data['poster']);
+    			$data['poster'] = $poster_name;
+    		}else{
+    			exit;
+    		}
+    	}
+    	$movie = Movie::find($request->id);
+    	if($movie->update($data)){
+    		return redirect()->to('/admin/movie/'.$request->id.'/edit')->with('messages',$request->title.' has updated!');
+    	}else{
+    		return redirect()->to('/admin/movie/'.$request->id.'/edit')->with('messages',$request->title.' updation failed!');
+    	}
+    }
+
+    public function deleteMovie($id){
+    	$movie = Movie::find($id);
+    	$movie_name = $movie->title;
+    	if($movie->delete()){
+    		return redirect()->to('/admin/movie/all')->with('messages',$movie_name.' has deleted!');
+    	}else{
+    		return redirect()->to('/admin/movie/all')->with('messages',$movie_name.' deleatation failed!');
+    	}
     }
 
 }

@@ -191,7 +191,7 @@
 									<!-- OGG for Firefox 3 -->
 									<source type="video/ogg" src="{{$path.'/'.$movie->path}}" />
 								@elseif(strpos($movie->path,'.mkv'))
-									<source type="video/mkv" src="{{$path.'/'.$movie->path}}" />
+									<source type="video/mp4" src="{{$path.'/'.$movie->path}}" />
 									<!-- Fallback flash player for no-HTML5 browsers with JavaScript turned off -->
 								@else
 									<!-- <!-- Fallback flash player for no-HTML5 browsers with JavaScript turned off -->
@@ -294,43 +294,26 @@ $('audio,video').mediaelementplayer({
 										<div id="tabs" class="tabs">
 											<ul>
 												<li class="skew-25 active"><a href="#" class="skew25">Cast</a></li>
-												<li class="skew-25"><a href="#" class="skew25">Crew</a></li>
-												<li class="skew-25"><a href="#" class="skew25">Reviews</a></li>
 												<li class="skew-25"><a href="#" class="skew25">Trailers</a></li>
 												<li class="skew-25"><a href="#" class="skew25">Comments</a></li>
 											</ul>
 									 <div class="tabs-pane">
 								     <div class="tab-panel active"> <!-- /// Cast tab // -->
-								     	<div class="cell-3 fx" data-animate="bounceInUp">
-											<div class="team-box-2">
-						    					<div class="team-img">
-						    						<a href="'.URL.'/themes/'.THEME.'/about-actor.php?id="><img alt="" src=""></a>
-						    					</div>
-						    					<div class="team-details">
-					                                <h3 style="font-size:14px;">amitab</h3>
-					                                <div class="t-position" style="margin-top:-10px;height:41px;">amitab</div>
-						    					</div>
-						    				</div>
+								     	<div class="cell-12 fx" data-animate="bounceInUp" style="padding: 0px;font-size: 16px;line-height: 30px;">
+												{{str_replace(',',', ',$movie->cast)}}
 										</div>
                                      </div>
-									
-									   
-									<div class="tab-panel">   <!-- Crew //// -->
-								   <?php // CollectCrew($imdbid,$link); ?>
+
+									<div class="tab-panel">
+										<div class="tab-panel">
+										@php 
+											$trailer = explode(',',$movie->trailer);
+										@endphp	
+										@foreach($trailer as $key)
+											<iframe width="355" height="260" src="https://www.youtube.com/embed/{{$key}}" frameborder="0" style="margin:10px;" allowfullscreen></iframe>
+										@endforeach
+										</div>
 									</div>
-									
-												<div class="tab-panel">
-													 <div class="reviews">
-														<div class="comments">
-															
-														    <ul class="comment-list">
-														       <?php // CollectReviews($imdbid); ?>
-														</div>
-													</div>
-												</div>
-												<div class="tab-panel">
-													 <?php // CollectYoutubeTrailers($imdbid); ?>
-												</div>
 												<div class="tab-panel">
 													 <div id="disqus_thread"></div>
 <script>

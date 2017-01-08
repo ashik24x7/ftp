@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Submenu;
 use App\Software;
+use App\Menu;
+use App\Game;
 
 class SoftwareController extends Controller
 {
@@ -94,5 +96,12 @@ class SoftwareController extends Controller
         }else{
             return redirect()->to('/admin/software/add')->with('errors', $errors);
         }
+    }
+
+    public function allSoftwares(){
+        $data['menu'] = Menu::with(['submenu'])->get();
+        $data['softwares'] = Software::with(['category_name'])->orderBy('id','DESC')->paginate(18);
+        $data['games'] = Game::with(['category_name'])->orderBy('id','DESC')->paginate(8);
+        return view('home.all-softwares',$data);
     }
 }

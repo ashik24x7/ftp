@@ -12,7 +12,9 @@
 */
 
 Route::get('/','HomeController@index');
-Route::get('/movies','HomeController@allMovies');
+Route::get('/filter/{str}','HomeController@filter');
+
+Route::get('/movies','MovieController@allMovies');
 Route::get('/movie/{id}','MovieController@singleMovie');
 Route::get('/admin','AdminController@getLogin');
 Route::post('/admin','AdminController@postLogin');
@@ -20,13 +22,19 @@ Route::get('/admin/register','AdminController@getRegister');
 Route::post('/admin/register','AdminController@postRegister');
 Route::post('/shout','HomeController@shout');
 
+Route::post('/search','HomeController@search');
+
 Route::get('/games','GameController@getAllGame');
 Route::get('/game/{id}','GameController@getSingleGame');
 
 
-Route::get('/softwares','HomeController@allSoftwares');
 
+Route::get('/softwares','SoftwareController@allSoftwares');
+
+Route::get('/tv-series/{id}','TvseriesController@singleTvSeries');
 Route::get('/tv-series','TvseriesController@allTvSeries');
+
+Route::get('/tv-series/{tv}/season/{season}/episode/{episode}','EpisodeController@singleEpisode');
 
 Route::group(['middleware'=>'admin'],function(){
 	Route::get('/admin/home','AdminController@getHome');
@@ -42,6 +50,9 @@ Route::group(['middleware'=>'admin'],function(){
 	Route::post('/admin/sub-menu','MenuController@postSubMenu');
 
 	Route::get('/admin/movie/all','MovieController@getAllMovies');
+	Route::get('/admin/movie/{id}/edit','MovieController@getEditMovie');
+	Route::post('/admin/movie/update','MovieController@updateMovie');
+	Route::post('/admin/movie/{id}','MovieController@deleteMovie');
 	Route::get('/admin/movie/filter/{id}','MovieController@getFilterMovies');
 
 	Route::get('/admin/software/add','SoftwareController@getAddSoftware');

@@ -17,4 +17,8 @@ class Submenu extends Model
     public function mainmenu(){
     	return $this->belongsTo(Menu::class,'main_menu');
     }
+
+    public function movies(){
+        return $this->hasMany(Movie::class,'category');
+    }
 }

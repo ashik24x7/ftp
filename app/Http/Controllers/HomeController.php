@@ -7,8 +7,10 @@ use App\Movie;
 use App\Software;
 use App\Game;
 use App\Menu;
+use App\Submenu;
 use App\Shout;
 use App\Episode;
+use App\Tvseries;
 use DB;
 
 class HomeController extends Controller
@@ -23,11 +25,31 @@ class HomeController extends Controller
     	return view('home.home',$data);
     }
 
-    public function allMovies()
-    {
+
+    public function filter($str){
+        $str = str_replace('-', ' ', $str);
+        $category = Submenu::with(['mainmenu'])->where('menu_name','like',"%$str%")->first();
+        $filter = strtolower($category->mainmenu->menu_name);
+
         $data['menu'] = Menu::with(['submenu'])->get();
-        $data['movies'] = Movie::with(['category_name'])->orderBy('id','DESC')->paginate(42);
-        return view('home.all-movies',$data);
+
+        if(strpos($filter,'mov') !== false){
+            $data['movies'] = Movie::with(['category_name'])->where('category','=',$category->id)->orderBy('id','DESC')->paginate(42);
+            return view('home.all-movies',$data);
+        }elseif(strpos($filter,'tv') !== false){
+            $data['tvseries'] = Tvseries::with(['category_name'])->where('category','=',$category->id)->orderBy('id','DESC')->paginate(18);
+            return view('home.all-tv-series',$data);
+        }elseif(strpos($filter,'gam') !== false){
+            $data['games'] = Game::with(['category_name'])->where('category','=',$category->id)->orderBy('id','DESC')->paginate(18);
+            return view('home.all-games',$data);
+        }elseif(strpos($filter,'soft') !== false){
+            $data['softwares'] = Software::with(['category_name'])->where('category','=',$category->id)->orderBy('id','DESC')->paginate(18);
+
+            $data['games'] = Game::with(['category_name'])->orderBy('id','DESC')->paginate(8);
+            return view('home.all-softwares',$data);
+        }else{
+            return redirect()->back();
+        }
     }
     
     public function shout(Request $request){
@@ -55,6 +77,19 @@ class HomeController extends Controller
         }else{
             return 'There is an error';
         }
+
+    }
+
+    public function search(Request $request){
+        $this->validate($request,[
+            'str' => 'required'
+        ]);
+
+        $data['movies'] = Movie::with(['category_name'])->where('title','like',"%$request->str%")->orderBy('id','DESC')->paginate(2);
+        $data['softwares'] = Software::with(['category_name'])->where('name','like',"%$request->str%")->orderBy('id','DESC')->paginate(2);
+        $data['games'] = Game::with(['category_name'])->where('name','like',"%$request->str%")->orderBy('id','DESC')->paginate(2);
+        $data['tvseries'] = Tvseries::with(['category_name'])->where('title','like',"%$request->str%")->orderBy('id','DESC')->paginate(2);
+        return $data;
 
     }
 

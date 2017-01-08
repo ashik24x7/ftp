@@ -17,7 +17,7 @@
 		<!-- CSS StyleSheets -->
 		<link rel="shortcut icon" href="/home/images/favicon.ico">
 		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,800&amp;amp;subset=latin,latin-ext">
-		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="/home/css/font-awesome.min.css">
 
 		<link rel="stylesheet" href="/home/css/prettyPhoto.css">
 		<link rel="stylesheet" href="/home/css/slick.css">
@@ -185,8 +185,8 @@
 														<span class="imdb-rating"><b><b class="fa fa-star"></b></b>{{$key->rating}}</span>
 													</div>
 													
-													<a href="/key/{{strtolower(str_replace(' ','-',$key->title))}}">
-							    					<div class="team-details"  href="/key/{{strtolower(str_replace(' ','-',$key->title))}}" style="height:267px;background-color:rgba(0, 0, 0, 0.5);margin-left:0px;width:97.5%;">
+													<a href="/tv-series/{{strtolower(str_replace(' ','-',$key->title))}}">
+							    					<div class="team-details"  href="/tv-series/{{strtolower(str_replace(' ','-',$key->title))}}" style="height:267px;background-color:rgba(0, 0, 0, 0.5);margin-left:0px;width:97.5%;">
 						                               
 														<p style="height: 100px !important; margin: -4px 0px 0px 0px;">
 											{{ $key->title }}
@@ -195,7 +195,7 @@
 											@php
 												$trailer = explode(",",$key->trailer);
 											@endphp
-											<a href="/key/{{strtolower(str_replace(' ','-',$key->title))}}" class="play-hover" ><i class="fa fa-play-circle play-btn"></i></a>
+											<a href="/tv-series/{{strtolower(str_replace(' ','-',$key->title))}}" class="play-hover" ><i class="fa fa-play-circle play-btn" style="font-size: 60px;margin-top: -30px;margin-left: 55px;margin-bottom: 30px;"></i></a>
 											<br>
 											<p style="background: radial-gradient(#1E8CAB, #09009a); width:40%; font-size:13px;float:right;margin-left:5px;"><i class="fa fa-eye"></i> {{$key->views}}</p>
 											<p style="background: radial-gradient(#5bf77d, #1f730a);font-size:13px;width:55%;float:left;"><span style="color:#000;font-family:impact;"></span><span style="font-family:tahoma;font-weight:bold;color:#333;margin-bottom:10%;">{{$key->category_name->menu_name}}</span></p>

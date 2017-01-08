@@ -74,6 +74,30 @@
                     <h3 class="page-title"> View All Movies
                         
                     </h3>
+<div class="row">
+    <div class="col-md-12">
+        <ul class="task-list" style="list-style: none">
+        @if(session('errors'))
+            @foreach(session('errors') as $error)
+                <li>
+                    <div class="task-title">
+                        <span class="task-title-sp" style="color: red"><i class="fa fa-times" aria-hidden="true"></i> {!!$error!!}</span>
+                        <span class="label label-sm label-danger"></span>
+                    </div>
+                </li>
+            @endforeach
+        @endif
+        @if(session('messages'))
+                <li>
+                    <div class="task-title">
+                        <span class="task-title-sp"><i class="fa fa-check-square-o" aria-hidden="true" style="color:green"></i> {{session('messages')}}</span>
+                        <span class="label label-sm label-success"></span>
+                    </div>
+                </li>
+        @endif
+        </ul>
+    </div>
+</div>
                     <div class="row">
                         <div class="col-md-12">
                             <!-- BEGIN EXAMPLE TABLE PORTLET-->
@@ -100,10 +124,11 @@
                                         <tbody>
                                         @foreach($movies as $movie)
                                             @php
-                                                $path = '/'.$movie->category_name->drive.'/'.$movie->category_name->menu_name.'/'.$movie->year.'/'.$movie->title.' ['.$movie->year.']/'.$movie->poster;
+                                                $path = '/'.$movie->category_name->drive.'/'.$movie->year.'/'.$movie->title.' ['.$movie->year.']/'.$movie->poster;
                                                 $path = str_replace(' ','%20',$path);
                                                 $path = str_replace('[','%5B',$path);
                                                 $path = str_replace(']','%5D',$path);
+                                                $path = str_replace("'",'%27',$path);
 
                                             @endphp
                                             <tr>
@@ -116,9 +141,9 @@
                                                 <td><p>{{$movie->size}}</p></td>
                                                 <td><p><span style='font-family:tahoma;font-weight:bold;'>{{$movie->rating}}/10</span></p></td>
                                                 <td>
-                                				<a class="btn purple btn-outline sbold" href="/admin/movie/{{$movie->title}}/edit" data-toggle="tooltip" title="Edit"> <i class="fa fa-edit"></i> </a>
+                                				<a class="btn purple btn-outline sbold" href="/admin/movie/{{$movie->id}}/edit" data-toggle="tooltip" title="Edit"> <i class="fa fa-edit"></i> </a>
                                 				 </td>
-                                				<td><a href="/admin/movie/{{$movie->title}}" class="btn btn-warning delete" data-toggle="tooltip" title="delete"><i class="fa fa-trash"></i></a></td>
+                                				<td><a href="/admin/movie/{{$movie->id}}" class="btn btn-warning delete" data-toggle="tooltip" title="delete"><i class="fa fa-trash"></i></a></td>
                                             </tr>
                                         @endforeach
                                         </tbody>

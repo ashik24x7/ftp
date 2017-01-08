@@ -7,6 +7,7 @@ use App\Submenu;
 use App\Tvseries;
 use App\Episode;
 use App\Menu;
+use DB;
 
 class TvseriesController extends Controller
 {
@@ -201,5 +202,13 @@ class TvseriesController extends Controller
         $data['tvseries'] = Tvseries::with(['category_name','episode'])->orderBy('id','DESC')->paginate(18);
     	$data['menu'] = Menu::with(['submenu'])->get();
     	return view('home.all-tv-series',$data);
+    }
+
+    public function singleTvSeries($id){
+    	$id = str_replace('-', ' ', $id);
+        DB::table('tvseries')->where('title',$id)->increment('views',1);
+    	$data['tvseries'] = Tvseries::with(['category_name'])->where('title',$id)->first();
+    	$data['menu'] = Menu::with(['submenu'])->get();
+    	return view('home.single-tv-series',$data);
     }
 }

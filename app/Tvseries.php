@@ -32,4 +32,5 @@ class Tvseries extends Model
     public function episode(){
         return $this->HasMany('App\Episode','tvseries_id');
     }
+
 }

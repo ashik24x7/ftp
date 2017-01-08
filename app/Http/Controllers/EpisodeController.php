@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Tvseries;
 use App\Episode;
+use App\Menu;
 
 class EpisodeController extends Controller
 {
@@ -49,7 +50,7 @@ class EpisodeController extends Controller
     			}elseif(strpos($file,'.mkv') || stripos($file,'.mp4') || stripos($file,'.avi') || stripos($file,'.vob')){
     				$episode = Episode::pluck('path')->toArray();
     				if(!in_array($file, $episode)){
-	    				$data['episode'] = $i++;
+	    				$data['episode'] = $i;
 	    				$data['path'] = $file;
 	    				$data['size'] = $this->byte_to_human(filesize($path.DIRECTORY_SEPARATOR.$file));
 	    				$quality = explode('__', $file);
@@ -60,6 +61,7 @@ class EpisodeController extends Controller
 							$errors[] = 'Error at <b style="font-weight:bold;">Episode: '.$data['episode'].'</b>';
 						}
 	    			}
+	    			$i++;
     			}
     		}
     	}
@@ -70,8 +72,12 @@ class EpisodeController extends Controller
     	}else{
     		return redirect()->to($to)->with('messages',$message);
     	}
+    }
 
 
-
+    public function singleEpisode($tv,$season,$episode){
+    	$data['episode'] = Episode::with(['category_name','tvseries'])->where(['tvseries_id'=>$tv,'season'=>$season,'episode'=>$episode])->first();
+    	$data['menu'] = Menu::with(['submenu'])->get();
+    	return view('home.single-tv-episode',$data);
     }
 }
