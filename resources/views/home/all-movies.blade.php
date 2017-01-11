@@ -46,6 +46,7 @@
 			margin-top: -16px;
 			}
 			div.team-details > a.play-hover > i:hover {color:#fff;}
+			
 		</style>
 
 
@@ -135,9 +136,9 @@
 								
 								<div class="clearfix"></div>
 								<div class="pager skew-25" style="margin-bottom:20px;">
-						    		<ul>
-						    			{{$movies->links()}}
-						    		</ul>
+								<ul>
+									{{$movies->links()}}
+								</ul>
 					    		</div>
 							</div>
 						</div>

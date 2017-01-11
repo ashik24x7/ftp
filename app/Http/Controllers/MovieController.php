@@ -446,7 +446,24 @@ class MovieController extends Controller
     }
 
     public function getAllMovies(){
+
+    	$search = Movie::pluck('title');
+    	$str = '';
+    	foreach ($search as $key) {
+    		$str .= '"'.$key.'",';
+    	}
+    	$data['search'] = rtrim($str,',');
     	$data['movies'] = Movie::paginate(5);
+    	return view('admin.all-movies',$data);
+    }
+    public function adminFilterMovies(Request $request){
+    	$search = Movie::pluck('title');
+    	$str = '';
+    	foreach ($search as $key) {
+    		$str .= '"'.$key.'",';
+    	}
+    	$data['search'] = rtrim($str,',');
+    	$data['movies'] = Movie::where('title',$request->str)->paginate(5);
     	return view('admin.all-movies',$data);
     }
 
@@ -503,7 +520,9 @@ class MovieController extends Controller
     		$destination_path ='/'.$category->drive.'/'.$request->year.'/'.$request->title.' ['.$request->year.']';
     		$poster_name = str_random(20).'.'.$new_poster->extension();
     		if($new_poster->move(public_path($destination_path),$poster_name)){
-    			unlink(public_path($destination_path).'/'.$data['poster']);
+    			if(file_exists(public_path($destination_path).'/'.$data['poster'])){
+    				unlink(public_path($destination_path).'/'.$data['poster']);
+    			}
     			$data['poster'] = $poster_name;
     		}else{
     			exit;

@@ -31,6 +31,8 @@
         <link href="/backend/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css" />
         <!-- END THEME LAYOUT STYLES -->
         <link rel="shortcut icon" href="favicon.ico" /> </head>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        
     <!-- END HEAD -->
 
     <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
@@ -71,9 +73,21 @@
                     </div>
                     <!-- END PAGE BAR -->
                     <!-- BEGIN PAGE TITLE-->
-                    <h3 class="page-title"> View All Movies
-                        
-                    </h3>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h3 class="page-title"> View All Movies</h3>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="pull-right" style="margin-top: 30px">
+                                <form action="{{ url('/admin/movie/search') }}" method="post">
+                                {{csrf_field()}}
+                                    <input type="text" id="tags" name="str">
+                                    <input type="submit" value="Search">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 <div class="row">
     <div class="col-md-12">
         <ul class="task-list" style="list-style: none">
@@ -210,7 +224,18 @@
         return true;
     });
 });
+
 		</script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script>
+          $( function() {
+            var availableTags = [{!!$search!!}];
+            $( "#tags" ).autocomplete({
+              source: availableTags
+            });
+        } );
+          </script>
+
     </body>
 
 </html>

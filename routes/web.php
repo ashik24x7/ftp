@@ -52,8 +52,11 @@ Route::group(['middleware'=>'admin'],function(){
 	Route::get('/admin/movie/all','MovieController@getAllMovies');
 	Route::get('/admin/movie/{id}/edit','MovieController@getEditMovie');
 	Route::post('/admin/movie/update','MovieController@updateMovie');
-	Route::post('/admin/movie/{id}','MovieController@deleteMovie');
 	Route::get('/admin/movie/filter/{id}','MovieController@getFilterMovies');
+	Route::get('/admin/movie/search','MovieController@getAllMovies');
+	Route::post('/admin/movie/search','MovieController@adminFilterMovies');
+
+	Route::post('/admin/movie/{id}','MovieController@deleteMovie');
 
 	Route::get('/admin/software/add','SoftwareController@getAddSoftware');
 	Route::post('/admin/software/add','SoftwareController@postAddSoftware');

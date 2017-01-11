@@ -66,7 +66,7 @@
                         </div>
                         <div class="details">
                             <div class="number">
-                                <span data-counter="counterup" data-value="50">0</span>
+                                <span data-counter="counterup" data-value="{{$movies}}">0</span>
                             </div>
                             <div class="desc"> Total Movies </div>
                         </div>
@@ -80,7 +80,7 @@
                         </div>
                         <div class="details">
                             <div class="number">
-                                <span data-counter="counterup" data-value="60">0</span></div>
+                                <span data-counter="counterup" data-value="{{$tvseries}}">0</span></div>
                             <div class="desc"> Total Tv Series </div>
                         </div>
                         
@@ -93,7 +93,7 @@
                         </div>
                         <div class="details">
                             <div class="number">
-                                <span data-counter="counterup" data-value="80">0</span>
+                                <span data-counter="counterup" data-value="{{$games}}">0</span>
                             </div>
                             <div class="desc"> Total Games </div>
                         </div>
@@ -107,7 +107,7 @@
                         </div>
                         <div class="details">
                             <div class="number">
-                                <span data-counter="counterup" data-value="56">0</span></div>
+                                <span data-counter="counterup" data-value="{{$softwares}}">0</span></div>
                             <div class="desc"> Total Software </div>
                         </div>
                         

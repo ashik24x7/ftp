@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Admin;
 use Auth;
 use App\Submenu;
+use App\Game;
+use App\Movie;
+use App\Software;
+use App\Tvseries;
 
 class AdminController extends Controller
 {
@@ -56,7 +60,11 @@ class AdminController extends Controller
     }
 
     public function getHome(){
-    	return view('admin.home');
+        $data['movies'] = Movie::all()->count();
+        $data['softwares'] = Software::all()->count();
+        $data['games'] = Game::all()->count();
+        $data['tvseries'] = Tvseries::all()->count();
+    	return view('admin.home',$data);
     }
 	
 	

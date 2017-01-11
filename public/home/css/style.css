@@ -8796,3 +8796,6 @@ i.icon {
 .product-specs a.btn {
 	text-shadow: none;
 }
+.active {
+    background: #e8522f !important;
+}
