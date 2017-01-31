@@ -174,7 +174,7 @@
 								</div>
 								@endif	
 								@php
-		    						$path = '/fs1/movies/'.$movie->category_name->menu_name.'/'.$movie->year.'/'.$movie->title.' ['.$movie->year.']';
+		    						$path = '/'.$movie->category_name->drive.'/'.$movie->year.'/'.$movie->title.' ['.$movie->year.']';
 		    						$path = str_replace(' ','%20',$path);
 		    						$path = str_replace('[','%5B',$path);
 		    						$path = str_replace(']','%5D',$path);
