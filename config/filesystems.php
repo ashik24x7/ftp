@@ -45,7 +45,7 @@ return [
 
         'local' => [
             'driver' => 'local',
-            'root' => storage_path('app'),
+            'root' => storage_path('app/public'),
         ],
 
         'public' => [
@@ -65,11 +65,12 @@ return [
         'ftp' => [
             'driver'   => 'ftp',
             'host'     => '43.230.123.21',
-            'username' => 'root',
-            'password' => '123456zz',
+            'username' => 'ebox',
+            'password' => 'ebox@3214',
 
             // Optional FTP Settings...
-            'port'     => 22,
+            'port'     => 21,
+            'root'     => '/var/www/html/files/',
             // 'root'     => '',
             // 'passive'  => true,
             // 'ssl'      => true,

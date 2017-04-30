@@ -41,169 +41,180 @@ class MovieController extends Controller
     	
     	$path = $category->drive . DIRECTORY_SEPARATOR .$request->year;
 
-    	if (is_dir(public_path($path))){
-    		$dir = opendir($path);
+    	if (Storage::disk('ftp')->exists($path)){
+    		$dir = Storage::disk('ftp')->directories($path);
     		$movies = Movie::pluck('title')->toArray();
-    		while ($files = readdir($dir)) {
-    			if($files == '.' || $files == '..'){
-    				continue;
-    			}else{
-	    			$tmp_data = explode('[', $files);
-	    			$movie_name = trim($tmp_data[0]);
-	    			$movie_name_title = $movie_name;
 
-    				if(!in_array($movie_name, $movies)){
-	    				$tmp_movie_name = $files;
-	    				$movie_name = str_replace(" ","%20",$movie_name);
-	    				$omdbapi = @file_get_contents("http://www.omdbapi.com/?t=$movie_name&y=$request->year&plot=full");
-	    				if(!$omdbapi){
-	    					$errors[] = 'No information found from api for <b style="font-weight:bold">'.$tmp_movie_name.'</b>';
-	    					continue;
-	    				}
+    		foreach ($dir as $sub_path) {
+    			$data = explode("/",$sub_path);
+    			$files = end($data);
 
-	    				$json_imdb = json_decode($omdbapi, true);
-	    				if(isset($json_imdb['imdbID'])){
-		    				$api_id = $json_imdb['imdbID'];
-		    			}
-	    				$api = @file_get_contents("http://api.themoviedb.org/3/movie/".$api_id."?append_to_response=credits,images&api_key=f7d5dae12ee54dc9f51ccac094671b00");
+    			$tmp_data = explode('[', $files);
+    			$movie_name = trim($tmp_data[0]);
+    			$movie_name_title = $movie_name;
 
-	    				if(!$api){
-	    					$errors[] = 'No information found from api for <b style="font-weight:bold">'.$tmp_movie_name.'</b>';
-	    					continue;
-	    				}
+				if(!in_array($movie_name, $movies)){
+    				$tmp_movie_name = $files;
+    				$movie_name = str_replace(" ","%20",$movie_name);
+    				$omdbapi = @file_get_contents("http://www.omdbapi.com/?t=$movie_name&y=$request->year&plot=full");
+    				if(!$omdbapi){
+    					$errors[] = 'No information found from api for <b style="font-weight:bold">'.$tmp_movie_name.'</b>';
+    					continue;
+    				}
+
+    				$json_imdb = json_decode($omdbapi, true);
+    				if(isset($json_imdb['imdbID'])){
+	    				$api_id = $json_imdb['imdbID'];
+	    			}
+    				$api = @file_get_contents("http://api.themoviedb.org/3/movie/".$api_id."?append_to_response=credits,images&api_key=f7d5dae12ee54dc9f51ccac094671b00");
+
+    				if(!$api){
+    					$errors[] = 'No information found from api for <b style="font-weight:bold">'.$tmp_movie_name.'</b>';
+    					continue;
+    				}
 
 
-	    				$json = json_decode($api);
+    				$json = json_decode($api);
 
-	                    
-	                    if(!$json->poster_path){
-	                    	$movie_poster = '';
-	                    }else{
-	                    	$movie_poster = "http://image.tmdb.org/t/p/w342/".$json->poster_path;
-	                    }
-	                    $poster_exist = '';
+                    
+                    if(!$json->poster_path){
+                    	$movie_poster = '';
+                    }else{
+                    	$movie_poster = "http://image.tmdb.org/t/p/w342/".$json->poster_path;
+                    }
+                    $poster_exist = '';
 
-	                    $data['genre'] = '';
-	                    foreach ($json->genres as $key) {
-	                    	$data['genre'] .= $key->name.',';
-	                    }
-	                    $data['genre'] = trim($data['genre'],',');
+                    $data['genre'] = '';
+                    foreach ($json->genres as $key) {
+                    	$data['genre'] .= $key->name.',';
+                    }
+                    $data['genre'] = trim($data['genre'],',');
 
-	                    $data['language'] = '';
-	                    foreach ($json->spoken_languages as $key) {
-	                    	$data['language'] .= $key->name.',';
-	                    }
-	                    $data['language'] = trim($data['language'],',');
-	                    $data['title'] = $movie_name_title;
-				    	$data['year'] = $request->year;
-				    	$data['api_id'] = $json->imdb_id;
-				    	$data['category'] = $request->category;
+                    $data['language'] = '';
+                    foreach ($json->spoken_languages as $key) {
+                    	$data['language'] .= $key->name.',';
+                    }
+                    $data['language'] = trim($data['language'],',');
+                    $data['title'] = $movie_name_title;
+			    	$data['year'] = $request->year;
+			    	$data['api_id'] = $json->imdb_id;
+			    	$data['category'] = $request->category;
 
-				    	$fp2 = @file_get_contents("http://api.themoviedb.org/3/movie/".$api_id."/videos?api_key=f7d5dae12ee54dc9f51ccac094671b00");
-				    	if(!$fp2){
-	    					$errors[] = 'No information found from api for <b style="font-weight:bold">'.$tmp_movie_name.'</b>';
-	    					continue;
-	    				}
+			    	$fp2 = @file_get_contents("http://api.themoviedb.org/3/movie/".$api_id."/videos?api_key=f7d5dae12ee54dc9f51ccac094671b00");
+			    	if(!$fp2){
+    					$errors[] = 'No information found from api for <b style="font-weight:bold">'.$tmp_movie_name.'</b>';
+    					continue;
+    				}
 
-						$json2 = json_decode($fp2, true);
-						$trailer = $json2['results'];
-								
+					$json2 = json_decode($fp2, true);
+					$trailer = $json2['results'];
+							
 
-						foreach($trailer as $trailers=>$keytrailers){
-						   foreach($keytrailers as $alltrailers=>$allkeytrailers){
-							   	if($alltrailers == 'key'){
-							   		@ $finaltrailers .=  $allkeytrailers.',';
-							   	}
-						   } 
-						}
-				    	$data['trailer'] = isset($finaltrailers) ? trim($finaltrailers,',') : '';
+					foreach($trailer as $trailers=>$keytrailers){
+					   foreach($keytrailers as $alltrailers=>$allkeytrailers){
+						   	if($alltrailers == 'key'){
+						   		@ $finaltrailers .=  $allkeytrailers.',';
+						   	}
+					   } 
+					}
+			    	$data['trailer'] = isset($finaltrailers) ? trim($finaltrailers,',') : '';
 
-				    	$fp3 = @file_get_contents("http://api.themoviedb.org/3/movie/".$api_id."/keywords?api_key=f7d5dae12ee54dc9f51ccac094671b00");
-				    	if(!$fp3){
-	    					$errors[] = 'No information found from api for <b style="font-weight:bold">'.$tmp_movie_name.'</b>';
-	    					continue;
-	    				}
-						$json3 = json_decode($fp3, true);
-						$keywords = $json3['keywords'];
-						
-						foreach($keywords as $allkeywords=>$keykeywords){
-						   foreach($keykeywords as $totalkeywords=>$keytotalkeywords){
-							   if($totalkeywords == 'name'){
-									  @ $finalkeywords .=  $keytotalkeywords.',';
-							   }
+			    	$fp3 = @file_get_contents("http://api.themoviedb.org/3/movie/".$api_id."/keywords?api_key=f7d5dae12ee54dc9f51ccac094671b00");
+			    	if(!$fp3){
+    					$errors[] = 'No information found from api for <b style="font-weight:bold">'.$tmp_movie_name.'</b>';
+    					continue;
+    				}
+					$json3 = json_decode($fp3, true);
+					$keywords = $json3['keywords'];
+					
+					foreach($keywords as $allkeywords=>$keykeywords){
+					   foreach($keykeywords as $totalkeywords=>$keytotalkeywords){
+						   if($totalkeywords == 'name'){
+								  @ $finalkeywords .=  $keytotalkeywords.',';
 						   }
-					    }
+					   }
+				    }
 
-					    $data['cast'] = '';
-	                    foreach ($json->credits->cast as $key) {
-	                    	$data['cast'] .= $key->name.',';
-	                    }
+				    $data['cast'] = '';
+                    foreach ($json->credits->cast as $key) {
+                    	$data['cast'] .= $key->name.',';
+                    }
 
-	                    if($data['cast'] > 1500){
-	                    	$data['cast'] = substr($data['cast'],0,1300);
-	                    	return $data['cast'];
-	                    }
-				    	$data['cast'] = trim($data['cast'],',');
-				    	$data['rating'] = $json->vote_average;
-				    	$data['release_date'] = $json->release_date;
-				    	$data['website'] = $json->homepage;
-				        $data['time'] = $json->runtime;
-				    	$data['keyword'] = isset($finalkeywords) ? trim($finalkeywords,',') : '';
-				    	if(strlen($data['keyword']) > 2000){
-				    		$data['keyword'] = substr($data['keyword'],1,2000);
-				    	}
-				    	$data['story'] = $json->overview;
-				    	$data['uploaded_by'] = auth()->guard('admin')->user()->id;
-				    	$data['views'] = 1;
+                    if($data['cast'] > 1500){
+                    	$data['cast'] = substr($data['cast'],0,1300);
+                    	return $data['cast'];
+                    }
+			    	$data['cast'] = trim($data['cast'],',');
+			    	$data['rating'] = $json->vote_average;
+			    	$data['release_date'] = $json->release_date;
+			    	$data['website'] = $json->homepage;
+			        $data['time'] = $json->runtime;
+			    	$data['keyword'] = isset($finalkeywords) ? trim($finalkeywords,',') : '';
+			    	if(strlen($data['keyword']) > 2000){
+			    		$data['keyword'] = substr($data['keyword'],1,2000);
+			    	}
+			    	$data['story'] = $json->overview;
+			    	$data['uploaded_by'] = auth()->guard('admin')->user()->id;
+			    	$data['views'] = 1;
 
-	                    $sub_path = $path.DIRECTORY_SEPARATOR.$tmp_movie_name;
-	                    if (is_dir(public_path($sub_path))){
-				    		$sub_dir = opendir($sub_path);
-				    		while ($sub_files = readdir($sub_dir)) {
-				    			if(strpos($sub_files,'.mkv') || stripos($sub_files,'.mp4') || stripos($sub_files,'.avi') || stripos($sub_files,'.vob')){
-				    				$data['path'] = $sub_files;
-				    				$data['size'] = $this->byte_to_human(filesize($sub_path.DIRECTORY_SEPARATOR.$sub_files));
-				    				$quality = explode('__', $sub_files);
-				    				$data['quality'] = $quality[1];
-				    			}elseif(stripos($sub_files,'.png') || stripos($sub_files,'.jpg')){
-				    				$data['poster'] = $sub_files;
-				    				$poster_exist = 1;
-				    			}elseif(stripos($sub_files,'.srt')){
-				    				$data['subtitle'] = $sub_files;
-				    			}elseif(strpos($sub_files,'.m4v')){
-				    				$errors[] = '<b style="font-weight:bold;">'.$sub_files.'</b>\'s extension is unsupported';
-				    				continue(2);
-				    			}
-				    		}
-						}else{
-							$errors[] = '<b style="font-weight:bold;">'.public_path($sub_path).'</b> is not exist';
-						}
-						if($poster_exist !==1 && !empty($json->poster_path)){
-							$data['poster'] = $poster_name = str_random(20).'.png';
-							file_put_contents($sub_path.DIRECTORY_SEPARATOR .$poster_name, file_get_contents($movie_poster));
+                    if (Storage::disk('ftp')->exists($sub_path)){
 
-						}
-
-						if (Movie::where('api_id', '=', $data['api_id'])->exists()) {
-							$errors[] = '<b style="font-weight:bold;">API ID: '.$data['api_id'].' for '.$tmp_movie_name.'</b> already exist';
-							continue;
-						}
-
-						if(empty($data['poster'])){
-							$errors[] = 'Poster is not exist in <b style="font-weight:bold;">API ID: '.$tmp_movie_name.'</b>';
-							continue;
-						}
-
-						if(Movie::create($data)){
-							unset($data);
-							$message[] = '<b style="color:green;font-weight:bold;">'.$tmp_movie_name.'</b> has added successfully';
-						}
+			    		$sub_dir = Storage::disk('ftp')->files($sub_path);
+			    		foreach ($sub_dir as $sub_files) {
+			    			$sub_files = explode("/",$sub_files);
+    						$sub_files = end($sub_files);
+			    			if(strpos($sub_files,'.mkv') || stripos($sub_files,'.mp4') || stripos($sub_files,'.avi') || stripos($sub_files,'.vob')){
+			    				$data['path'] = $sub_files;
+			    				$data['size'] = $this->byte_to_human(Storage::disk('ftp')->size($sub_files));
+			    				$quality = explode('__', $sub_files);
+			    				$data['quality'] = $quality[1];
+			    			}
+			    			// elseif(stripos($sub_files,'.png') || stripos($sub_files,'.jpg')){
+			    			// 	$data['poster'] = $sub_files;
+			    			// 	$poster_exist = 1;
+			    			// }
+			    			elseif(stripos($sub_files,'.srt')){
+			    				$data['subtitle'] = $sub_files;
+			    			}elseif(strpos($sub_files,'.m4v')){
+			    				$errors[] = '<b style="font-weight:bold;">'.$sub_files.'</b>\'s extension is unsupported';
+			    				continue(2);
+			    			}
+			    		}
+					}else{
+						$errors[] = '<b style="font-weight:bold;">'.public_path($sub_path).'</b> is not exist';
 					}
 
-    			}
+					$data['poster'] = $poster_name = str_replace(' ', '_', $movie_name_title).'.png';
+
+					$poster_dir = ltrim($path,'fs1/');
+
+					// dd($data['poster']);
+
+					if(!file_exists($poster_dir) && !empty($json->poster_path)){
+						Storage::makeDirectory($poster_dir);
+						Storage::disk('public')->put($poster_dir.DIRECTORY_SEPARATOR.$poster_name, file_get_contents($movie_poster));
+
+					}
+
+					if (Movie::where('api_id', '=', $data['api_id'])->exists()) {
+						$errors[] = '<b style="font-weight:bold;">API ID: '.$data['api_id'].' for '.$tmp_movie_name.'</b> already exist';
+						continue;
+					}
+
+					if(empty($data['poster'])){
+						$errors[] = 'Poster is not exist in <b style="font-weight:bold;">API ID: '.$tmp_movie_name.'</b>';
+						continue;
+					}
+
+					if(Movie::create($data)){
+						unset($data);
+						$message[] = '<b style="color:green;font-weight:bold;">'.$tmp_movie_name.'</b> has added successfully';
+					}
+				}
+
     		}
     	}else{
-    		$errors[] = '<b style="font-weight:bold;">'.public_path($path).'</b> is not exist';
+    		$errors[] = '<b style="font-weight:bold;">'.$path.'</b> is not exist';
     	}
 
     	if(!empty($errors)){

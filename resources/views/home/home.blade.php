@@ -111,13 +111,16 @@
 								<div class="team-box" style="">
 				    					<div class="team-img" style="margin-right:5px;margin-left:5px;">
 				    					@php
-				    						$path = $movie->category_name->drive.'/'.$movie->year.'/'.$movie->title.' ['.$movie->year.']/'.$movie->poster;
+				    						$poster_dir = 'storage/'.ltrim($movie->category_name->drive,'fs1/').'/'.$movie->year.'/'.$movie->poster;
+
+				    						$path = 'http://43.230.123.21/';
+				    						$path .= $movie->category_name->drive.'/'.$movie->year.'/'.$movie->title.' ['.$movie->year.']/'.$movie->poster;
 				    						$path = str_replace(' ','%20',$path);
 				    						$path = str_replace('[','%5B',$path);
 				    						$path = str_replace(']','%5D',$path);
 
 				    					@endphp
-				    						<img alt="" style="height:274px;" src="{{$path}}">
+				    						<img alt="" style="height:274px;" src="{{url($poster_dir)}}">
 				    					    <span class="yellowbox">{{$movie->year}}</span>
 											<span class="imdb-rating"><b><b class="fa fa-star"></b></b>{{$movie->rating}}</span>
 										</div>

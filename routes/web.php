@@ -76,5 +76,7 @@ Route::group(['middleware'=>'admin'],function(){
 	Route::get('/admin/episode/auto/{id}','EpisodeController@getAutoEpisode');
 	Route::post('/admin/episode/auto/{id}','EpisodeController@postAutoEpisode');
 
+	Route::get('/admin/ftp', 'FtpController@ftp');
+
 
 });

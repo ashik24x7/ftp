@@ -174,13 +174,16 @@
 								</div>
 								@endif	
 								@php
-		    						$path = '/'.$movie->category_name->drive.'/'.$movie->year.'/'.$movie->title.' ['.$movie->year.']';
+									$poster_dir = 'storage/'.ltrim($movie->category_name->drive,'fs1/').'/'.$movie->year.'/'.$movie->poster;
+
+									$path = 'http://43.230.123.21';
+		    						$path .= '/'.$movie->category_name->drive.'/'.$movie->year.'/'.$movie->title.' ['.$movie->year.']';
 		    						$path = str_replace(' ','%20',$path);
 		    						$path = str_replace('[','%5B',$path);
 		    						$path = str_replace(']','%5D',$path);
 
 		    					@endphp
-								<video width="100%" height="460" id="player2" poster="{{$path.'/'.$movie->poster}}" controls="controls" preload="none">
+								<video width="100%" height="460" id="player2" poster="{{url($poster_dir)}}" controls="controls" preload="none">
 	<!-- MP4 source must come first for iOS -->
 								@if(strpos($movie->path,'.mp4'))	
 									<source type="video/mp4" src="{{$path.'/'.$movie->path}}" />
@@ -199,7 +202,7 @@
 										<param name="movie" value="{{$path.'/'.$movie->path}}" /> 
 										<param name="flashvars" value="controls=true&amp;file=../media/echo-hereweare.mp4" /> 		
 										<!-- Image fall back for non-HTML5 browser with JavaScript turned off and no Flash player installed -->
-										<img src="{{$path.'/'.$movie->poster}}" width="640" height="360" alt="Here we are" 
+										<img src="{{url($poster_dir)}}" width="640" height="360" alt="Here we are" 
 											title="No video playback capabilities" />
 									</object> -->
 								@endif 	
@@ -225,7 +228,7 @@ $('audio,video').mediaelementplayer({
 									<div class="list-results last-list">
 									<div class="cell-3" style="padding:0px 0px 0px 0px;margin-left:-27px;">
 									<div class="post-img">
-				    						<img alt="" style="height:203px;" src="{{$path.'/'.$movie->poster}}">
+				    						<img alt="" style="height:203px;" src="{{url($poster_dir)}}">
 									</div>
 									</div>
 									<div class="cell-9">

@@ -84,7 +84,10 @@
 									<div class="row">
 										@foreach($movies as $movie)
 											@php
-					    						$path = '/'.$movie->category_name->drive.'/'.$movie->year.'/'.$movie->title.' ['.$movie->year.']/'.$movie->poster;
+												$poster_dir = 'storage/'.ltrim($movie->category_name->drive,'fs1/').'/'.$movie->year.'/'.$movie->poster;
+
+												$path = 'http://43.230.123.21';
+					    						$path .= '/'.$movie->category_name->drive.'/'.$movie->year.'/'.$movie->title.' ['.$movie->year.']/'.$movie->poster;
 					    						$path = str_replace(' ','%20',$path);
 					    						$path = str_replace('[','%5B',$path);
 					    						$path = str_replace(']','%5D',$path);
@@ -93,7 +96,7 @@
 									    			<div class="team-box" style="background-color:#333;margin-right: -10px;">
 							    					<div class="team-img" style="margin-right:5px;margin-left:5px;">
 							    					@if(!empty($movie->poster) && isset($movie->poster))
-							    						<img alt="" style="height:267px;" src="{{$path}}">
+							    						<img alt="" style="height:267px;" src="{{url($poster_dir)}}">
 							    					@else
 														<img alt="" style="height:267px;" src="/home/images/no_image.png">
 							    					@endif
