@@ -98,7 +98,7 @@
                                         	<div class="col-md-3 col-md-offset-1">
                                         	   <div class="form-group">
                                         		<label for="exampleInputPassword1">Movie Year</label>
-                                        		<input type="number" name="year" class="form-control" id="exampleInputPassword1" placeholder="Enter Movie Year" value="" required="">
+                                        		<input type="text" name="year" class="form-control" id="exampleInputPassword1" placeholder="Enter Movie Year" value="" required="">
                                                 </div>	
                                         	</div>
                                         	<div class="col-md-2">

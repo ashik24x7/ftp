@@ -25,6 +25,10 @@ class Tvseries extends Model
     	'uploaded_by'
     ];
 
+	protected $dates = [
+        'release_date'
+    ];
+	
     public function category_name(){
         return $this->belongsTo('App\Submenu','category');
     }

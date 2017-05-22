@@ -44,7 +44,7 @@
 	    </div>
 	    <!-- site preloader end -->
 	    
-	    <div class="pageWrapper">
+	    <div class="pageWrapper fixedPage">
 		    
 		    <!-- login box start -->
 		
@@ -74,7 +74,10 @@
 						<div class="row">
 						@foreach($softwares as $software)
                             	@php
-		    						$path = '/'.$software->category_name->drive.'/'.$software->name.'/';
+									$poster_dir = '/storage'.ltrim($software->category_name->drive,'fs1').'/'.$software->cover;
+									
+									$path = 'http://43.230.123.21/';
+		    						$path .= $software->category_name->drive.'/'.$software->name.'/';
 		    						$path = str_replace(' ','%20',$path);
 		    						$path = str_replace('[','%5B',$path);
 		    						$path = str_replace(']','%5D',$path);
@@ -82,7 +85,7 @@
 		    					@endphp
 							<div class="cell-2 service-box-2 fx" data-animate="fadeInDown">
 								<div class="box-2-cont">
-									<i><img src="{{$path.$software->cover}}" style="margin-top:-50px;width:100px;height:100px;" /></i>
+									<i><a href="/software/{{str_replace(' ','-',$software->name)}}"><img src="{{$poster_dir}}" style="margin-top:-50px;width:100px;height:100px;" /></a></i>
 									<h4 style="height:54px;font-size:14px;margin-top:10px;">{{$software->name}}</h4>
 									<div class="center sub-title main-color"> Filesize: - ({{$software->size}})</div>
 									<a class="r-more main-color" href="{{$path.$software->path}}">Download</a>
@@ -101,7 +104,9 @@
 						<div class="portfolioGallery portfolio">
 						@foreach($games as $game)
 							@php
-		    						$path = '/'.$game->category_name->drive.'/'.$game->name.'/';
+									$poster_dir = '/storage'.ltrim($game->category_name->drive,'fs1').'/'.$game->cover;
+									
+		    						$path = $game->category_name->drive.'/'.$game->name.'/';
 		    						$path = str_replace(' ','%20',$path);
 		    						$path = str_replace('[','%5B',$path);
 		    						$path = str_replace(']','%5D',$path);
@@ -111,13 +116,13 @@
 								<div class="portfolio-item">
 									<div class="img-holder">
 										<div class="img-over">
-											<a href="portfolio-single.html" class="fx link"><b class="fa fa-link"></b></a>
-											<a href="<?php //echo URL.'/'.$item['cover_pic']; ?>" class="fx zoom" data-gal="prettyPhoto[pp_gal]" title="Project Title"><b class="fa fa-search-plus"></b></a>
+											<a href="" class="fx link"><b class="fa fa-link"></b></a>
+											<a href="" class="fx zoom" data-gal="prettyPhoto[pp_gal]" title="Project Title"><b class="fa fa-search-plus"></b></a>
 										</div>
-										<img alt="" src="{{$path.$game->cover}}">
+										<a href="/game/{{str_replace(' ','-',$game->name)}}"><img alt="" src="{{$poster_dir}}"></a>
 									</div>
 									<div class="name-holder">
-											<a href="#" class="project-name" style="font-size:14px;height:40px;" >{{$game->name}}</a>
+											<a href="/game/{{str_replace(' ','-',$game->name)}}" class="project-name" style="font-size:14px;height:40px;" >{{$game->name}}</a>
 											<span class="project-options">
 											{{$game->category_name->menu_name}} ({{$game->size}})</span>
 										</div>

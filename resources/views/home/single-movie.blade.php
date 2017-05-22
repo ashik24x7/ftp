@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Ebox Live</title>
+		<title>E-BOX | {{$movie->title}}</title>
 		<meta name="keywords" content="fileserver –">
 		<meta name="description" content="fileserver –">
 		<meta name="author" content="">
@@ -32,6 +32,12 @@
 		<script type="text/javascript" src="/home/js/script-search.js"></script>
 		
 
+		<link href="http://vjs.zencdn.net/5.19.2/video-js.css" rel="stylesheet">
+
+	  <!-- If you'd like to support IE8 -->
+	  <script src="http://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+		
+		
 		<script type="text/javascript" src="/home/js/jquery.min.js"></script>
 		<style>
 		.widget > p{
@@ -129,11 +135,22 @@
 	
 	<link rel="stylesheet" href="/home/player/mediaelementplayer.min.css" />
 	
+	<style>
+		
+.video-js .vjs-big-play-button{
+	top: 50%;
+    left: 50%;
+    margin-top: -22px;
+    margin-left: -45px;
+	
+}
+	</style>
+	
 	</head>
 	<body>
 	    <!-- site preloader end -->
 	    
-	    <div class="pageWrapper">
+	    <div class="pageWrapper fixedPage">
 
 			<!-- Header Start -->
 			@include('home.partial.header')
@@ -152,75 +169,42 @@
 									<div class="product-specs price-block list-results">
 										<div class="price-box"><span class="product-price">{{$movie->title}} ({{$movie->year}})</span></div>
 										<div>
-											<!--<span class="results-rating">
-												<?php // /* $ratings = floor($results['MovieRatings']);
-                  //                                          for($i=0;$i<=10;$i++){
-															   // if($i <= $ratings){
-																  // echo '<span class="fa fa-star"></span>';  
-															   // }else{
-																  //  echo '<span class="fa fa-star-o"></span>';
-															   // }
-														   //} 
-														?>
-											</span>
-											<span><span><?php // //echo $results['MovieRatings']; ?>/10 IMDB ratings</span><span class="separator"></span> -->
 										</div>
 									</div>
-								@if(!strpos($movie->path,'.mp4'))	
+									
+								@if(!strpos($movie->path,'.mkv') AND !strpos($movie->path,'.mp4'))	
 									<div class="box error-box round fx animated fadeInLeft" data-animate="fadeInLeft" style="padding:9px;">
 									<a class="close-box" href="#"><i class="fa fa-times"></i></a>
 									<h3 style="margin-top:-7px;">Playback Error!</h3>
-									<p>This video might not play due to unsupported video format e.g. (*.mkv, *.avi, *.dat) <br>If the video doesn't play please download the file and play with any media player</p>
+									<p>This video might not play due to unsupported video format e.g. (*.avi, *.dat) <br>If the video doesn't play please download the file and play with any media player</p>
 								</div>
 								@endif	
 								@php
 									$poster_dir = 'storage/'.ltrim($movie->category_name->drive,'fs1/').'/'.$movie->year.'/'.$movie->poster;
 
-									$path = 'http://43.230.123.21';
+									$path = 'http://fs.ebox.live';
 		    						$path .= '/'.$movie->category_name->drive.'/'.$movie->year.'/'.$movie->title.' ['.$movie->year.']';
 		    						$path = str_replace(' ','%20',$path);
 		    						$path = str_replace('[','%5B',$path);
 		    						$path = str_replace(']','%5D',$path);
 
 		    					@endphp
-								<video width="100%" height="460" id="player2" poster="{{url($poster_dir)}}" controls="controls" preload="none">
-	<!-- MP4 source must come first for iOS -->
-								@if(strpos($movie->path,'.mp4'))	
-									<source type="video/mp4" src="{{$path.'/'.$movie->path}}" />
-								@elseif(strpos($movie->path,'.webm'))
-									<!-- WebM for Firefox 4 and Opera -->
-									<source type="video/webm" src="{{$path.'/'.$movie->path}}" />
-								@elseif(strpos($movie->path,'.ogg'))
-									<!-- OGG for Firefox 3 -->
-									<source type="video/ogg" src="{{$path.'/'.$movie->path}}" />
-								@elseif(strpos($movie->path,'.mkv'))
-									<source type="video/mp4" src="{{$path.'/'.$movie->path}}" />
-									<!-- Fallback flash player for no-HTML5 browsers with JavaScript turned off -->
-								@else
-									<!-- <!-- Fallback flash player for no-HTML5 browsers with JavaScript turned off -->
-									<object width="100%" height="360" type="application/x-shockwave-flash" data="player/flashmediaelement.swf"> 		
-										<param name="movie" value="{{$path.'/'.$movie->path}}" /> 
-										<param name="flashvars" value="controls=true&amp;file=../media/echo-hereweare.mp4" /> 		
-										<!-- Image fall back for non-HTML5 browser with JavaScript turned off and no Flash player installed -->
-										<img src="{{url($poster_dir)}}" width="640" height="360" alt="Here we are" 
-											title="No video playback capabilities" />
-									</object> -->
-								@endif 	
-								</video>
+								@if(strpos($movie->path,'.mkv') OR strpos($movie->path,'.mp4'))
+								<video id="my-video" class="video-js" controls preload="auto"  style="width:100%" height="464"
+									  poster="{{url($poster_dir)}}" data-setup="{}">
+									<source src="{{$path.'/'.$movie->path}}" type='video/mp4'>
+									<source src="{{$path.'/'.$movie->path}}" type='video/mkv'>
+									<p class="vjs-no-js">
+									  To view this video please enable JavaScript, and consider upgrading to a web browser that
+									  <a href="#" target="_blank">supports HTML5 video</a>
+									</p>
+								  </video>
+								@endif
 							
 							
                            
 
-<script>
 
-$('audio,video').mediaelementplayer({
-	//mode: 'shim',
-	success: function(player, node) {
-		$('#' + node.id + '-mode').html('mode: ' + player.pluginType);
-	}
-});
-
-</script>
 									
 									
 									<div class="cell-12">
@@ -256,7 +240,17 @@ $('audio,video').mediaelementplayer({
 									<div class="cell-3">
 									<ul style="width:120%;">
 									  <li><br>
-									  <label class="control-label">Release Date: <font color="#bbb"> {{$movie->release_date}}</font></label>
+									  <label class="control-label">Released: <font color="#bbb">
+									  
+									  </font></label>
+									      
+									  </li>
+									  <li>
+									  <label class="control-label">Added: <font color="#bbb"> {{$movie->created_at->diffForHumans()}}</font></label>
+									      
+									  </li>
+									  <li>
+									  <label class="control-label">Last Updated: <font color="#bbb"> {{$movie->updated_at->diffForHumans()}}</font></label>
 									      
 									  </li>
 									  <li>
@@ -271,6 +265,7 @@ $('audio,video').mediaelementplayer({
 									  </li><br>
 									@endif
 									  <li>
+									  <br>
 									  <a class="btn btn-md btn-3d btn-blue fx animated fadeInUp" href="{{$path.'/'.$movie->path}}" data-animate="fadeInUp" data-animation-delay="100" style="animation-delay: 100ms;">
 										<span><i class="fa fa-download"></i>Download</span> </a>
 									  </li>
@@ -368,7 +363,7 @@ $('audio,video').mediaelementplayer({
 									@elseif(strpos($movie->path,'.mkv'))
 									.mkv
 									@else
-									undefined
+									Unknown
 									@endif
 							    </td>
 							  </tr>
@@ -432,5 +427,7 @@ $('audio,video').mediaelementplayer({
 			});
 			</script>
 			<script id="dsq-count-scr" src="//ftpisp-com.disqus.com/count.js" async></script>
+			
+			 <script src="http://vjs.zencdn.net/5.19.2/video.js"></script>
 	</body>
 </html>

@@ -24,7 +24,7 @@ class MovieController extends Controller
     }
 
 	public function getAddMovieAuto(){
-    	$data['category'] = Submenu::where('visible',1)->get();
+    	$data['category'] = Submenu::where(['main_menu'=>1,'visible' => 1])->get();
     	$data['total'] = Movie::count();
     	$data['unpublish'] = Movie::where('published',NULL)->count();
     	return view('admin.add-movie-auto',$data);
@@ -46,8 +46,8 @@ class MovieController extends Controller
     		$movies = Movie::pluck('title')->toArray();
 
     		foreach ($dir as $sub_path) {
-    			$data = explode("/",$sub_path);
-    			$files = end($data);
+    			$sub_data = explode("/",$sub_path);
+    			$files = end($sub_data);
 
     			$tmp_data = explode('[', $files);
     			$movie_name = trim($tmp_data[0]);
@@ -118,6 +118,7 @@ class MovieController extends Controller
 					   } 
 					}
 			    	$data['trailer'] = isset($finaltrailers) ? trim($finaltrailers,',') : '';
+					unset($finaltrailers);
 
 			    	$fp3 = @file_get_contents("http://api.themoviedb.org/3/movie/".$api_id."/keywords?api_key=f7d5dae12ee54dc9f51ccac094671b00");
 			    	if(!$fp3){
@@ -160,14 +161,14 @@ class MovieController extends Controller
                     if (Storage::disk('ftp')->exists($sub_path)){
 
 			    		$sub_dir = Storage::disk('ftp')->files($sub_path);
-			    		foreach ($sub_dir as $sub_files) {
-			    			$sub_files = explode("/",$sub_files);
-    						$sub_files = end($sub_files);
+			    		foreach ($sub_dir as $sub_files_path) {
+			    			$tmp = explode("/",$sub_files_path);
+    						$sub_files = end($tmp);
 			    			if(strpos($sub_files,'.mkv') || stripos($sub_files,'.mp4') || stripos($sub_files,'.avi') || stripos($sub_files,'.vob')){
 			    				$data['path'] = $sub_files;
-			    				$data['size'] = $this->byte_to_human(Storage::disk('ftp')->size($sub_files));
+			    				$data['size'] = $this->byte_to_human(Storage::disk('ftp')->size($sub_files_path));
 			    				$quality = explode('__', $sub_files);
-			    				$data['quality'] = $quality[1];
+			    				$data['quality'] = !empty($quality[1]) ? $quality[1] : 'N/A';
 			    			}
 			    			// elseif(stripos($sub_files,'.png') || stripos($sub_files,'.jpg')){
 			    			// 	$data['poster'] = $sub_files;
@@ -181,18 +182,26 @@ class MovieController extends Controller
 			    			}
 			    		}
 					}else{
-						$errors[] = '<b style="font-weight:bold;">'.public_path($sub_path).'</b> is not exist';
+						$errors[] = '<b style="font-weight:bold;">'.$sub_path.'</b> is not exist';
 					}
 
-					$data['poster'] = $poster_name = str_replace(' ', '_', $movie_name_title).'.png';
+					$poster_name = str_replace(' ', '_', $movie_name_title);
+					 
+					$poster_name = str_replace('?', '', $poster_name);
+					$poster_name = str_replace('.', '', $poster_name);
+					$poster_name = str_replace('!', '', $poster_name);
+					$poster_name = str_replace(':', '', $poster_name).'.png';
+					$data['poster'] = $poster_name;
 
 					$poster_dir = ltrim($path,'fs1/');
 
 					// dd($data['poster']);
 
-					if(!file_exists($poster_dir) && !empty($json->poster_path)){
-						Storage::makeDirectory($poster_dir);
-						Storage::disk('public')->put($poster_dir.DIRECTORY_SEPARATOR.$poster_name, file_get_contents($movie_poster));
+					if(!Storage::exists($poster_dir.DIRECTORY_SEPARATOR.$poster_name) && !empty($json->poster_path)){
+						if(!Storage::exists($poster_dir)){
+							Storage::makeDirectory($poster_dir);
+						}
+						Storage::put($poster_dir.DIRECTORY_SEPARATOR.$poster_name, file_get_contents($movie_poster));
 
 					}
 
@@ -205,7 +214,9 @@ class MovieController extends Controller
 						$errors[] = 'Poster is not exist in <b style="font-weight:bold;">API ID: '.$tmp_movie_name.'</b>';
 						continue;
 					}
-
+					if(!isset($data['quality']) or empty($data['quality'])){
+						continue;
+					}
 					if(Movie::create($data)){
 						unset($data);
 						$message[] = '<b style="color:green;font-weight:bold;">'.$tmp_movie_name.'</b> has added successfully';
@@ -227,7 +238,7 @@ class MovieController extends Controller
 
 
     public function getAddMovieManual(){
-    	$data['category'] = Submenu::where('visible',1)->get();
+    	$data['category'] = Submenu::where(['main_menu'=>1,'visible' => 1])->get();
     	return view('admin.add-movie-manual',$data);
     }
 
@@ -251,12 +262,22 @@ class MovieController extends Controller
 
     	
     	$category = Submenu::where('id',$request->category)->first();
-    	
+    	if(!$category){
+			$errors[] = '<b style="font-weight:bold;">Categorty</b> is not selected';
+		}
     	$path = $category->drive. DIRECTORY_SEPARATOR .  $request->year. DIRECTORY_SEPARATOR .$request->title.' ['.$request->year.']';
-
-    	if($poster = $request->file('poster')){
-    		$poster_name = str_random(20).'.'.$poster->extension();
-    		$poster->move(public_path($path),$poster_name);
+		
+		$poster_dir = ltrim($category->drive,'fs1/'). DIRECTORY_SEPARATOR .  $request->year;
+		$poster_name = str_replace(' ', '_', $request->title);
+		$poster_name = str_replace('?', '', $poster_name);
+		$poster_name = str_replace('.', '', $poster_name);
+		$poster_name = str_replace('!', '', $poster_name);
+		$poster_name = str_replace(':', '', $poster_name).'.png';
+    	
+		if(!Storage::exists($poster_dir.DIRECTORY_SEPARATOR.$poster_name) && $poster = $request->file('poster')){
+			
+			Storage::putFileAs($poster_dir, $poster, $poster_name);
+			$data['poster'] = $poster_name;
     	}
 
     	$data = $request->except('_token','poster_path','Moviesbackdrops','MovieSubmit');
@@ -264,47 +285,46 @@ class MovieController extends Controller
 
     	$movies = Movie::pluck('title')->toArray();
 
-    	if (is_dir(public_path($path))){
-    		$dir = opendir($path);
-
+    	if (Storage::disk('ftp')->exists($path)){
     		if(!in_array($request->title, $movies)){
-    			$poster_exist = '';
-    			while ($files = readdir($dir)) {
+				
+				$dir = Storage::disk('ftp')->files($path);
+			    foreach ($dir as $files_path) {
+					$files = explode("/",$files_path);
+    				$files = end($files);
 	    			if(strpos($files,'.mkv') || stripos($files,'.mp4') || stripos($files,'.avi') || stripos($files,'.vob')){
 	    				$data['path'] = $files;
-	    				$data['size'] = $this->byte_to_human(filesize($path.DIRECTORY_SEPARATOR.$files));
+	    				$data['size'] = $this->byte_to_human(Storage::disk('ftp')->size($files_path));
 	    				$quality = explode('__', $files);
 	    				$data['quality'] = $quality[1];
-	    			}elseif(stripos($files,'.png') || stripos($files,'.jpg')){
-	    				$data['poster'] = $files;
-	    				$poster_exist = 1;
-	    			}
+	    			}else{
+						$errors[] = '<b style="font-weight:bold;">Unsupported </b> file extension';
+					}
 	    		}
     		}else{
     			$errors[] = '<b style="font-weight:bold;">'.$request->title.'</b> is already exists';
     		}
 		}else{
-			$errors[] = '<b style="font-weight:bold;">'.public_path($path).'</b> is not exist';
+			$errors[] = '<b style="font-weight:bold;">'.$path.'</b> is not exist';
 			return redirect()->to('/admin/movie/manual')->with('errors', $errors);
 		}
+		
+		if(!Storage::exists($poster_dir.DIRECTORY_SEPARATOR.$poster_name) && !empty($request->poster_path)){
+			if(!Storage::exists($poster_dir)){
+				Storage::makeDirectory($poster_dir);
+			}
+			Storage::put($poster_dir.DIRECTORY_SEPARATOR.$poster_name, file_get_contents($request->poster_path));
+			$data['poster'] = $poster_name;
 
-		if(!isset($data['path'])){
-			$errors[] = 'There is no movies in <b style="font-weight:bold;">'.$path.'</b>';
-		}elseif(!isset($data['poster'])){
-			$errors[] = 'There is no poster in <b style="font-weight:bold;">'.$path.'</b>';
-		}
-
-		if(empty($poster_exist) && !in_array($request->title, $movies)){
-			$data['poster'] =  str_random(20).'.png';
-			@file_put_contents($path. DIRECTORY_SEPARATOR .$data['poster'], file_get_contents($request->poster_path));
-
-		}
-		if(empty($data['poster'])){
-			$errors[] = 'Poster is not exist in <b style="font-weight:bold;">API ID: '.$request->title.'</b>';
+		}else{
+			$data['poster'] = $poster_name;
 		}
 		
 		$data['views'] = 1;
-
+		
+		if($data['rating'] <=0 ){
+			$errors[] = '<b style="font-weight:bold;">IMD Rating</b> is missing';
+		}
 		
 		if(empty($errors) && Movie::create($data)){
 			$message[] = '<b style="color:green;font-weight:bold;">'.$request->title.'</b> has added successfully';
@@ -464,7 +484,7 @@ class MovieController extends Controller
     		$str .= '"'.$key.'",';
     	}
     	$data['search'] = rtrim($str,',');
-    	$data['movies'] = Movie::paginate(5);
+    	$data['movies'] = Movie::orderBy('id','DESC')->paginate(5);
     	return view('admin.all-movies',$data);
     }
     public function adminFilterMovies(Request $request){
@@ -474,7 +494,8 @@ class MovieController extends Controller
     		$str .= '"'.$key.'",';
     	}
     	$data['search'] = rtrim($str,',');
-    	$data['movies'] = Movie::where('title',$request->str)->paginate(5);
+    	$data['movies'] = Movie::where('title',$request->str)->orWhere('api_id',$request->str)->paginate(5);
+		$data['history'] = $request->str;
     	return view('admin.all-movies',$data);
     }
 
@@ -526,19 +547,23 @@ class MovieController extends Controller
 
     	$data = $request->only('trailer','title','year','category','rating','published','genre','release_date','language','website','time','kewyword','story','path','poster');
     	$category = Submenu::where('id',$request->category)->first();
-    	$new_poster = request()->file('new_poster');
-    	if($new_poster){
-    		$destination_path ='/'.$category->drive.'/'.$request->year.'/'.$request->title.' ['.$request->year.']';
-    		$poster_name = str_random(20).'.'.$new_poster->extension();
-    		if($new_poster->move(public_path($destination_path),$poster_name)){
-    			if(file_exists(public_path($destination_path).'/'.$data['poster'])){
-    				unlink(public_path($destination_path).'/'.$data['poster']);
-    			}
-    			$data['poster'] = $poster_name;
-    		}else{
-    			exit;
-    		}
-    	}
+		
+		$poster_dir = ltrim($category->drive,'fs1/'). DIRECTORY_SEPARATOR .  $request->year;
+		$poster_name = str_replace(' ', '_', $request->title).'.png';
+		
+		//dd(Storage::exists($poster_dir.DIRECTORY_SEPARATOR.$poster_name));
+    	
+		if($new_poster = request()->file('new_poster')){
+			if(Storage::exists($poster_dir.DIRECTORY_SEPARATOR.$poster_name)){
+				Storage::delete($poster_dir.DIRECTORY_SEPARATOR.$poster_name);
+			}
+			
+			Storage::putFileAs($poster_dir, $new_poster, $poster_name);
+			$data['poster'] = $poster_name;
+    	}else{
+			exit;
+		}
+		
     	$movie = Movie::find($request->id);
     	if($movie->update($data)){
     		return redirect()->to('/admin/movie/'.$request->id.'/edit')->with('messages',$request->title.' has updated!');

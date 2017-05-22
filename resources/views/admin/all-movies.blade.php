@@ -82,7 +82,7 @@
                             <div class="pull-right" style="margin-top: 30px">
                                 <form action="{{ url('/admin/movie/search') }}" method="post">
                                 {{csrf_field()}}
-                                    <input type="text" id="tags" name="str">
+                                    <input type="text" id="tags" name="str" @if(isset($history)) value="{{$history}}" @endif>
                                     <input type="submit" value="Search">
                                 </form>
                             </div>
@@ -127,6 +127,7 @@
                                             <tr>
                                                 <th class="all">Movie Cover</th>
                                                 <th class="min-phone-l">Movie Title</th>
+                                                <th class="min-phone-l">IMDB ID</th>
                                                 <th class="min-tablet">Movie Category</th>
                                                 <th class="min-tablet">Movie Quality</th>
                                                 <th class="desktop">Movie Filesize</th>
@@ -138,6 +139,9 @@
                                         <tbody>
                                         @foreach($movies as $movie)
                                             @php
+											
+												$poster_dir = '/storage/'.ltrim($movie->category_name->drive,'fs1/').'/'.$movie->year.'/'.$movie->poster;
+												
                                                 $path = '/'.$movie->category_name->drive.'/'.$movie->year.'/'.$movie->title.' ['.$movie->year.']/'.$movie->poster;
                                                 $path = str_replace(' ','%20',$path);
                                                 $path = str_replace('[','%5B',$path);
@@ -146,10 +150,12 @@
 
                                             @endphp
                                             <tr>
-                                                <td><img src="{{$path}}" width="75px" height="100px"/>
+                                                <td><img src="{{$poster_dir}}" width="75px" height="100px"/>
                                                 </td>
                                                 <td>
                                                 {{$movie->title}} [{{$movie->year}}]</td>
+                                                <td>
+                                                {{$movie->api_id}}</td>
                                                 <td><p>{{ucfirst($movie->category_name->menu_name)}}</p></td>
                                                 <td><p>{{$movie->quality}}</p></td>
                                                 <td><p>{{$movie->size}}</p></td>

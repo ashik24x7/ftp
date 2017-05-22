@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Tvseries;
 use App\Episode;
 use App\Menu;
+use App\Shout;
+use Storage;
+use DB;
+
 
 class EpisodeController extends Controller
 {
@@ -36,32 +40,35 @@ class EpisodeController extends Controller
     	$data = [];
     	$data['tvseries_id'] = $request->tvseries;
     	$data['season'] = (int)trim(str_replace('Season', '', $request->session));
-    	$data['category'] = $request->category;
+    	$data['category'] = (int)$request->category;
     	$data['uploaded_by'] = auth()->guard('admin')->user()->id;
-
+		
     	$path = $request->path.DIRECTORY_SEPARATOR.$request->session;
-    	if (is_dir($path)){
-    		$files = scandir($path);
-    		sort($files);
-    		$i = 1;
-    		foreach ($files as $file) {
-    			if($file == '.' || $file == '..'){
-    				continue;
-    			}elseif(strpos($file,'.mkv') || stripos($file,'.mp4') || stripos($file,'.avi') || stripos($file,'.vob')){
+    	if (Storage::disk('ftp')->exists($path)){
+    		$files = Storage::disk('ftp')->files($path);
+    		natsort($files);
+    		
+    		foreach ($files as $sub_file) {
+    			$tmp = explode("/",$sub_file);
+				$file = end($tmp);
+				if(strpos($file,'.mkv') || stripos($file,'.mp4') || stripos($file,'.avi') || stripos($file,'.vob')){
     				$episode = Episode::pluck('path')->toArray();
     				if(!in_array($file, $episode)){
-	    				$data['episode'] = $i;
 	    				$data['path'] = $file;
-	    				$data['size'] = $this->byte_to_human(filesize($path.DIRECTORY_SEPARATOR.$file));
-	    				$quality = explode('__', $file);
-	    				$data['quality'] = $quality[1];
+	    				$data['size'] = $this->byte_to_human(Storage::disk('ftp')->size($sub_file));
+	    				$tmp_file = explode('__', $file);
+	    				$data['quality'] = $tmp_file[1];
+						$data['views'] = 1;
+						
+						$tmp_episode = explode('E',$tmp_file[0]);
+						$data['episode'] = (int) end($tmp_episode);
+						
 	    				if(Episode::create($data)){
 							$message[] = '<b style="color:green;font-weight:bold;">Episode: '.$data['episode'].'</b> has added successfully';
 						}else{
 							$errors[] = 'Error at <b style="font-weight:bold;">Episode: '.$data['episode'].'</b>';
 						}
 	    			}
-	    			$i++;
     			}
     		}
     	}
@@ -76,8 +83,18 @@ class EpisodeController extends Controller
 
 
     public function singleEpisode($tv,$season,$episode){
+		DB::table('episodes')->where('id',$episode)->increment('views',1);
+		$data['shout'] = Shout::orderBy('created_at','DESC')->paginate(15);
     	$data['episode'] = Episode::with(['category_name','tvseries'])->where(['tvseries_id'=>$tv,'season'=>$season,'episode'=>$episode])->first();
     	$data['menu'] = Menu::with(['submenu'])->get();
     	return view('home.single-tv-episode',$data);
     }
+	
+	public function allEpisodes(){
+
+        $data['episodes'] = Episode::with(['category_name','tvseries'])->orderBy('id','DESC')->paginate(18);
+    	$data['menu'] = Menu::with(['submenu'])->get();
+    	return view('home.all-tv-episode',$data);
+    }
+	
 }

@@ -18,6 +18,10 @@ class Episode extends Model
     	'uploaded_by',
     	'season'
     ];
+	
+	protected $dates = [
+        'release_date'
+    ];
 
     public function category_name(){
         return $this->belongsTo('App\Submenu','category');

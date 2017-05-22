@@ -10,6 +10,7 @@ use App\Game;
 use App\Movie;
 use App\Software;
 use App\Tvseries;
+use App\Shout;
 
 class AdminController extends Controller
 {
@@ -64,6 +65,7 @@ class AdminController extends Controller
         $data['softwares'] = Software::all()->count();
         $data['games'] = Game::all()->count();
         $data['tvseries'] = Tvseries::all()->count();
+		$data['shouts'] = Shout::orderBy('created_at','DESC')->get();
     	return view('admin.home',$data);
     }
 	

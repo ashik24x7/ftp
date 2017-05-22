@@ -60,7 +60,7 @@
 					                  <img class="direct-chat-img" src="pic/support-icon.png" alt="Message User Image"><!-- /.direct-chat-img -->
 					                  <div class="direct-chat-text">
 					                    {{$key->reply}}
-										 <p style="padding:0;text-align: right;font-size: 10px; font-style: italic;color:#fff;"><i class="fa fa-clock-o" style="color:#fff;"></i>{{$key->created_at}}</p>
+										 <p style="padding:0;text-align: right;font-size: 10px; font-style: italic;color:#fff;"><i class="fa fa-clock-o" style="color:#fff;"></i>{{$key->updated_at}}</p>
 					                  </div>
 					                  <!-- /.direct-chat-text -->
 					                </div>

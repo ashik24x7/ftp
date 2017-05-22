@@ -22,6 +22,19 @@
     <link href="/backend/layouts/layout/css/layout.min.css" rel="stylesheet" type="text/css" />
     <link href="/backend/layouts/layout/css/themes/blue.min.css" rel="stylesheet" type="text/css" id="style_color" />
     <link href="/backend/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css" />
+	<style>
+		.page-content-white .page-content .page-bar {
+			margin-bottom: 15px;
+		}
+		.chat-form {
+			margin-top: 15px;
+			margin-left: 65px;
+			padding: 0px;
+			background-color: #fff;
+			overflow: hidden;
+		}
+	</style>
+	
     <!-- END THEME LAYOUT STYLES -->
 @stop
 
@@ -35,7 +48,7 @@
             <div class="page-bar">
                 <ul class="page-breadcrumb">
                     <li>
-                        <a href="index.html">Home</a>
+                        <a href="#">Home</a>
                         <i class="fa fa-circle"></i>
                     </li>
                     <li>
@@ -43,18 +56,12 @@
                     </li>
                 </ul>
                 <div class="page-toolbar">
-                    <div id="dashboard-report-range" class="pull-right tooltips btn btn-sm" data-container="body" data-placement="bottom" data-original-title="Change dashboard date range">
-                        <i class="icon-calendar"></i>&nbsp;
-                        <span class="thin uppercase hidden-xs"></span>&nbsp;
-                        <i class="fa fa-angle-down"></i>
-                    </div>
+                    
                 </div>
             </div>
             <!-- END PAGE BAR -->
             <!-- BEGIN PAGE TITLE-->
-            <h3 class="page-title"> Dashboard
-                <small>dashboard & statistics</small>
-            </h3>
+            
             <!-- END PAGE TITLE-->
             <!-- END PAGE HEADER-->
             <!-- BEGIN DASHBOARD STATS 1-->
@@ -66,7 +73,7 @@
                         </div>
                         <div class="details">
                             <div class="number">
-                                <span data-counter="counterup" data-value="{{$movies}}">0</span>
+                                <span data-counter="" data-value="{{$movies}}">{{$movies}}</span>
                             </div>
                             <div class="desc"> Total Movies </div>
                         </div>
@@ -80,8 +87,8 @@
                         </div>
                         <div class="details">
                             <div class="number">
-                                <span data-counter="counterup" data-value="{{$tvseries}}">0</span></div>
-                            <div class="desc"> Total Tv Series </div>
+                                <span data-counter="" data-value="{{$tvseries}}">{{$tvseries}}</span></div>
+                            <div class="desc"> Total TV Series </div>
                         </div>
                         
                     </div>
@@ -93,7 +100,8 @@
                         </div>
                         <div class="details">
                             <div class="number">
-                                <span data-counter="counterup" data-value="{{$games}}">0</span>
+							<!-- counterup -->
+                                <span data-counter="" data-value="{{$games}}">{{$games}}</span>
                             </div>
                             <div class="desc"> Total Games </div>
                         </div>
@@ -107,8 +115,8 @@
                         </div>
                         <div class="details">
                             <div class="number">
-                                <span data-counter="counterup" data-value="{{$softwares}}">0</span></div>
-                            <div class="desc"> Total Software </div>
+                                <span data-counter="" data-value="{{$softwares}}">{{$softwares}}</span></div>
+                            <div class="desc"> Total Softwares </div>
                         </div>
                         
                     </div>
@@ -138,67 +146,8 @@
                     </div>
                     <!-- END PORTLET-->
                 </div>
-                         <div class="col-md-6 col-sm-6">
-                    <div class="portlet light bordered" style="height:394px;overflow:auto;">
-                        <div class="portlet-title tabbable-line">
-                            <div class="caption">
-                                <i class="icon-bubbles font-red"></i>
-                                <span class="caption-subject font-red bold uppercase">Shout Box</span>
-                            </div>
-                            <ul class="nav nav-tabs">
-                                <li class="active">
-                                    <a href="#portlet_comments_1" data-toggle="tab"> shout </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="portlet-body">
-                            <div class="tab-content">
-                                <div class="tab-pane active" id="portlet_comments_1">
-                                    <!-- BEGIN: Comments -->
-                                    <div class="mt-comments">
-                                    <?php 
-                           // $query = mysqli_query($connect_baza,"SELECT * FROM shoutbox order by 1 DESC LIMIT 100");
-                           // $num = 1;
-                           // while($chat = mysqli_fetch_object($query)) :
-                           // $IP = $_SERVER['REMOTE_ADDR'];
-                           
-                           
-                           ?>
-                                    
-                                        <div class="mt-comment">
-                                            <div class="mt-comment-img">
-                                                <img src="http://1.2.3.4/themes/default/pic/user.png" style="width:100%;" /> </div>
-                                            <div class="mt-comment-body">
-                                                <div class="mt-comment-info">
-                                                    <span class="mt-comment-author"><?php //echo ucwords($chat->exordid); ?></span>
-                                                    <span class="mt-comment-date"><?php //echo $chat->date; ?></span>
-                                                </div>
-                                                <div class="mt-comment-text"><?php //echo ucfirst($chat->text); ?></div>
-                                                <div class="mt-comment-details">
-                                                   
-                                                    <ul class="mt-comment-actions">
-                                                        <li>
-                                                            <a href="#large<?php //echo $chat->id; ?>" data-toggle="modal">Quick Edit</a>
-                                                        </li>
-                                                        
-                                                        <li>
-                                                            <a href="#">Delete</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        @include('admin.partial.shout-modal')
-                                    <?php //endwhile; ?> 
-                                        
-                                    </div>
-                                    <!-- END: Comments -->
-                                </div>
-             
-                            </div>
-                        </div>
-                    </div>
-                </div>
+				@include('admin.partial.shout')
+                
             </div>
             
             <div class="row">

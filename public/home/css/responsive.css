@@ -18,7 +18,7 @@
 [class*="cell-"],.masonry .post-item {
 	position: relative;
 	min-height: 1px;
-	padding-left: 15px;
+	padding-left: 5px;
 	padding-right:15px;
 	float:left;
 }
@@ -46,7 +46,7 @@
 		width: 1170px;
 	}
 	.pageWrapper.fixedPage {
-		width: 1170px;
+		width: 1190px;
 		margin: 20px auto;
 		border-radius: 10px;
 		border-top-width: 2px;

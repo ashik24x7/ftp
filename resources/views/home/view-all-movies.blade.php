@@ -38,7 +38,7 @@
 	   
 	    <!-- site preloader end -->
 	    
-	    <div class="pageWrapper">
+	    <div class="pageWrapper fixedPage">
 			<!-- Header Start -->
 			<?php // include('includes/header.php'); ?>
 			<!-- Header End -->

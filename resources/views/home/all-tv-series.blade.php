@@ -108,7 +108,7 @@
 	   
 	    <!-- site preloader end -->
 	    
-	    <div class="pageWrapper">
+	    <div class="pageWrapper fixedPage">
 		    
 		    <!-- login box start
 			<div class="login-box">
@@ -170,6 +170,8 @@
 				</style>
 								@foreach($tvseries as $key)
 											@php
+												$poster_dir = ltrim($key->category_name->drive,'fs1/').'/'.$key->year.'/'.$key->poster;
+												
 						                        $path = $key->category_name->drive.'/'.$key->title.'/';
 						                        $path = str_replace(' ','%20',$path);
 						                    @endphp
@@ -177,7 +179,7 @@
 									    			<div class="team-box" style="background-color:#333;margin-right: -10px;">
 							    					<div class="team-img" style="margin-right:5px;margin-left:5px;">
 							    					@if(!empty($key->poster) && isset($key->poster))
-							    						<img alt="" style="height:267px;" src="{{'/'.$path.$key->poster}}">
+							    						<img alt="" style="height:267px;" src="{{\Storage::url($poster_dir)}}">
 							    					@else
 														<img alt="" style="height:267px;" src="/home/images/no_image.png">
 							    					@endif
@@ -198,7 +200,7 @@
 											<a href="/tv-series/{{strtolower(str_replace(' ','-',$key->title))}}" class="play-hover" ><i class="fa fa-play-circle play-btn" style="font-size: 60px;margin-top: -30px;margin-left: 55px;margin-bottom: 30px;"></i></a>
 											<br>
 											<p style="background: radial-gradient(#1E8CAB, #09009a); width:40%; font-size:13px;float:right;margin-left:5px;"><i class="fa fa-eye"></i> {{$key->views}}</p>
-											<p style="background: radial-gradient(#5bf77d, #1f730a);font-size:13px;width:55%;float:left;"><span style="color:#000;font-family:impact;"></span><span style="font-family:tahoma;font-weight:bold;color:#333;margin-bottom:10%;">{{$key->category_name->menu_name}}</span></p>
+											<p style="background: radial-gradient(#5bf77d, #1f730a);font-size:13px;width:55%;float:left;"><span style="color:#000;font-family:impact;"></span><span style="font-family:tahoma;font-weight:bold;color:#333;margin-bottom:10%;">{{trim($key->category_name->menu_name,'TV Series')}}</span></p>
 														
 											<ul class="gallery clearfix">
 											<a href="http://www.youtube.com/watch?v={{$trailer[0]}}" rel="prettyPhoto" style="margin: 2.5% 0 5% 30%;width: 40%;"  title="{{$key->title}}" />

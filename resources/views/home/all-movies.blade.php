@@ -57,7 +57,7 @@
 	   
 	    <!-- site preloader end -->
 	    
-	    <div class="pageWrapper">
+	    <div class="pageWrapper fixedPage">
 			<!-- Header Start -->
 			@include('home.partial.header')
 			<!-- Header End -->
@@ -101,7 +101,13 @@
 														<img alt="" style="height:267px;" src="/home/images/no_image.png">
 							    					@endif
 							    					    <span class="yellowbox">{{$movie->year}}</span>
-														<span class="imdb-rating"><b><b class="fa fa-star"></b></b>{{$movie->rating}}</span>
+														<span class="imdb-rating"><b><b class="fa fa-star"></b></b>
+														@if($movie->rating > 0)
+														{{$movie->rating}}
+														@else
+															N/A
+														@endif
+														</span>
 													</div>
 													
 													<a href="/movie/{{strtolower(str_replace(' ','-',$movie->title))}}">

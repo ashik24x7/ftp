@@ -22,6 +22,11 @@ class HomeController extends Controller
         $data['episodes'] = Episode::with(['category_name','tvseries'])->orderBy('id','DESC')->paginate(6);
     	$data['softwares'] = Software::with(['category_name'])->orderBy('id','DESC')->paginate(18);
         $data['games'] = Game::with(['category_name'])->orderBy('id','DESC')->paginate(18);
+		$data['total_movies'] = Movie::count();
+		$data['total_tvseries'] = Tvseries::count();
+		$data['total_episodes'] = Episode::count();
+		$data['total_softwares'] = Software::count();
+		$data['total_games'] = Game::count();
     	return view('home.home',$data);
     }
 
@@ -79,6 +84,22 @@ class HomeController extends Controller
         }
 
     }
+	
+	public function shoutReply(Request $request){
+		$this->validate($request,[
+			'id' => 'required',
+			'reply' => 'required'
+		]);
+		
+		$shout = Shout::find($request->id);
+		$shout->reply = $request->reply;
+		
+		if($shout->save()){
+			return redirect()->to('/admin/home');
+		}else{
+			return redirect()->to('/admin/home')->with('messages','There is an error in Reply');
+		}
+	}
 
     public function search(Request $request){
         $this->validate($request,[

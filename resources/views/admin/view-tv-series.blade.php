@@ -32,6 +32,7 @@
         <link href="/backend/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css" />
         <!-- END THEME LAYOUT STYLES -->
         <link rel="shortcut icon" href="favicon.ico" /> </head>
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <!-- END HEAD -->
 
        <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
@@ -70,23 +71,13 @@
                         </ul>
                 
                     </div>
+					
                     <!-- END PAGE BAR -->
                     <!-- BEGIN PAGE TITLE-->
                     <h3 class="page-title">All TV SERIES
                         
                     </h3>
-                    <!-- END PAGE TITLE-->
-                  <?php // 
-    //           if(isset($_SESSION["infoError"]) && !empty($_SESSION["infoError"]) == true){  
-    //             foreach($_SESSION["infoError"] as $error) {
-				// 	if(!empty($error) == true){
-				// 		echo $error;
-				// 	}
-					
-    //             }
-				// unset($_SESSION["infoError"]);
-    //           }
-               ?>
+                    
                     <div class="row">
                         <div class="col-md-12">
                             <!-- BEGIN EXAMPLE TABLE PORTLET-->
@@ -96,9 +87,19 @@
                                         <i class="icon-settings font-dark"></i>
                                         <span class="caption-subject bold uppercase">Edit TV series And Add Episodes</span>
                                     </div>
-                                    <div class="tools"> </div>
+                                    <div class="tools" style="margin-top: -36px;">
+										<div class="pull-right" style="margin-top: 30px">
+											<form action="{{ url('/admin/tv-series/search') }}" method="post">
+											{{csrf_field()}}
+												<input type="text" id="tags" name="str" @if(isset($history)) value="{{$history}}" @endif>
+												<input type="submit" value="Search">
+											</form>
+										</div>
+									</div>
                                 </div>
+								
                                 <div class="portlet-body">
+								@if($tvseries)
                                     <table class="table table-striped table-bordered table-hover" id="">
                                         <thead>
                                             <tr>
@@ -113,12 +114,14 @@
                                         <tbody>
 										@foreach($tvseries as $key)
                                             @php
+												$poster_dir = ltrim($key->category_name->drive,'fs1/').'/'.$key->year.'/'.$key->poster;
+
                                                 $path = '/'.$key->category_name->drive.'/'.$key->title.'/'.$key->poster;
                                                 $path = str_replace(' ','%20',$path);
 
                                             @endphp
                                             <tr>
-                                                <td><img src='{{$path}}' width='75px' height='100px'/>
+                                                <td><img src='{{\Storage::url($poster_dir)}}' width='75px' height='100px'/>
                                                 </td>
                                                 <td>
                                                     {{$key->title}}</td>
@@ -126,7 +129,7 @@
                                                 <td>{{$key->rating}} / 10</td>
                                                 <td> <a href="/admin/episode/auto/{{$key->id}}" class="btn btn-primary" data-toggle="tooltip" title="" data-original-title="Add Episodes"><i class="fa fa-plus"></i> Add Episodes</a> </td>
                                                 <td>
-                                    				<a href="<?php // echo URL.'/themes/'.THEME.'/single-tv.php?tvid='.$jsonm['TVID'];?>" target="_blank" class="btn btn-primary" data-toggle="tooltip" title="" data-original-title="View"><i class="fa fa-eye"></i></a>
+                                    				
                                     				<a class="btn purple btn-outline sbold" href="#large{{$key->id}}" data-toggle="modal" title="Edit"> <i class="fa fa-edit"></i> </a>
                                     				<a href="action/trash.php?id=tt3685622" class="btn btn-warning delete" data-toggle="tooltip" title="" data-original-title="delete"><i class="fa fa-trash"></i></a>
                                     			</td>
@@ -135,6 +138,9 @@
                                         </tbody>
                                     </table>
                                     {{$tvseries->links()}}
+									@else
+										No TV Series Available
+									@endif
                                 </div>
                             </div>
                             <!-- END EXAMPLE TABLE PORTLET-->
@@ -307,6 +313,16 @@
     });
 });
 		</script>
+		
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script>
+          $( function() {
+            var availableTags = [{!!$search!!}];
+            $( "#tags" ).autocomplete({
+              source: availableTags
+            });
+        } );
+          </script>
     </body>
 
 </html>

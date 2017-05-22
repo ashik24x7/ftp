@@ -49,6 +49,24 @@
         height:498px;
         margin-bottom: -44px;
     }
+	
+	
+	.page-content-wrapper .page-content {
+		padding: 1px 20px 10px;
+	}
+	
+	.page-content-white .page-title {
+		margin: 12px 0;
+	}
+	.portlet.light.bordered>.portlet-title {
+		border-bottom: 0px solid #eef1f5;
+	}
+	.portlet.light.bordered {
+		height: 65px;
+	}
+	.portlet.light .portlet-body {
+		padding-top: 20px;
+	}
 
  </style>
 @stop 
@@ -60,7 +78,7 @@
     <div class="page-content">
         <!-- END PAGE BAR -->
         <!-- BEGIN PAGE TITLE-->
-        <h3 class="page-title" id="pagetitle"> Manual Add Movie
+        <h3 class="page-title" id="pagetitle"> Add Movie (Manual)
 
             <small id="test"></small>
         </h3>
@@ -143,18 +161,14 @@
                                                         <!-- Place at bottom of page -->
                                                     </div>
                                                 </div>
-                                                <div class="fileinput-preview fileinput-exists thumbnail" style="max-width:360px; max-height:535px;"></div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" style="max-width:360px; max-height:535px; display:none"></div>
                                                 <div>
-                                                    <label for="files" class="control-label">Select multiple images</label>
+                                                    
                                                     <!-- this is Poster Image -->
                                                     <input type="file" id="poster" name="poster" />
                                                     <!-- <a href="javascript:;" class="btn default fileinput-exists" data-dismiss="fileinput"> Remove </a> -->
                                                     
                                                 </div>
-                                            </div>
-                                            <div class="clearfix margin-top-10">
-                                                <span class="label label-danger">NOTE! </span>
-                                                <span id="posterError"> &nbsp;&nbsp;poster will resize automaticly if it's too big size</span>
                                             </div>
                                         </div>
                                     </p>
@@ -170,42 +184,10 @@
                                 </div>
                             </div>
                             <div class="clearfix margin-bottom-20"></div>
-                            <ul class="nav nav-tabs tabs-reversed">
-                                <li class="active">
-                                    <a href="#tab_reversed_1_1" data-toggle="tab"> Screenshots</a>
-                                </li>
-                                <li>
-                                    <a href="#tab_reversed_1_2" data-toggle="tab"> URL</a>
-                                </li>
-                            </ul>
+                            
                             <div class="tab-content">
-                                <div class="tab-pane fade active in" id="tab_reversed_1_1">
-                                    <script type="text/javascript">
-                                        $(document).ready(function(){
-                                          $('[data-toggle="tooltip"]').tooltip({
-                                            animated: 'fade',
-                                            placement: 'top',
-                                          });
-                                        });
-                                      </script>
-                                    <p>
-                                        <span id="result"></span>
-                                        <div class="form-group">
-                                            <label for="files" class="control-label">Select multiple images</label>
-                                            <!-- this is scrennshots multiple image -->
-                                            <input type="file" id="files" class="form-control" name="screenshots" placeholder="Enter url" multiple />
-                                        </div>
-                                    </p>
-                                </div>
-                                <div class="tab-pane fade" id="tab_reversed_1_2">
-                                    <p>
-                                        <div class="form-group">
-                                            <label class="control-label">Enter url by seperate comma (optional)</label>
-                                            <!-- this is scrennshots multiple links -->
-                                            <textarea placeholder="http://image.com , http://image2.com , http://image3.com" class="form-control" rows="10"></textarea>
-                                        </div>
-                                    </p>
-                                </div>
+                                
+                                
                             </div>
                         </div>
                     </div>
@@ -219,40 +201,32 @@
                                 <span class="caption-subject font-red bold uppercase">Publish a Movie</span>
                                 <br>
                                     <br>
-                                        <a href="javascript:;" class="btn btn-warning" id="IMDB">
-                                            <i class="fa fa-info"></i>Get info from IMDB</a>
-                                        <a href="#" id="getgoole" class="btn btn-icon-only blue" data-toggle="tooltip" title="Search directly in google if can not get right info you need" target="_blank" >
-                                            <i class="fa fa-link"></i>
-                                        </a>
+										<div class="col-md-6">
+											
+										</div>
+										<div class="col-md-6">
+
+										</div>
+                                        
                                         <br>
-                                            <br>
-                                                <a href="javascript:;" class="btn red">
-                                                    <i class="fa fa-info"></i>Get info from TMDB </a>
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <label for="MovieTitle" class="control-label">Enter Movie Title</label>
-                                                    <!-- this is Movie Title -->
-                                                    <input type="text" id="MovieTitle" name="title" class="form-control" placeholder="Movie Title"/>
-                                                </div>
+                                                <input type="text" id="MovieID" name="api_id" class="form-control" placeholder="tt4383594 , 770672122" style="border:2px solid #f1c40f"/>
+                                            </div>
+												
                                             </div>
                                             <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="MovieYear" class="control-label">Enter Movie Year</label>
-                                                    <!-- this is Movie Year -->
-                                                    <input type="number" id="MovieYear" name="year" class="form-control" placeholder="Year"/>
-                                                </div>
+                                                <a href="javascript:;" class="btn btn-warning" id="IMDB">
+												<i class="fa fa-info"></i>Get info from IMDB</a>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="MovieID" class="control-label">Enter IMDB ID / TMDB ID</label>
-                                                    <input type="text" id="MovieID" name="api_id" class="form-control" placeholder="tt4383594 , 770672122"/>
-                                                </div>
+                                                
                                             </div>
                                         </div>
                                     </div>
                                     <div class="portlet-body">
-                                        <p id="allError">Full Movie Information</p>
+                                        
                                         <div class="tabbable tabbable-tabdrop">
                                             <ul class="nav nav-tabs">
                                                 <li class="active">
@@ -295,21 +269,42 @@
                                                     <p>
                                                         <!-- ========== Movie Information ============-->
                                                         <div class="col-md-12">
-                                                            <div class="col-md-12">
+                                                            
+															<div class="col-md-6">
+																<div class="form-group">
+																	<label for="MovieTitle" class="control-label">Enter Movie Title</label>
+																	<!-- this is Movie Title -->
+																	<input type="text" id="MovieTitle" name="title" class="form-control" placeholder="Movie Title"/>
+																</div>
+															</div>
+															
+															<div class="col-md-3">
+																<div class="form-group">
+																	<label for="MovieYear" class="control-label">Enter Movie Year</label>
+																	<!-- this is Movie Year -->
+																	<input type="text" id="MovieYear" name="year" class="form-control" placeholder="Year"/>
+																</div>
+															</div>
+															
+															<div class="col-md-3">
                                                                 <div class="form-group">
                                                                     <label for="MovieTrailer" class="control-label">Youtube Trailer.</label>
                                                                     <!-- this is Youtube Trailer -->
-                                                                    <input type="text" id="MovieTrailer" name="trailer" class="form-control" placeholder="Enter Youtube Trailer"/>
+                                                                    <input type="text" id="MovieTrailer" name="trailer" class="form-control" placeholder="Youtube Trailer"/>
                                                                 </div>
                                                             </div>
+															
+															
+															
+															
                                                         </div>
                                                         <div class="col-md-12">
                                                             <div class="col-md-3">
                                                                 <div class="form-group">
                                                                     <label for="MovieCategory" class="control-label">Select Category</label>
                                                                     <!-- this is Movie Category -->
-                                                                    <select class="form-control" id="MovieCategory" name="category" style="border:1px solid red;">
-                                                                        <option value="0">Select Catagory</option>
+                                                                    <select class="form-control" id="MovieCategory" name="category" style="" required="required">
+                                                                        <option value="">Select Catagory</option>
                                                                         @foreach($category as $key)
                                                                         <option value="{{$key->id}}">{{ucfirst($key->menu_name)}}</option>
                                                                         @endforeach
@@ -320,13 +315,13 @@
                                                                 <div class="form-group">
                                                                     <label for="MovieRatings" class="control-label">IMDB Ratings</label>
                                                                     <!-- this is IMDB Ratings -->
-                                                                    <input type="text" id="MovieRatings" name="rating" class="form-control" placeholder="IMDB Ratings" />
+                                                                    <input type="text" id="MovieRatings" name="rating" class="form-control" placeholder="IMDB Ratings" required="required" />
                                                                 </div>
                                                             </div>
                                                             <!-- this is Movie Genre -->
                                                             <div class="col-md-6">
                                                                 <label for="MovieGenre" class="control-label">Movie Genre</label>
-                                                                <input type="text" id="MovieGenre" name="genre" class="form-control" placeholder="Movie Genre" />
+                                                                <input type="text" id="MovieGenre" name="genre" class="form-control" placeholder="Movie Genre" required="required" />
                                                             </div>
                                                         </div>
                                                         <div class="col-md-12">
@@ -556,10 +551,11 @@ $(document).ready(function() {
     $('#IMDB').click(function() {  
         var MovieID = $('#MovieID').val();
         if(MovieID == null || MovieID == ""){
-                $('#MovieID').after('<span style="font-size:12px;" id="removeSolve">Please Enter Movie Title/IMDB ID first</span>');
+                $('#MovieID').html('<span style="font-size:12px;" id="removeSolve">Please Enter Movie Title/IMDB ID first</span>');
                 $('#MovieID').css('background-color','#fbb8b8');
          return false;
         }else{
+			$('#MovieID').css('background-color','#fff');
             $('#loading').show();
             var token = '{{ Session::token() }}';
             var route = '{{ url("/movie/api") }}';

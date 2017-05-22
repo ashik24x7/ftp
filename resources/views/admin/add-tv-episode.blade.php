@@ -50,18 +50,18 @@
             <!-- BEGIN CONTENT -->
             <div class="page-content-wrapper">
                 <!-- BEGIN CONTENT BODY -->
-                <div class="page-content">
+                <div class="page-content" style="overflow: overlay;">
                     <!-- BEGIN PAGE HEADER-->
                    
                     <!-- BEGIN PAGE BAR -->
                     <div class="page-bar">
                         <ul class="page-breadcrumb">
                             <li>
-                                <a href="dashboard.php">Dashboard</a>
+                                <a href="/admin/home">Dashboard</a>
                                 <i class="fa fa-circle"></i>
                             </li>
                             <li>
-                                <a href="tvseries.php">Tv Series</a>
+                                <a href="">Tv Series</a>
                                 <i class="fa fa-circle"></i>
                             </li>
                             <li>
@@ -73,12 +73,14 @@
                     <!-- END PAGE BAR -->
                     <!-- BEGIN PAGE TITLE--><br>
                     @php
+						$poster_dir = ltrim($tvseries->category_name->drive,'fs1/').'/'.$tvseries->year.'/'.$tvseries->poster;
+						
                         $path = $tvseries->category_name->drive.'/'.$tvseries->title.'/';
                         $path = str_replace(' ','%20',$path);
 
                     @endphp
 					<div class="col-md-6">
-    					 <img class="fx" data-animate="fadeInLeft" alt="" src="{{'/'.$path.$tvseries->poster}}" style="box-shadow: rgb(0, 0, 0) 7px 4px 10px -6px;height:250px;float: left;margin: 30px 10px 0px 0px;">
+    					 <img class="fx" data-animate="fadeInLeft" alt="" src="{{\Storage::url($poster_dir)}}" style="box-shadow: rgb(0, 0, 0) 7px 4px 10px -6px;height:250px;float: left;margin: 30px 10px 0px 0px;">
     					
                         <h3 class="page-title">{{$tvseries->title}}</h3><h5>{{$tvseries->cast}}</h5>{{$tvseries->story}}
 					</div>
@@ -108,7 +110,11 @@
                                         <?php // } ?>
                                         </ul>
                                         @php
-                                            $path_dir = public_path($tvseries->category_name->drive.'/'.$tvseries->title);
+										
+                                            $path = ltrim($tvseries->category_name->drive,'fs1/').'/'.$tvseries->title;
+											
+                                            $path_dir = $tvseries->category_name->drive.'/'.$tvseries->title;
+											
                                         @endphp
                                         <form action="{{url('/admin/episode/auto',$tvseries->id)}}" method="post">
                                         {{csrf_field()}}
@@ -117,16 +123,18 @@
                                           <input type="hidden" name="tvseries" value="{{$tvseries->id}}">
                                         <div class="form-group">
                                             <select class="form-control" name="session">
-                                            
-                                            @if (is_dir($path_dir))
+                                            {{$path_dir}}
+                                            @if (\Storage::disk('ftp')->exists($path_dir))
                                                 @php
-                                                    $files = scandir($path_dir);
-                                                    sort($files);
+                                                    $files = \Storage::disk('ftp')->directories($path_dir);
+                                                    //sort($files);
                                                 @endphp
-                                                @foreach($files as $file)
-                                                @unless(stripos($file,'.png') || stripos($file,'.jpg') || $file == '.' || $file == '..')
+                                                @foreach($files as $sub_file)
+													@php
+														$data = explode("/",$sub_file);
+														$file = end($data);
+													@endphp 
                                                 <option value="{{$file}}">{{$file}}</option>
-                                                @endunless
                                                 @endforeach
                                             @endif 
                                             </select>

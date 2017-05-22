@@ -43,7 +43,7 @@
 	   
 	    <!-- site preloader end -->
 	    
-	    <div class="pageWrapper">
+	    <div class="pageWrapper fixedPage">
 		    
 			<!-- Header Start -->
 		@include('home.partial.header')
@@ -66,7 +66,10 @@
 								<div class="portfolio-items" id="container">
                                 @foreach($games as $game)
                                 	@php
-			    						$path = '/'.$game->category_name->drive.'/'.$game->name.'/';
+										$poster_dir = '/storage/'.ltrim($game->category_name->drive,'fs1/').'/'.$game->cover;
+										
+										$path = 'http://43.230.123.21/';
+			    						$path .= $game->category_name->drive.'/'.$game->name.'/';
 			    						$path = str_replace(' ','%20',$path);
 			    						$path = str_replace('[','%5B',$path);
 			    						$path = str_replace(']','%5D',$path);
@@ -76,13 +79,13 @@
 										<div class="portfolio-item" style="margin-top: 5px;margin-bottom:10px;">
 											<div class="img-holder">
 												<div class="img-over" style="display: none;">
-													<a href="{{$path.$game->path}}" class="fx link undefined // animated fadeOutUp"><b class="fa fa-link"></b></a>
-													<a href="{{$path.$game->path}}" class="fx zoom undefined animated fadeOutDown" data-gal="prettyPhoto[pp_gal]" title="Project Title"><b class="fa fa-search-plus"></b></a>
+													<a href="/game/{{strtolower(str_replace(' ','-',$game->name))}}" class="fx link undefined // animated fadeOutUp"><b class="fa fa-link"></b></a>
+													<a href="/game/{{strtolower(str_replace(' ','-',$game->name))}}" class="fx zoom undefined animated fadeOutDown" data-gal="prettyPhoto[pp_gal]" title="Project Title"><b class="fa fa-search-plus"></b></a>
 												</div>
-												<img alt="" src="{{$path.$game->cover}}">
+												<a href="/game/{{strtolower(str_replace(' ','-',$game->name))}}" ><img alt="" src="{{$poster_dir}}"></a>
 											</div>
 											<div class="name-holder">
-											<a href="{{$path.$game->path}}" class="project-name" style="height:45px;" >{{$game->name}}</a>
+											<a href="/game/{{strtolower(str_replace(' ','-',$game->name))}}" class="project-name" style="height:45px;" >{{$game->name}}</a>
 											<span class="project-options">{{$game->category_name->menu_name}} ({{$game->size}})</span>
 										</div>
 										</div>

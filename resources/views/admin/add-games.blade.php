@@ -120,11 +120,7 @@
                                 <div class="portlet-title">
                                    
                                     <div class="actions">
-                                        <div class="btn-group">
-                                            <a class="btn btn-sm default dropdown-toggle" href="#" data-toggle="dropdown"> Settings
-                                                
-                                            </a>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                                 <div class="portlet-body form">

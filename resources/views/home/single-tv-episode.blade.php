@@ -2,9 +2,9 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title><?php // echo WEBNAME; ?> - <?php // echo $results['epTitle']; ?></title>
+		<title>Ebox - File Server</title>
 		
-		<meta name="author" content="Kamruddin bivob">
+		<meta name="author" content="">
 		
 		<!-- Mobile Meta -->
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -37,6 +37,16 @@
 
   <!-- If you'd like to support IE8 -->
   <script src="http://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+	<style>
+		
+		.video-js .vjs-big-play-button{
+			top: 50%;
+			left: 50%;
+			margin-top: -22px;
+			margin-left: -45px;
+			
+		}
+	</style>
 	</head>
 	<body>
 	    
@@ -46,7 +56,7 @@
 	    </div>
 	    <!-- site preloader end -->
 	    
-	    <div class="pageWrapper">
+	    <div class="pageWrapper fixedPage">
 		    
 		    <!-- login box start 
 			<div class="login-box">
@@ -86,13 +96,19 @@
 					<div class="container">
 						<div class="row">
 						@php
-							$path = $episode->category_name->drive.'/'.$episode->tvseries->title.'/';
+							$poster_dir = ltrim($episode->category_name->drive,'fs1/').'/';
+							
+							$path = 'http://fs.ebox.live/'.$episode->category_name->drive.'/'.$episode->tvseries->title.'/';
 				            $path = str_replace(' ','%20',$path);
 						@endphp
 							<div class="cell-9">
 								<div class="cell-12">
 									<div class="product-specs price-block list-results">
-										<div class="price-box"><span class="product-price">{{$episode->tvseries->title}} [{{date('Y',strtotime($episode->tvseries->release_date))}}]</span></div>
+										<div class="price-box"><span class="product-price">{{$episode->tvseries->title}}</span>
+										
+										<span style="float:right;    color:#a5a5a5;font-weight: normal;font-size: 24px;padding-top: 4px;"  class="product-price">Season: {{$episode->season}} Episode : {{$episode->episode}} </span>
+										
+										</div>
 										<div>
 											<span class="results-rating">
 												<?php // $ratings = floor($json['vote_average']);
@@ -105,13 +121,13 @@
 														   // }
 														?>
 											</span>
-											<span><span>Episode : {{$episode->episode}} Season: {{$episode->season}} </span><span class="separator"></span>
+											<span><span class="separator"></span>
 										</div>
 									</div>
 									<div class="product-block results-avl list-results">
 										<video id="my-video" class="video-js" controls preload="auto"  style="width:100%" height="464"
-									  poster="{{'/'.$path.$episode->tvseries->poster}}" data-setup="{}">
-										<source src="{{'/'.$path.'Season%20'.$episode->season.'/'.$episode->path}}" type='video/mp4'>
+									  poster="{{\Storage::url($poster_dir.$episode->tvseries->poster)}}" data-setup="{}">
+										<source src="{{$path.'Season%20'.$episode->season.'/'.$episode->path}}" type='video/mp4'>
 										<source src="{{'/'.$path.'Season%20'.$episode->season.'/'.$episode->path}}" type='video/mkv'>
 										<p class="vjs-no-js">
 										  To view this video please enable JavaScript, and consider upgrading to a web browser that
@@ -124,12 +140,12 @@
 									<div class="cell-12">
 									<div class="cell-9" style="border-right:1px solid #555;">
 									<div class="list-results last-list">
-									<div class="cell-5" style="padding:0px 0px 0px 0px;margin-left:-27px;">
+									<div class="cell-5" style="padding:0px 0px 0px 0px;margin-left:-27px; width:auto">
 									<div class="post-img">
-				    					<img alt="" style="height:138px;" src="{{'/'.$path.$episode->tvseries->poster}}">
+				    					<img alt="" style="height:138px;" src="{{\Storage::url($poster_dir.$episode->tvseries->poster)}}">
 									</div>
 									</div>
-									<div class="cell-7">
+									<div class="cell-7" style="width: 80%;">
 									<div class="product-specs product-block list-results" style="margin-top:-17px;">
 									    <label class="control-label"><i class="fa fa-paper-plane-o"></i>Quality:</label>
 										<a class="btn btn-md btn-orange btn-outlined fx animated fadeInDown" href="#" data-animate="fadeInDown" data-animation-delay="700" style="animation-delay: 700ms;">
@@ -143,7 +159,15 @@
 									<div class="cell-3">
 									<ul style="width:120%;">
 									  <li><br>
-									  <label class="control-label">Release Date: <font color="#bbb"> {{$episode->tvseries->release_date}}</font></label>
+									  <label class="control-label">Released: <font color="#bbb"> {{$episode->tvseries->release_date->diffForHumans()}}</font></label>
+									      
+									  </li>
+									  <li>
+									  <label class="control-label">Added: <font color="#bbb"> {{$episode->created_at->diffForHumans()}}</font></label>
+									      
+									  </li> 
+									  <li>
+									  <label class="control-label">Updated: <font color="#bbb"> {{$episode->updated_at->diffForHumans()}}</font></label>
 									      
 									  </li>
 									  <li>
@@ -156,8 +180,9 @@
 									  <label class="control-label">Size:<font color="#bbb"> {{$episode->size}}</font></label>
 									  </li>
 									  <br>
+									  
 									  <li>
-									  <a class="btn btn-md btn-3d btn-blue fx animated fadeInUp" href="{{'/'.$path.'Season%20'.$episode->season.'/'.$episode->path}}" data-animate="fadeInUp" data-animation-delay="100" style="animation-delay: 100ms;">
+									  <a class="btn btn-md btn-3d btn-blue fx animated fadeInUp" href="{{$path.'Season '.$episode->season.'/'.$episode->path}}" data-animate="fadeInUp" data-animation-delay="100" style="animation-delay: 100ms;">
 										<span><i class="fa fa-download"></i>Download</span> </a>
 									  </li>
 									  <li>&nbsp;</li>
@@ -187,17 +212,7 @@
 									 <div class="tabs-pane">
 								     <div class="tab-panel active"> <!-- /// Cast tab // -->
 								<?php // foreach($json['crew'] as $crew){?>	 
-								    <div class="cell-3 fx animated bounceInUp" data-animate="bounceInUp">
-									<div class="team-box-2">
-				    					<div class="team-img">
-				    						<img alt="" src="http://image.tmdb.org/t/p/w342/<?php // echo $crew['profile_path']; ?>">
-				    					</div>
-				    					<div class="team-details">
-			                                <h3 style="font-size:14px;"><?php // echo $crew['name']; ?></h3>
-			                                <div class="t-position" style="margin-top:-10px;height:41px;"><?php // echo $crew['department']; ?></div>
-				    					</div>
-				    				</div>
-									</div>
+								    
 								<?php // } ?>
                                      </div>
 									
@@ -256,35 +271,65 @@ var disqus_config = function () {
 									</div>
 								</div>
 							</div>
+							
+							
 							<aside class="cell-3 left-shop">
-								<div class="widget r-posts-w sale-widget fx" data-animate="fadeInRight">
-									<h3 class="widget-head">Screenshots</h3>
-									<div class="widget-content">
-									<div class="post-img">
-									<ul class="gallery">
-									
-								<?php // $still = CollectScreenshotsTV($tvid,$results['epEpisode'],$results['epSeasons']); 
-					// 			foreach($still as $allimages=>$keyimages){
-			  //   foreach($keyimages as $totalimages=>$keytotalimages){
-				 //   foreach($keytotalimages as $Totalbackdrops=>$Totalbackdropskeys){ 
-				 //   if($Totalbackdrops == 'file_path'){
-					// $Totalbackdropskeys
-				   
-								?>
-									<li>
-						<a href="http://image.tmdb.org/t/p/w500/<?php // echo $Totalbackdropskeys; ?>" rel="prettyPhoto[gallery1]" title="You can add caption to pictures.">
-						<img src="{{'/'.$path.$episode->tvseries->poster}}" alt=""style="width:100%;height:150px;">
-						</a>
-					</li>
-								<?php //  }
-				  //  }
-			   // }
-		   //}?>	
-									</ul>
-									</div>
-									</div>
-								</div>
+
+							<div class="widget r-posts-w sale-widget fx" data-animate="fadeInRight" style="padding-bottom: 20px;">
+							<h3 class="widget-head">Episode Details</h3>
+							
+							<table>
+							  <tr>
+							    <td>Category:</td>
+							    <td>{{ucfirst($episode->category_name->menu_name)}}</td>
+							  </tr>
+							  <tr>
+							    <td>IMDb Rating:</td>
+							    <td></td>
+							  </tr>
+							  <tr>
+							    <td>Video Quality:</td>
+							    <td>{{$episode->quality}}</td>
+							  </tr>
+							  <tr>
+							    <td>File Type:</td>
+							    <td>
+							    	@if(strpos($episode->path,'.mp4'))	
+									.mp4
+									@elseif(strpos($episode->path,'.webm'))
+									.webm
+									@elseif(strpos($episode->path,'.ogg'))
+									.ogg
+									@elseif(strpos($episode->path,'.mkv'))
+									.mkv
+									@elseif(strpos($episode->path,'.avi'))
+									.avi
+									@else
+									undefined
+									@endif
+							    </td>
+							  </tr>
+							  <tr>
+							    <td>File Size:</td>
+							    <td>{{$episode->size}}</td>
+							  </tr>
+							  <tr>
+							    <td>Total views:</td>
+							    <td>{{$episode->views}}</td>
+							  </tr>
+							</table>
+							
+							</div>
+							
+							<div class="widget r-posts-w sale-widget fx" data-animate="fadeInRight">
+							<h3 class="widget-head">Shout Box</h3>
+			            @include('home.shoutbox')
+							</div>
+							
 							</aside>
+							
+							
+							
 						</div>
 					</div>
 				</div>

@@ -4,9 +4,46 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f2a9092a6dc90d74c0ffdc126a58bb89",
-    "content-hash": "86b58b428d13f83a0315a628a609f36c",
+    "hash": "da425c0aba1488e64b7a31003f66c4f6",
+    "content-hash": "b34058b3185687024e59a9d51a1a98cb",
     "packages": [
+        {
+            "name": "alveum/laravel-sftp",
+            "version": "v0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Alveum/laravel-sftp.git",
+                "reference": "009e5f22bcc8b07c6561f6cd54a3d20e6154547d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Alveum/laravel-sftp/zipball/009e5f22bcc8b07c6561f6cd54a3d20e6154547d",
+                "reference": "009e5f22bcc8b07c6561f6cd54a3d20e6154547d",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^5.0",
+                "thomasgenster/flysystem-sftp": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Alveum\\SFTP\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache License 2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Janyk Steenbeek",
+                    "email": "janyk.steenbeek@alveum.com"
+                }
+            ],
+            "description": "Integrate SFTP into Laravel's filesystem.",
+            "time": "2017-02-08 18:56:17"
+        },
         {
             "name": "classpreloader/classpreloader",
             "version": "3.1.0",
@@ -228,16 +265,16 @@
         },
         {
             "name": "intervention/image",
-            "version": "2.3.11",
+            "version": "2.3.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Intervention/image.git",
-                "reference": "e8881fd99b9804b29e02d6d1c2c15ee459335cf1"
+                "reference": "15a517f052ee15d373ffa145c9642d5fec7ddf5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Intervention/image/zipball/e8881fd99b9804b29e02d6d1c2c15ee459335cf1",
-                "reference": "e8881fd99b9804b29e02d6d1c2c15ee459335cf1",
+                "url": "https://api.github.com/repos/Intervention/image/zipball/15a517f052ee15d373ffa145c9642d5fec7ddf5c",
+                "reference": "15a517f052ee15d373ffa145c9642d5fec7ddf5c",
                 "shasum": ""
             },
             "require": {
@@ -286,7 +323,7 @@
                 "thumbnail",
                 "watermark"
             ],
-            "time": "2017-02-04 10:37:19"
+            "time": "2017-04-23 18:45:36"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -563,16 +600,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.38",
+            "version": "1.0.40",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "4ba6e13f5116204b21c3afdf400ecf2b9eb1c482"
+                "reference": "3828f0b24e2c1918bb362d57a53205d6dc8fde61"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/4ba6e13f5116204b21c3afdf400ecf2b9eb1c482",
-                "reference": "4ba6e13f5116204b21c3afdf400ecf2b9eb1c482",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/3828f0b24e2c1918bb362d57a53205d6dc8fde61",
+                "reference": "3828f0b24e2c1918bb362d57a53205d6dc8fde61",
                 "shasum": ""
             },
             "require": {
@@ -642,7 +679,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2017-04-22 18:59:19"
+            "time": "2017-04-28 10:15:08"
         },
         {
             "name": "monolog/monolog",
@@ -919,6 +956,98 @@
             "time": "2017-03-13 16:27:32"
         },
         {
+            "name": "phpseclib/phpseclib",
+            "version": "2.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpseclib/phpseclib.git",
+                "reference": "ab8028c93c03cc8d9c824efa75dc94f1db2369bf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/ab8028c93c03cc8d9c824efa75dc94f1db2369bf",
+                "reference": "ab8028c93c03cc8d9c824efa75dc94f1db2369bf",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phing/phing": "~2.7",
+                "phpunit/phpunit": "~4.0",
+                "sami/sami": "~2.0",
+                "squizlabs/php_codesniffer": "~2.0"
+            },
+            "suggest": {
+                "ext-gmp": "Install the GMP (GNU Multiple Precision) extension in order to speed up arbitrary precision integer arithmetic operations.",
+                "ext-libsodium": "SSH2/SFTP can make use of some algorithms provided by the libsodium-php extension.",
+                "ext-mcrypt": "Install the Mcrypt extension in order to speed up a few other cryptographic operations.",
+                "ext-openssl": "Install the OpenSSL extension in order to speed up a wide variety of cryptographic operations."
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "phpseclib/bootstrap.php"
+                ],
+                "psr-4": {
+                    "phpseclib\\": "phpseclib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jim Wigginton",
+                    "email": "terrafrost@php.net",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Patrick Monnerat",
+                    "email": "pm@datasphere.ch",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Andreas Fischer",
+                    "email": "bantu@phpbb.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Hans-Jürgen Petrich",
+                    "email": "petrich@tronic-media.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Graham Campbell",
+                    "email": "graham@alt-three.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP Secure Communications Library - Pure-PHP implementations of RSA, AES, SSH2, SFTP, X.509 etc.",
+            "homepage": "http://phpseclib.sourceforge.net",
+            "keywords": [
+                "BigInteger",
+                "aes",
+                "asn.1",
+                "asn1",
+                "blowfish",
+                "crypto",
+                "cryptography",
+                "encryption",
+                "rsa",
+                "security",
+                "sftp",
+                "signature",
+                "signing",
+                "ssh",
+                "twofish",
+                "x.509",
+                "x509"
+            ],
+            "time": "2016-10-04 00:57:04"
+        },
+        {
             "name": "psr/http-message",
             "version": "1.0.1",
             "source": {
@@ -1172,16 +1301,16 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v5.4.6",
+            "version": "v5.4.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "81fdccfaf8bdc5d5d7a1ef6bb3a61bbb1a6c4a3e"
+                "reference": "56db4ed32a6d5c9824c3ecc1d2e538f663f47eb4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/81fdccfaf8bdc5d5d7a1ef6bb3a61bbb1a6c4a3e",
-                "reference": "81fdccfaf8bdc5d5d7a1ef6bb3a61bbb1a6c4a3e",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/56db4ed32a6d5c9824c3ecc1d2e538f663f47eb4",
+                "reference": "56db4ed32a6d5c9824c3ecc1d2e538f663f47eb4",
                 "shasum": ""
             },
             "require": {
@@ -1222,7 +1351,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2017-02-13 07:52:53"
+            "time": "2017-04-20 17:32:18"
         },
         {
             "name": "symfony/console",
@@ -2003,6 +2132,53 @@
                 "dump"
             ],
             "time": "2017-01-24 13:02:38"
+        },
+        {
+            "name": "thomasgenster/flysystem-sftp",
+            "version": "1.0.12",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thomasgenster/flysystem-sftp.git",
+                "reference": "b0af1abf18788610da4f1e8bd64b72f6c686d3b6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thomasgenster/flysystem-sftp/zipball/b0af1abf18788610da4f1e8bd64b72f6c686d3b6",
+                "reference": "b0af1abf18788610da4f1e8bd64b72f6c686d3b6",
+                "shasum": ""
+            },
+            "require": {
+                "league/flysystem": "~1.0",
+                "php": ">=5.4.0",
+                "phpseclib/phpseclib": "~2.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.9.*",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\Flysystem\\Sftp\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Frank de Jonge",
+                    "email": "info@frenky.net"
+                }
+            ],
+            "description": "Flysystem adapter for SFTP",
+            "time": "2016-10-17 23:19:19"
         },
         {
             "name": "vlucas/phpdotenv",

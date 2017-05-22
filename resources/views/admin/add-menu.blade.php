@@ -39,9 +39,14 @@
                         <div class="form-body">
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Menu Name: </label>
-                                <div class="col-md-6">
+                                <div class="col-md-3">
                                     <input type="text" name="menu_name" class="form-control input-circle" placeholder="Enter text">
                                     <span class="help-block">{{ $errors->first('menu_name') }}</span>
+                                </div> 
+								<label class="col-md-1 control-label">icon: </label>
+                                <div class="col-md-2">
+                                    <input type="text" name="icon" class="form-control input-circle" placeholder="film">
+                                    <span class="help-block">{{ $errors->first('icon') }}</span>
                                 </div>
                             </div>
                             <div class="form-group">

@@ -44,12 +44,12 @@
                                 <li class="nav-item start  <?php // echo active('page_user_profile_account.php'); ?>">
                                     <a href="page_user_profile_account.php" class="nav-link ">
                                         <i class="icon-user"></i>
-                                        <span class="title">my profile</span>
+                                        <span class="title">My profile</span>
                                         <span class="selected"></span>
                                     </a>
                                 </li>
 								<li class="nav-item start  <?php // echo active('dashboard.php'); ?>">
-                                    <a href="dashboard.php" class="nav-link ">
+                                    <a href="/admin/home" class="nav-link ">
                                         <i class="icon-user"></i>
                                         <span class="title">Dashboard<span>
                                         <span class="selected"></span>
@@ -79,6 +79,13 @@
                                         <span class="selected"></span>
                                     </a>
                                 </li>
+								<li class="nav-item start <?php // echo active('add_episodes.php'); ?>"> 
+                                    <a href="/admin/menu/all" class="nav-link ">
+                                        <i class="fa fa-edit"></i>
+                                        <span class="title">View All Menu<span>
+                                        <span class="selected"></span>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         
@@ -95,7 +102,7 @@
                         <li class="nav-item">
                             <a href="/admin/movie/manual" class="nav-link nav-toggle">
                                 <i class="fa fa-plus"></i>
-                                <span class="title">Add Movies (Manual)</span> 
+                                <span class="title">Add Movie (Manual)</span> 
                             </a>
                         </li>
 						<li class="nav-item">
@@ -112,9 +119,9 @@
                         </li>
 						
 						<li class="nav-item start">
-                            <a href="dashboard.php" class="nav-link nav-toggle">
+                            <a href="#" class="nav-link nav-toggle">
                                 <i class="fa fa-television"></i>
-                                <span class="title">Tv Series</span>
+                                <span class="title">TV Series</span>
                                 <span class="selected"></span>
                                 <span class="arrow open"></span>
                             </a>
@@ -122,21 +129,21 @@
                                 <li class="nav-item start">
                                     <a href="/admin/tv-series/auto" class="nav-link ">
                                         <i class="fa fa-plus"></i>
-                                        <span class="title">Add Tv Series (Automatic)</span>
+                                        <span class="title">Add TV Series (Automatic)</span>
                                         <span class="selected"></span>
                                     </a>
                                 </li>
                                 <li class="nav-item start">
                                     <a href="/admin/tv-series/add" class="nav-link ">
                                         <i class="fa fa-plus"></i>
-                                        <span class="title">Add Tv Series (Manual)</span>
+                                        <span class="title">Add TV Series (Manual)</span>
                                         <span class="selected"></span>
                                     </a>
                                 </li>
 								<li class="nav-item start"> 
                                     <a href="/admin/tv-series/all" class="nav-link ">
                                         <i class="fa fa-edit"></i>
-                                        <span class="title">View Tv Series<span>
+                                        <span class="title">View TV Series<span>
                                         <span class="selected"></span>
                                     </a>
                                 </li>
@@ -156,9 +163,9 @@
                             </a>
                             <ul class="sub-menu">
                                 <li class="nav-item start  <?php // echo active('games.php'); ?>">
-                                    <a href="games.php" class="nav-link ">
+                                    <a href="/admin/game/add" class="nav-link ">
                                         <i class="fa fa-plus"></i>
-                                        <span class="title">add Games</span>
+                                        <span class="title">Add Games</span>
                                         <span class="selected"></span>
                                     </a>
                                 </li>

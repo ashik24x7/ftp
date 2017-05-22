@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Submenu;
 use App\Game;
 use App\Menu;
+use App\Shout;
+use Storage;
+use DB;
 
 class GameController extends Controller
 {
@@ -18,7 +21,7 @@ class GameController extends Controller
         return $size;
     }
     public function getAddGame(){
-    	$data['submenu'] = Submenu::where('visible',1)->where('main_menu',3)->get();
+    	$data['submenu'] = Submenu::where('visible',1)->where('main_menu',4)->get();
     	return view('admin.add-games',$data);
     }
 
@@ -42,28 +45,29 @@ class GameController extends Controller
             $category = Submenu::where('id',$request->category)->first();
             
             $path = $category->drive . DIRECTORY_SEPARATOR . $request->name;
+			
+			$poster_dir = ltrim($category->drive,'fs1/');
+			$poster_name = str_replace(' ', '_', $request->name).'.png';
 
-        	if (is_dir(public_path($path))){
-        		$dir = opendir($path);
-        		while ($files = readdir($dir)) {
-        			if($files == '.' || $files == '..'){
-        				continue;
-        			}elseif(stripos($files,'.png') || stripos($files,'.jpg')){
-                        $data['cover'] = $files;
-                        $poster_exist = 1;
-                    }elseif(stripos($files,'.iso') || stripos($files,'.rar')){
+        	if (Storage::disk('ftp')->exists($path)){
+        		$dir = Storage::disk('ftp')->files($path);
+        		foreach($dir as $files_path) {
+					$files = explode("/",$files_path);
+    				$files = end($files);
+        			if(stripos($files,'.iso') || stripos($files,'.rar')){
                         $data['path'] = $files;
-                        $data['size'] = $this->byte_to_human(filesize($path.DIRECTORY_SEPARATOR.$files));
+                        $data['size'] = $this->byte_to_human(Storage::disk('ftp')->size($files_path));
                         $data['platform'] = '';
                         $data['views'] = 1;
                     }
         		}
 
-                if(!isset($data['cover']) && $request->file('cover') !== null){
-                    if($cover = $request->file('cover')){
-                        $cover_name = str_random(20).'.'.$cover->extension();
-                        $cover->move(public_path($path),$cover_name);
-                    }
+                if($cover = $request->file('cover')){
+					if(Storage::exists($poster_dir.DIRECTORY_SEPARATOR.$poster_name)){
+						Storage::delete($poster_dir.DIRECTORY_SEPARATOR.$poster_name);
+					}
+                    Storage::putFileAs($poster_dir, $cover, $poster_name);
+					$data['cover'] = $poster_name;
                 }
 
                 if(!isset($data['path'])){
@@ -94,6 +98,14 @@ class GameController extends Controller
         return view('home.all-games',$data);
     }
 
+	public function singleGame($id){
+        $id = str_replace('-', ' ', $id);
+        DB::table('games')->where('name',$id)->increment('views',1);
+        $data['menu'] = Menu::with(['submenu'])->get();
+        $data['shout'] = Shout::orderBy('created_at','DESC')->paginate(15);
+    	$data['game'] = Game::with(['category_name'])->where('name',$id)->first();
+        return view('home.single-games',$data);
+    }
 
 
 

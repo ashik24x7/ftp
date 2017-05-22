@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'phpseclib\\' => array($vendorDir . '/phpseclib/phpseclib/phpseclib'),
     'phpDocumentor\\Reflection\\' => array($vendorDir . '/phpdocumentor/reflection-common/src', $vendorDir . '/phpdocumentor/type-resolver/src', $vendorDir . '/phpdocumentor/reflection-docblock/src'),
     'XdgBaseDir\\' => array($vendorDir . '/dnoegel/php-xdg-base-dir/src'),
     'Webmozart\\Assert\\' => array($vendorDir . '/webmozart/assert/src'),
@@ -32,6 +33,7 @@ return array(
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
     'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
+    'League\\Flysystem\\Sftp\\' => array($vendorDir . '/thomasgenster/flysystem-sftp/src'),
     'League\\Flysystem\\' => array($vendorDir . '/league/flysystem/src'),
     'Intervention\\Image\\' => array($vendorDir . '/intervention/image/src/Intervention/Image'),
     'Illuminate\\' => array($vendorDir . '/laravel/framework/src/Illuminate'),
@@ -44,4 +46,5 @@ return array(
     'ClassPreloader\\' => array($vendorDir . '/classpreloader/classpreloader/src'),
     'Carbon\\' => array($vendorDir . '/nesbot/carbon/src/Carbon'),
     'App\\' => array($baseDir . '/app'),
+    'Alveum\\SFTP\\' => array($vendorDir . '/alveum/laravel-sftp/src'),
 );

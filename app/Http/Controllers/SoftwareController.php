@@ -7,6 +7,10 @@ use App\Submenu;
 use App\Software;
 use App\Menu;
 use App\Game;
+use App\Shout;
+use App\Movie;
+use Storage;
+use DB;
 
 class SoftwareController extends Controller
 {
@@ -31,7 +35,7 @@ class SoftwareController extends Controller
 
 
     public function getAddSoftware(){
-    	$data['submenu'] = Submenu::where('visible',1)->where('main_menu',2)->get();
+    	$data['submenu'] = Submenu::where('visible',1)->where('main_menu',3)->get();
     	return view('admin.add-software',$data);
     }
 
@@ -49,32 +53,32 @@ class SoftwareController extends Controller
             $data['requirement'] = $request->requirement;
 
             $data['added_by'] = auth()->guard('admin')->user()->id;
-
+			
             $category = Submenu::where('id',$request->category)->first();
             
             $path = $category->drive . DIRECTORY_SEPARATOR . $request->name;
+			$poster_dir = ltrim($category->drive,'fs1/');
+			$poster_name = str_replace(' ', '_', $request->name).'.png';
 
-        	if (is_dir(public_path($path))){
-        		$dir = opendir($path);
-        		while ($files = readdir($dir)) {
-        			if($files == '.' || $files == '..'){
-        				continue;
-        			}elseif(stripos($files,'.png') || stripos($files,'.jpg')){
-                        $data['cover'] = $files;
-                        $poster_exist = 1;
-                    }elseif(stripos($files,'.exe')){
+        	if (Storage::disk('ftp')->exists($path)){
+        		$dir = Storage::disk('ftp')->files($path);
+        		foreach($dir as $files_path) {
+					$files = explode("/",$files_path);
+    				$files = end($files);
+        			if(stripos($files,'.exe')){
                         $data['path'] = $files;
-                        $data['size'] = $this->byte_to_human(filesize($path.DIRECTORY_SEPARATOR.$files));
+                        $data['size'] = $this->byte_to_human(Storage::disk('ftp')->size($files_path));
                         $data['platform'] = 'Windows';
                         $data['views'] = 1;
                     }
         		}
 
-                if(!isset($data['cover']) && $request->file('cover') !== null){
-                    if($cover = $request->file('cover')){
-                        $cover_name = str_random(20).'.'.$cover->extension();
-                        $cover->move(public_path($path),$cover_name);
-                    }
+                if($cover = $request->file('cover')){
+					if(Storage::exists($poster_dir.DIRECTORY_SEPARATOR.$poster_name)){
+						Storage::delete($poster_dir.DIRECTORY_SEPARATOR.$poster_name);
+					}
+                    Storage::putFileAs($poster_dir, $cover, $poster_name);
+					$data['cover'] = $poster_name;
                 }
 
                 if(!isset($data['path'])){
@@ -104,4 +108,15 @@ class SoftwareController extends Controller
         $data['games'] = Game::with(['category_name'])->orderBy('id','DESC')->paginate(8);
         return view('home.all-softwares',$data);
     }
+	
+	public function singleSoftware($id){
+        $id = str_replace('-', ' ', $id);
+        DB::table('softwares')->where('name',$id)->increment('views',1);
+        $data['menu'] = Menu::with(['submenu'])->get();
+        $data['shout'] = Shout::orderBy('created_at','DESC')->paginate(15);
+    	$data['software'] = Software::with(['category_name'])->where('name',$id)->first();
+        return view('home.single-software',$data);
+    }
+	
+	
 }

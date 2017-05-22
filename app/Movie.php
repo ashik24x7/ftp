@@ -30,6 +30,10 @@ class Movie extends Model
     	'views',
     	'published',
     ];
+	
+	protected $dates = [
+        'release_date'
+    ];
 
     public function category_name(){
         return $this->belongsTo('App\Submenu','category');

@@ -1149,8 +1149,10 @@ header.top-head-4 .logo {
 	content: "";
 }
 .search-box input[type=text] {
-	width: 343px;
-	height: 53px;
+	width: 341px;
+    height: 53px;
+    background: #e7512f;
+    font-size: 20px;
 }
 .search-box input[type=submit] {
 	width: 55px;
@@ -2962,6 +2964,7 @@ blockquote span {
 /* ---- 7.6.2. Portfolio Filterable -------------- */
 .portfolio-filterable .portfolio-item {
 	background-color: #3D3D3D;
+	    margin-left: 10px;
 }
 .portfolio-filterable .white-bg, .portfolio-filterable .gry-bg {
 	margin: 0 15px 10px;
@@ -4474,6 +4477,7 @@ img.loader{
 	-o-transition: all 0.4s ease-in-out;
 	-webkit-transition: all 0.4s ease-in-out;
 	transition: all 0.4s ease-in-out;
+	margin-left: 8px;
 }
 .item-box:after {
 	position: absolute;
@@ -8798,4 +8802,27 @@ i.icon {
 }
 .active {
     background: #e8522f !important;
+}
+.search-box input[type=text] {
+	width: 341px;
+    height: 53px;
+    background: #e7512f;
+    font-size: 20px;
+	
+	color: #fff;
+}
+.search-box input[type=text]::placeholder  {
+	color:#fff;
+}
+
+.video-js .vjs-big-play-button{
+	top: 50%;
+    left: 50%;
+    margin-top: -22px;
+    margin-left: -45px;
+	
+}
+
+.item-img img {
+    height: 280px;
 }

@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Ebox File Server</title>
+		<title>E-BOX File Server</title>
 		<meta name="description" content="Ebox File Server – Biggest Movie File Server">
 		<meta name="author" content="Webacademybd">
 		
@@ -16,7 +16,7 @@
 		<link rel="shortcut icon" href="/home/images/favicon.ico">
 		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,800&amp;amp;subset=latin,latin-ext">
 		<link rel="stylesheet" href="/home/css/font-awesome.min.css">
-
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<link rel="stylesheet" href="/home/css/prettyPhoto.css">
 		<link rel="stylesheet" href="/home/css/slick.css">
 		<link rel="stylesheet" href="/home/rs-plugin/css/settings.css">
@@ -29,6 +29,10 @@
 		<link rel="stylesheet" type="text/css" href="/home/css/search.css" />
 		<script type="text/javascript" src="http://www.google.com/jsapi"></script>
 		<script type="text/javascript" src="/home/js/script-search.js"></script>
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
 		 <style>
 		 	.team-box .team-details p {
 				margin-bottom: 10px;
@@ -40,6 +44,9 @@
 			.play-hover p:hover{
 				background:radial-gradient(#059002, #5b9d4b);
 				font-size:14px;
+			}
+			a:hover{
+				text-decoration:none;
 			}
 		</style>
 	
@@ -54,7 +61,7 @@
 				
 	     
 	   
-	    <div class="pageWrapper">
+	    <div class="pageWrapper fixedPage">
 		    
 		    <!-- login box start -->
 			<!-- no login system in silver package -->
@@ -100,10 +107,10 @@
 				
 				<div class="welcome gry-pattern" style="padding: 9px 0px 17px 0px;">
 					<div class="container">
-						<h3 class="block-head" style="margin-left:-9px;margin-bottom: 12px;margin-top: 2px;">Recently Added Movies 
+						<h3 class="block-head" style="margin-left:-9px;margin-bottom: 12px;margin-top: 2px;">Recently Added Movies
 						<a class="btn btn-md btn-3d main-bg fx animated fadeInUp pull-right" href="/movies" data-animate="fadeInUp" data-animation-delay="100" style="animation-delay: 100ms;-webkit-box-shadow: 0 0 0 0;box-shadow: 0 0 0 0;margin-right: -9px;padding: 2px 10px;">
-										<span>View All Movies</span>
-									</a></h3>
+										<span>View All Movies ({{$total_movies}})</span>
+									</a> </h3>
 						
 						<div class="portfolioGallery portfolio" style="margin-top: -6px;">
 						@foreach($movies as $movie)
@@ -113,7 +120,7 @@
 				    					@php
 				    						$poster_dir = 'storage/'.ltrim($movie->category_name->drive,'fs1/').'/'.$movie->year.'/'.$movie->poster;
 
-				    						$path = 'http://43.230.123.21/';
+				    						$path = 'http://fs.ebox.live/';
 				    						$path .= $movie->category_name->drive.'/'.$movie->year.'/'.$movie->title.' ['.$movie->year.']/'.$movie->poster;
 				    						$path = str_replace(' ','%20',$path);
 				    						$path = str_replace('[','%5B',$path);
@@ -122,13 +129,22 @@
 				    					@endphp
 				    						<img alt="" style="height:274px;" src="{{url($poster_dir)}}">
 				    					    <span class="yellowbox">{{$movie->year}}</span>
-											<span class="imdb-rating"><b><b class="fa fa-star"></b></b>{{$movie->rating}}</span>
+											<span class="imdb-rating"><b><b class="fa fa-star"></b></b>
+											@if($movie->rating > 0)
+											{{$movie->rating}}
+											@else
+												N/A
+											@endif
+											</span>
 										</div>
 
 										<a href="/movie/{{strtolower(str_replace(' ','-',$movie->title))}}">
 				    					<div class="team-details"  href="/movie/{{strtolower(str_replace(' ','-',$movie->title))}}" style="height:280px;background-color:rgba(0, 0, 0, 0.5);margin-left:0px;width:97.5%;">
 			                               
 											<p style="height: 100px !important; margin: -4px 0px 0px 0px;">
+											@php 
+												$movie->title = ucfirst($movie->title);
+											@endphp
 											{{ $movie->title.' ['.$movie->year.']' }}
 											</p>
 											
@@ -171,15 +187,18 @@
 							
 							<div class="row" style="margin-top:-70px;margin-bottom:-20px;">
 									<!-- staff item start -->
-								<h3 class="block-head" style="margin-left:12px;">Recently Added Games
+								<h3 class="block-head" style="margin-left:12px;    padding: 0px 3px;">Recently Added Games
 								<a class="btn btn-md btn-3d main-bg fx animated fadeInUp pull-right" href="/games" data-animate="fadeInUp" data-animation-delay="100" style="animation-delay: 100ms;-webkit-box-shadow: 0 0 0 0;box-shadow: 0 0 0 0;margin-right: 14px;margin-top: 4px;padding: 2px 10px;">
-										<span>View All Games</span>
+										<span>View All Games ({{$total_games}})</span>
 									</a>
 								</h3> 
 									<div class="portfolio-items" id="container">
                                 @foreach($games as $game)
                                 	@php
-				    						$path = $game->category_name->drive.'/'.$game->name.'/';
+											$poster_dir = 'storage'.ltrim($game->category_name->drive,'fs1').'/'.$game->cover;
+											
+											$path = 'http://43.230.123.21/';
+				    						$path .= $game->category_name->drive.'/'.$game->name.'/';
 				    						$path = str_replace(' ','%20',$path);
 				    						$path = str_replace('[','%5B',$path);
 				    						$path = str_replace(']','%5D',$path);
@@ -192,10 +211,10 @@
 													<a href="/game/{{strtolower(str_replace(' ','-',$game->name))}}" class="fx link undefined animated fadeOutUp"><b class="fa fa-link"></b></a>
 													<a href="" class="fx zoom undefined animated fadeOutDown" data-gal="prettyPhoto[pp_gal]" title="Project Title"><b class="fa fa-search-plus"></b></a>
 												</div>
-												<a href="{{$path.$game->path}}"><img alt="" src="{{$path.$game->cover}}"></a>
+												<a href="/game/{{str_replace(' ','-',$game->name)}}"><img alt="" src="{{$poster_dir}}"></a>
 											</div>
 											<div class="name-holder">
-											<a href="{{$path.$game->path}}" class="project-name" style="height:45px;">{{$game->name}} [ {{$game->size}} ]</a>
+											<a href="/game/{{str_replace(' ','-',$game->name)}}" class="project-name" style="height:45px;">{{$game->name}} [ {{$game->size}} ]</a>
 											<p style="width:40%; font-size:13px;float:right;margin-left:5px;"><i class="fa fa-eye"></i> {{$game->views}}</p><span class="project-options"> {{$game->category_name->menu_name}}</span>
 										</div>
 										</div>
@@ -223,22 +242,22 @@
 						<div class="row">
 						<style>
 						.shop-item p {
-	overflow: hidden;
-	padding: -1px 2px;
-	max-height: 22px;
-	font-size: 17px;
-	margin-left: 37px;
-	margin-top: -6px;
-}
+							overflow: hidden;
+							padding: -1px 2px;
+							max-height: 22px;
+							font-size: 17px;
+							margin-left: 37px;
+							margin-top: -6px;
+						}
 						</style>
-						<h3 class="block-head" style="margin-top:-10px;" >Recently Added TV Series
-						<a class="btn btn-md btn-3d main-bg fx animated fadeInUp pull-right" href="/tv-series" data-animate="fadeInUp" data-animation-delay="100" style="animation-delay: 100ms;-webkit-box-shadow: 0 0 0 0;box-shadow: 0 0 0 0;margin-right: 8px;margin-top: 4px;
-    padding: 2px 10px;">
-										<span>View All TV Series</span>
-									</a>
+						<h3 class="block-head" style="margin-top:-10px;    padding: 0px 0px 0px 7px;" >Recently Added TV Series
+						<a class="btn btn-md btn-3d main-bg fx animated fadeInUp pull-right" href="/tv-series" data-animate="fadeInUp" data-animation-delay="100" style="animation-delay: 100ms;-webkit-box-shadow: 0 0 0 0;box-shadow: 0 0 0 0;margin-right: 8px;margin-top: 4px; padding: 2px 10px;"> <span>View All TV Series ({{$total_tvseries}})</span></a>
+						
+						<a class="btn btn-md btn-3d main-bg fx animated fadeInUp pull-right" href="/tv-episodes" data-animate="fadeInUp" data-animation-delay="100" style="animation-delay: 100ms;-webkit-box-shadow: 0 0 0 0;box-shadow: 0 0 0 0;margin-right: 20px;margin-top: 4px; padding: 2px 10px;"> <span>View All Episodes ({{$total_episodes}})</span></a>
 						</h3> 
 					@foreach($episodes as $episode)
 					@php
+						$poster_dir = ltrim($episode->category_name->drive,'fs1/').'/';
                         $path = $episode->category_name->drive.'/'.$episode->tvseries->title.'/';
                         $path = str_replace(' ','%20',$path);
                     @endphp
@@ -250,7 +269,7 @@
 					<a href="/tv-series/{{$episode->tvseries->id}}/season/{{$episode->season}}/episode/{{$episode->episode}}">
 					<span class="sale" style="width: 80px;">Episode: {{$episode->episode}}</span>
 					<span class="sale2" style="width: 72px;">Seasons: {{$episode->season}}</span>
-					<img alt="" src="{{'/'.$path.$episode->tvseries->poster}}"></a>
+					<img alt="" src="{{\Storage::url($poster_dir.$episode->tvseries->poster)}}"></a>
 								</div>
 								<h3 class="item-title">
 							<a href="/tv-series/{{$episode->tvseries->id}}/season/{{$episode->season}}/episode/{{$episode->episode}}">{{$episode->tvseries->title}}</a>
@@ -273,14 +292,19 @@
 				
 					<div class="container" >
 					<h3 class="block-head" style="margin-top: -70px;margin-bottom: 28px;" >Recently Added Softwares
-						<a class="btn btn-md btn-3d main-bg fx animated fadeInUp pull-right" href="/softwares" data-animate="fadeInUp" data-animation-delay="100" style="animation-delay: 100ms;-webkit-box-shadow: 0 0 0 0;box-shadow: 0 0 0 0;margin-right: 14px;margin-top: 4px;padding: 2px 10px;"><span>View All Softwares</span></a>
+						<a class="btn btn-md btn-3d main-bg fx animated fadeInUp pull-right" href="/softwares" data-animate="fadeInUp" data-animation-delay="100" style="animation-delay: 100ms;-webkit-box-shadow: 0 0 0 0;box-shadow: 0 0 0 0;margin-right: -8px;margin-top: 4px;padding: 2px 10px;"><span>View All Softwares ({{$total_softwares}})</span></a>
+						
 					</h3> 
 						<div class="row">
 							<div class="cell-12">
 			
 			             	@foreach($softwares as $software)
                             	@php
-		    						$path = $software->category_name->drive.'/'.$software->name.'/';
+								
+									$poster_dir = 'storage'.ltrim($software->category_name->drive,'fs1').'/'.$software->cover;
+											
+									$path = 'http://43.230.123.21/';
+		    						$path .= $software->category_name->drive.'/'.$software->name.'/';
 		    						$path = str_replace(' ','%20',$path);
 		    						$path = str_replace('[','%5B',$path);
 		    						$path = str_replace(']','%5D',$path);
@@ -288,10 +312,10 @@
 		    					@endphp
 							<div class="cell-2 service-box-2 fx" data-animate="fadeInDown">
 								<div class="box-2-cont">
-									<i><img src="{{$path.$software->cover}}" style="margin-top:-50px;width:100px;height:100px;" /></i>
+									<i><a href="/software/{{str_replace(' ','-',$software->name)}}"><img src="{{$poster_dir}}" style="margin-top:-50px;width:100px;height:100px;" /></a></i>
 									<h4 style="height:54px;font-size:14px;margin-top:10px;">{{$software->name}}</h4>
 									<div class="center sub-title main-color"> Filesize: - ({{$software->size}})</div>
-									<a class="r-more main-color" href="{{$path.$software->path}}">Download</a>
+									<a class="r-more main-color" href="/software/{{str_replace(' ','-',$software->name)}}">Details</a>
 								</div>
 							</div>
 							@endforeach

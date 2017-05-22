@@ -131,8 +131,10 @@ header.top-head .logo a, .foot-logo {
 	color: #fff;
 }
 .btn.main-bg:hover, .team-box .team-socials li a {
-	background-color: #c13715 !important;
-	color: #a9a9a9;
+	background-color: #fff !important;
+    color: #e7512f;
+    text-shadow: 0px 0px 0px #000;
+	
 }
 .btn.main-border:hover {
 	border-color: #333 !important;
@@ -171,11 +173,11 @@ header.top-head .logo a, .foot-logo {
    (min-resolution: 1.5dppx) {
 
 	header.top-head .logo a, .foot-logo {
-		background: transparent url('../../images/logo@2x.png') no-repeat;
+		background: transparent url('../../images/logo.png') no-repeat;
 		background-size: 200px 38px;
 	}
 	.footer-top-2 .foot-logo {
-	    background: transparent url('../../images/logo@2x.png') no-repeat;
+	    background: transparent url('../../images/logo.png') no-repeat;
 	    background-size: 200px 38px;
 	}
 }

@@ -36,7 +36,7 @@
 	    
 	    <!-- site preloader end -->
 	    
-	    <div class="pageWrapper">
+	    <div class="pageWrapper fixedPage">
 			<!-- Header Start -->
 		@include('home.partial.header')
 			<!-- Header End -->
@@ -66,10 +66,12 @@ img.img-circle {
 						<div class="my-img">
 							<div class="my-details" style="background: linear-gradient(to bottom right, #580114, #05023b);">
 								@php
+									$poster_dir = ltrim($tvseries->category_name->drive,'fs1/').'/';
+									
 									$path = $tvseries->category_name->drive.'/'.$tvseries->title.'/';
 						            $path = str_replace(' ','%20',$path);
 								@endphp
-								<img class="fx" data-animate="fadeInLeft" alt="" src="{{'/'.$path.$tvseries->poster}}" style="box-shadow: rgb(0, 0, 0) 7px 4px 10px -6px;height:450px;">
+								<img class="fx" data-animate="fadeInLeft" alt="" src="{{\Storage::url($poster_dir.$tvseries->poster)}}" style="box-shadow: rgb(0, 0, 0) 7px 4px 10px -6px;height:450px;">
 								<h4 class="bold main-color my-name fx" data-animate="slideInDown" style="font-size:32px;">{{$tvseries->title}} [{{date('Y',strtotime($tvseries->release_date))}}]</h4>
 								
 								<ul class="list alt list-bookmark cell-4">
@@ -127,13 +129,13 @@ img.img-circle {
 									@foreach($episodes as $episode)
 									<div class="per-episode" style="">   
                                         <div class="image" style="float:left;">
-										  <a href="/tv-series/{{$tvseries->id}}/season/{{$episode->season}}/episode/{{$episode->episode}}"><img src="{{'/'.$path.$tvseries->poster}}" style="width:227px;height:127px;" /></a>
+										  <a href="/tv-series/{{$tvseries->id}}/season/{{$episode->season}}/episode/{{$episode->episode}}"><img src="{{\Storage::url($poster_dir.$tvseries->poster)}}" style="width:227px;height:127px;" /></a>
 										</div>
 										<a href="/tv-series/{{$tvseries->id}}/season/{{$episode->season}}/episode/{{$episode->episode}}"><img src="/home/images/play-icon.png" style="width:50px;height:50px;margin-bottom: -85px;margin-top: 19px;margin-left: 72%;" /></a>
 									    <div class="info" data-role="tooltip" style="padding:10px;margin-left:0px;margin-top:-18px;width:79%;float: left;height:127px;background: linear-gradient(to bottom right, #580114, #05023b);">
 											<div class="title">
 											  <a href="/tv-series/{{$tvseries->id}}/season/{{$episode->season}}/episode/{{$episode->episode}}" style="float:left;"><h3>SEASON: {{$episode->season}} , EPISODE: {{$episode->episode}}</h3></a> 
-											  <p style="background: radial-gradient(#09009A, #1E8CAB); width:6%;float:left;margin-top: 7px;margin-left: 15px;">&nbsp;&nbsp;{{$episode->quality}}</p>
+											  <p style="background: radial-gradient(#09009A, #1E8CAB); width:auto;float:left;margin-top: 7px;margin-left: 15px;padding: 0px 5px 2px 0px;">&nbsp;&nbsp;{{$episode->quality}}</p>
 											  <div class="date" style="clear:left;" >Size: {{$episode->size}}</div>
 											</div>
 

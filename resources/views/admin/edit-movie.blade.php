@@ -115,12 +115,14 @@
 			<div class="fileinput fileinput-new" data-provides="fileinput">
 			<div class="fileinput-new thumbnail">
 			@php
+				$poster_dir = '/storage/'.ltrim($movies->category_name->drive,'fs1/').'/'.$movies->year.'/'.$movies->poster; 
+				
 				$path = '/'.$movies->category_name->drive.'/'.$movies->year.'/'.$movies->title.' ['.$movies->year.']/';
                 $path = str_replace(' ','%20',$path);
                 $path = str_replace('[','%5B',$path);
                 $path = str_replace(']','%5D',$path);
             @endphp
-			<img src="{{$path.$movies->poster}}" alt="" id="poster" /> 
+			<img src="{{$poster_dir}}" alt="" id="poster" /> 
 			<div class="modal" id="loading" style="display:none;"><!-- Place at bottom of page --></div>
 			</div>
 																		

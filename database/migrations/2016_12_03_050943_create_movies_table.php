@@ -23,7 +23,7 @@ class CreateMoviesTable extends Migration
             $table->string('trailer',1500)->nullable();
             $table->string('rating')->nullable();
             $table->string('genre',1500)->nullable();
-            $table->string('cast',2500)->nullable();
+            $table->string('cast',5000)->nullable();
             $table->string('release_date')->nullable();
             $table->string('language',1500)->nullable();
             $table->string('website')->nullable();

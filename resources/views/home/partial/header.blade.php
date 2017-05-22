@@ -1,8 +1,13 @@
-	
+	<script>
+		$(".se").click(function(){
+			$("#inputString").focus();
+		});
+	</script>
 	<script>
 		$(document).ready(function(){
 			$('input[name=search]').on('keyup',function(){
 				
+				var data = '<div id="searchresults">';
 				var token = '{{ Session::token() }}';
 				var url = '{{ url("/search") }}';
 				var search = $(this).val();
@@ -14,78 +19,83 @@
 						url:url,
 						data:{str:search,_token:token},
 						success:function(e){
-							var data = '<div id="searchresults">';
+							console.log(e);
 							if(e.movies.data.length >0){
 								var movies = e.movies.data;
 								data += '<div class="category" style="padding-bottom:10px;"> MOVIES </div>';
 								for (var i = 0; i < movies.length ; i++) {
 									data += '<a href="/movie/'+movies[i].title.split(' ').join('-').toLowerCase()+'">';
-									var path = '/'+movies[i].category_name.drive+'/'+movies[i].year+'/'+movies[i].title+' ['+movies[i].year+']/';
+									var path = '/storage/'+movies[i].category_name.drive+'/'+movies[i].year+'/';
 									path = path.split(' ').join('%20');
 									path = path.replace('[','%5B');
 					    			path = path.replace(']','%5D');
+					    			path = path.replace('fs1/','');
 					    			var poster = path+movies[i].poster
-
+									
 									data += '<img src="'+poster+'" alt="" style="width:10.5%;"/>';
-									data += '<div class="searchheading" style="margin-top:-10px;font-size:12px;">'+movies[i].title+'</div>';
+									data += '<div class="searchheading" style="margin-top:-10px;font-size:12px;">'+movies[i].title+' ['+movies[i].year+']'+'</div>';
 									data += '<div class="details" style="color:#3D3D3D;font-size:10px;">';
-									data += 'Category:'+movies[i].category_name.menu_name+'<br> Quality:'+movies[i].quality+'</div></a>'
+									data += 'Category:'+movies[i].category_name.menu_name+'<br> Quality: '+movies[i].quality+'</div></a>'
 								}
 							}
 							if(e.softwares.data.length > 0){
 								var softwares = e.softwares.data;
 								data += '<div class="category" style="padding-bottom:10px;"> Softwares </div>';
 								for (var i = 0; i < softwares.length ; i++) {
-									var path = '/'+softwares[i].category_name.drive+'/'+softwares[i].name+'/';
+									var path = '/storage/'+softwares[i].category_name.drive+'/';
 									path = path.split(' ').join('%20');
 									path = path.replace('[','%5B');
 					    			path = path.replace(']','%5D');
+					    			path = path.replace('fs1/','');
 					    			var cover = path+softwares[i].cover
-
-									data += '<a href="'+path+softwares[i].path+'">';
+									
+									data += '<a href="/software/'+softwares[i].name.split(' ').join('-').toLowerCase()+'">';
 									data += '<img src="'+cover+'" alt="" style="width:10.5%;"/>';
 									data += '<div class="searchheading" style="margin-top:-10px;font-size:12px;">'+softwares[i].name+'</div>';
 									data += '<div class="details" style="color:#3D3D3D;font-size:10px;">';
-									data += 'Category:'+softwares[i].category_name.menu_name+'<br> Size:'+softwares[i].size+'</div></a>'
+									data += 'Category:'+softwares[i].category_name.menu_name+'<br> Size: '+softwares[i].size+'</div></a>'
 								}
 							}
 							if(e.games.data.length > 0){
 								var games = e.games.data;
 								data += '<div class="category" style="padding-bottom:10px;"> Games </div>';
 								for (var i = 0; i < games.length ; i++) {
-									var path = '/'+games[i].category_name.drive+'/'+games[i].name+'/';
+									var path = '/storage/'+games[i].category_name.drive+'/';
 									path = path.split(' ').join('%20');
 									path = path.replace('[','%5B');
 					    			path = path.replace(']','%5D');
+					    			path = path.replace('fs1/','');
 					    			var cover = path+games[i].cover
 
-									data += '<a href="'+path+games[i].path+'">';
+									data += '<a href="/game/'+games[i].name.split(' ').join('-').toLowerCase()+'">';
 									data += '<img src="'+cover+'" alt="" style="width:10.5%;"/>';
 									data += '<div class="searchheading" style="margin-top:-10px;font-size:12px;">'+games[i].name+'</div>';
 									data += '<div class="details" style="color:#3D3D3D;font-size:10px;">';
-									data += 'Category:'+games[i].category_name.menu_name+'<br> Size:'+games[i].size+'</div></a>'
+									data += 'Category:'+games[i].category_name.menu_name+'<br> Size: '+games[i].size+'</div></a>'
 								}
 							}
 							if(e.tvseries.data.length > 0){
 								var tvseries = e.tvseries.data;
 								data += '<div class="category" style="padding-bottom:10px;"> tvseries </div>';
 								for (var i = 0; i < tvseries.length ; i++) {
-									var path = '/'+tvseries[i].category_name.drive+'/'+tvseries[i].title+'/';
+									var path = '/storage/'+tvseries[i].category_name.drive+'/';
 									path = path.split(' ').join('%20');
 									path = path.replace('[','%5B');
 					    			path = path.replace(']','%5D');
+					    			path = path.replace('fs1/','');
 					    			var poster = path+tvseries[i].poster
-
+									
 									data += '<a href="/tv-series/'+tvseries[i].title.split(' ').join('-').toLowerCase()+'">';
 									data += '<img src="'+poster+'" alt="" style="width:10.5%;"/>';
 									data += '<div class="searchheading" style="margin-top:-10px;font-size:12px;">'+tvseries[i].title+'</div>';
 									data += '<div class="details" style="color:#3D3D3D;font-size:10px;">';
-									data += 'Category:'+tvseries[i].category_name.menu_name+'<br> Size:'+tvseries[i].size+'</div></a>'
+									data += 'Category:'+tvseries[i].category_name.menu_name+'<br> Rating: '+tvseries[i].rating+'/10</div></a>'
 								}
 							}
 
 
 							data += '</div>';
+							$('#suggestions').fadeIn();
 							$("#suggestions").html(data);
 						}
 					});
@@ -93,6 +103,7 @@
 
 			});
 		});
+		
 	</script>
 
 	<style>
@@ -114,13 +125,13 @@
 							    <nav class="top-nav mega-menu">
 								<ul>
 									@foreach($menu as $key)
-										<li class="hasChildren"><a href="/{{str_replace(' ','-',strtolower($key->menu_name))}}"><i class="fa fa-film"></i><span>{{$key->menu_name}}</span></a>
+										<li class="hasChildren"><a href="/{{str_replace(' ','-',strtolower($key->menu_name))}}"><i class="fa fa-{{$key->icon}}"></i><span>{{$key->menu_name}}</span></a>
 									      	<ul style="max-width: 609px;">
 										      	@foreach($key->submenu as $submenu)
 											    <li style="transition-delay: 0ms;" class="">
 											    	<a href="/filter/{{str_replace(' ','-',strtolower($submenu->menu_name))}}">
 
-											    	<i class="fa fa-send"></i>
+											    	<i class="fa fa-{{$key->icon}}"></i>
 											    		{{ucwords($submenu->menu_name)}}
 											    	</a>
 												</li>
@@ -143,7 +154,7 @@
 										<div>
 											<input type="text" size="30" value="" name="search" class="txt-box" id="inputString" placeHolder="Enter search keyword here..." />
 										</div>
-										<div id="suggestions" style="margin-left:10px;">
+										<div id="suggestions" style="margin-left:10px;box-shadow: rgb(136, 136, 136) 0px 0px 0px !impotant;">
 
 										</div>
 									</form>
@@ -162,3 +173,4 @@
 			    <!-- Logo, Global navigation menu and search end -->
 			    
 			</div>
+			

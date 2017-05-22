@@ -8,6 +8,7 @@ class Menu extends Model
 {
     protected $fillable = [
     	'menu_name',
+    	'icon',
     	'position',
     	'visible'
     ];
