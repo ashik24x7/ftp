@@ -21,13 +21,14 @@ class GameController extends Controller
         return $size;
     }
     public function getAddGame(){
-    	$data['submenu'] = Submenu::where('visible',1)->where('main_menu',4)->get();
+    	$data['submenu'] = Submenu::where('visible',1)->where('main_menu',3)->get();
     	return view('admin.add-games',$data);
     }
 
     public function postAddGame(Request $request){
     	$this->validate($request,[
     		'name' => 'required',
+    		'folder_name' => 'required',
             'category' => 'required',
             'trailer' => 'required',
 	    	'details' => 'required',
@@ -36,30 +37,29 @@ class GameController extends Controller
 
         $errors = [];
         $message = [];
-        $game = Game::pluck('name')->toArray() or NULL;
-        if(!in_array($request->name, $game)){
-            $data = $request->only('name','category','trailer','details');
+        $game = Game::pluck('folder_name')->toArray() or NULL;
+        if(!in_array($request->folder_name, $game)){
+            $data = $request->only('folder_name','name','category','trailer','details');
 
             $data['added_by'] = auth()->guard('admin')->user()->id;
 
             $category = Submenu::where('id',$request->category)->first();
             
-            $path = $category->drive . DIRECTORY_SEPARATOR . $request->name;
+            $path = $category->drive . DIRECTORY_SEPARATOR . $request->folder_name;
 			
 			$poster_dir = ltrim($category->drive,'fs1/');
 			$poster_name = str_replace(' ', '_', $request->name).'.png';
 
         	if (Storage::disk('ftp')->exists($path)){
         		$dir = Storage::disk('ftp')->files($path);
+				$data['size'] = '';
         		foreach($dir as $files_path) {
 					$files = explode("/",$files_path);
     				$files = end($files);
-        			if(stripos($files,'.iso') || stripos($files,'.rar')){
-                        $data['path'] = $files;
-                        $data['size'] = $this->byte_to_human(Storage::disk('ftp')->size($files_path));
-                        $data['platform'] = '';
-                        $data['views'] = 1;
-                    }
+					$data['path'] = "N/A";
+					$data['size'] += Storage::disk('ftp')->size($files_path);
+					$data['platform'] = '';
+					$data['views'] = 1;
         		}
 
                 if($cover = $request->file('cover')){
@@ -70,17 +70,19 @@ class GameController extends Controller
 					$data['cover'] = $poster_name;
                 }
 
-                if(!isset($data['path'])){
+                if(empty($data['size'])){
                     $errors[] = 'There is no Game in <b style="font-weight:bold;">'.$path.'</b>';
                 }elseif(!isset($data['cover'])){
                     $errors[] = 'There is no cover in <b style="font-weight:bold;">'.$path.'</b>';
-                }
+                }elseif(!empty($data['size'])){
+					$data['size'] = $this->byte_to_human($data['size']);
+				}
 
         	}else{
         		$errors[] = 'This is not a directory';
         	}
         }else{
-            $errors[] = $request->name.' is already exist!';
+            $errors[] = $request->folder_name.' is already exist!';
         }
 
         
@@ -100,11 +102,46 @@ class GameController extends Controller
 
 	public function singleGame($id){
         $id = str_replace('-', ' ', $id);
+        $id = str_replace('*', '-', $id);
         DB::table('games')->where('name',$id)->increment('views',1);
         $data['menu'] = Menu::with(['submenu'])->get();
-        $data['shout'] = Shout::orderBy('created_at','DESC')->paginate(15);
+        $data['shout'] = Shout::orderBy('created_at','DESC')->paginate(200);
     	$data['game'] = Game::with(['category_name'])->where('name',$id)->first();
         return view('home.single-games',$data);
+    }
+	
+	public function getAdminAllGames(){
+		$search = Game::pluck('name');
+    	$str = '';
+    	foreach ($search as $key) {
+    		$str .= '"'.$key.'",';
+    	}
+    	$data['search'] = rtrim($str,',');
+    	$data['games'] = Game::with(['category_name'])->orderBy('id','DESC')->paginate(18);
+    	return view('admin.all-games',$data);
+    }
+	
+	public function deleteGame($id){
+    	$game = Game::find($id);
+    	$game_name = $game->name;
+    	if($game->delete()){
+    		return redirect()->to('/admin/game/all')->with('messages',$game_name.' has deleted!');
+    	}else{
+    		return redirect()->to('/admin/game/all')->with('messages',$game_name.' deleatation failed!');
+    	}
+    }
+	
+	public function adminFilterGames(Request $request){
+    	$search = Game::pluck('name');
+		
+    	$str = '';
+    	foreach ($search as $key) {
+    		$str .= '"'.$key.'",';
+    	}
+    	$data['search'] = rtrim($str,',');
+    	$data['games'] = Game::where('name',$request->str)->paginate(5);
+		$data['history'] = $request->str;
+    	return view('admin.all-games',$data);
     }
 
 

@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Ebox Live</title>
+		<title>E-BOX Live!</title>
 		
 		
 		<!-- Mobile Meta -->
@@ -47,6 +47,16 @@
 			}
 			div.team-details > a.play-hover > i:hover {color:#fff;}
 			
+			.category{
+				margin-right: 10px;
+				padding: 2px 5px;
+				background: #555;
+				font-size: 15px;
+				display: inline-block;
+				text-transform: capitalize;
+				min-height: 28px;
+			}
+			
 		</style>
 
 
@@ -65,7 +75,7 @@
 			<!-- Content Start -->
 			<div id="contentWrapper">
 
-				<div class="sectionWrapper" style="padding: 30px 0;">
+				<div class="sectionWrapper" style="padding: 15px 0;">
 					<div class="container">
 						<div class="row">
 							<div class="box success-box center hidden">Your item was added succesfully.</div>
@@ -80,11 +90,80 @@
 						    			{{$movies->links()}}
 						    		</ul>
 					    		</div>
+							<div class="toolsBar">
+									<div class="cell-10 left products-filter-top">
+										<div class="left">
+											<span style="position: relative;color: #e8522f;font-size: 16px;text-transform: capitalize;height: 1px;"> Showing: </span>
+											
+												<p class="category">{{ucfirst($category)}}</p>
+										</div>
+										<div class="left">
+											<span style="position: relative;color: #e8522f;font-size: 16px;text-transform: capitalize;height: 1px; float:left;    padding: 2px;">Sorted by: </span>
+												<p class="category" style="    min-width: 150px;min-height: 28px;">{{$sort or ''}}</p>
+										</div>
+										<div class="left" style="margin-left:10px;">
+											<select onchange="location = this.options[this.selectedIndex].value;">
+											
+												<option selected="selected" value="">Year</option>
+												@foreach($years as $year)
+													<option value="{{$url}}/year/{{$year}}/">{{$year}}</option>
+												@endforeach
+											</select>
+										</div>
+										<div class="left">
+											<select onchange="location = this.options[this.selectedIndex].value;">
+											
+												<option selected="selected" value="">Ratings</option>
+												@foreach($ratings as $rating)
+													<option value="{{$url}}/rating/{{$rating}}/">{{$rating}}</option>
+												@endforeach
+											</select>
+										</div>
+										<div class="left">
+											
+											<select onchange="location = this.options[this.selectedIndex].value;">
+											
+												<option selected="selected" value="">Genre</option>
+												@foreach($genres as $genre)
+													<option value="{{$url}}/genre/{{strtolower($genre)}}/">{{$genre}}</option>
+												@endforeach
+											</select>
+										</div>
+										<div class="left">
+											
+											<select onchange="location = this.options[this.selectedIndex].value;">
+												
+												<option selected="selected" value="">Quality</option>
+												@foreach($qualitys as $quality)
+													<option value="{{$url}}/quality/{{$quality}}/">{{$quality}}</option>
+												@endforeach
+											</select>
+										</div>
+										
+										<div class="left order-asc" style="margin-top:2px;">
+										<a href="{{$order}}"><i class="fa fa-sort-amount-{{$order}}"></i></a>
+										</div>
+										
+										<div class="left" style="margin-left: 10px;margin-top: 1px;">
+											<a class="btn btn-md btn-3d main-bg fx animated fadeInUp pull-right" href="{{$url}}/" data-animate="fadeInUp" data-animation-delay="100" style="animation-delay: 100ms;-webkit-box-shadow: 0 0 0 0;box-shadow: 0 0 0 0;margin-right: -9px;padding: 2px 2px 3px 7px;">
+										<span>Reset</span>
+									</a>
+									
+										</div>
+									</div>
+									<div class="right cell-2 list-grid">
+										<p style="background: #e7512f;color: #fffff2;padding: 2px 8px;">{{$total_movies}}</p>
+									</div> 
+								</div>								
+								
+								
+								
 								<div class="grid-list">
 									<div class="row">
 										@foreach($movies as $movie)
 											@php
-												$poster_dir = 'storage/'.ltrim($movie->category_name->drive,'fs1/').'/'.$movie->year.'/'.$movie->poster;
+												$poster_dir = 'storage/'.str_replace('fs1/','',$movie->category_name->drive).'/'.$movie->year.'/'.$movie->poster;
+												$poster_dir = str_replace('fs2/','',$poster_dir);
 
 												$path = 'http://43.230.123.21';
 					    						$path .= '/'.$movie->category_name->drive.'/'.$movie->year.'/'.$movie->title.' ['.$movie->year.']/'.$movie->poster;
@@ -93,7 +172,7 @@
 					    						$path = str_replace(']','%5D',$path);
 					    					@endphp
 											<div class="cell-2 fx shop-item" data-animate="fadeInUp" style="margin-bottom:15px;padding-right: 0px;">
-									    			<div class="team-box" style="background-color:#333;margin-right: -10px;">
+									    			<div class="team-box" style="background-color:#333;margin-right: -5px;">
 							    					<div class="team-img" style="margin-right:5px;margin-left:5px;">
 							    					@if(!empty($movie->poster) && isset($movie->poster))
 							    						<img alt="" style="height:267px;" src="{{url($poster_dir)}}">
@@ -109,9 +188,13 @@
 														@endif
 														</span>
 													</div>
+													@php
+														$link = str_replace('-','*',$movie->title);
+														$link = str_replace(' ','-',$link);
 													
-													<a href="/movie/{{strtolower(str_replace(' ','-',$movie->title))}}">
-							    					<div class="team-details"  href="/movie/{{strtolower(str_replace(' ','-',$movie->title))}}" style="height:267px;background-color:rgba(0, 0, 0, 0.5);margin-left:0px;width:97.5%;">
+													@endphp
+													<a href="/movie/{{strtolower($link)}}">
+							    					<div class="team-details"  href="/movie/{{strtolower($link)}}" style="height:267px;background-color:rgba(0, 0, 0, 0.5);margin-left:0px;width:97.5%;">
 						                               
 														<p style="height: 100px !important; margin: -4px 0px 0px 0px;">
 											{{ $movie->title.' ['.$movie->year.']' }}
@@ -120,7 +203,7 @@
 											@php
 												$trailer = explode(",",$movie->trailer);
 											@endphp
-											<a href="/movie/{{strtolower(str_replace(' ','-',$movie->title))}}" class="play-hover" ><i class="fa fa-play-circle play-btn"></i></a>
+											<a href="/movie/{{strtolower($link)}}" class="play-hover" ><i class="fa fa-play-circle play-btn"></i></a>
 											<br>
 											<p style="background: radial-gradient(#1E8CAB, #09009a); width:40%; font-size:13px;float:right;margin-left:5px;"><i class="fa fa-eye"></i> {{$movie->views}}</p>
 											
@@ -223,6 +306,14 @@
 				$("#custom_content a[rel^='prettyPhoto']:last").prettyPhoto({
 					custom_markup: '<div id="bsap_1259344" class="bsarocks bsap_d49a0984d0f377271ccbf01a33f2b6d6"></div><div id="bsap_1237859" class="bsarocks bsap_d49a0984d0f377271ccbf01a33f2b6d6" style="height:260px"></div><div id="bsap_1251710" class="bsarocks bsap_d49a0984d0f377271ccbf01a33f2b6d6"></div>',
 					changepicturecallback: function(){ _bsap.exec(); }
+				});
+			});
+		</script>
+		<script>
+			
+			$(document).ready(function(){
+				$(".asc").click(function(){
+					$(this).toggle();
 				});
 			});
 		</script>

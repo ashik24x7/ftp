@@ -148,7 +148,7 @@
 			<div id="contentWrapper">
 			
 				
-				<div class="sectionWrapper" style="padding:20px 0;">
+				<div class="sectionWrapper" style="padding:10px 0;">
 					<div class="container">
 						<div class="row">
 					
@@ -163,7 +163,7 @@
 									$poster_dir = 'storage'.ltrim($game->category_name->drive,'fs1').'/'.$game->cover;
 
 									$path = 'http://43.230.123.21';
-		    						$path .= '/'.$game->category_name->drive.'/'.$game->name;
+		    						$path .= '/'.$game->category_name->drive.'/'.$game->folder_name;
 		    						$path = str_replace(' ','%20',$path);
 		    						$path = str_replace('[','%5B',$path);
 		    						$path = str_replace(']','%5D',$path);
@@ -171,22 +171,17 @@
 		    					@endphp
 									
 									<div class="cell-12">
-									<div class="cell-9" style="border-right:1px solid #555;">
+									<div class="cell-9" style="border-right:0px solid #555;">
 									<div class="list-results last-list">
-									<div class="cell-3" style="padding:0px 0px 0px 0px;margin-left:-27px;">
-									<div class="post-img">
-				    						<img alt="" style="height:203px;" src="{{url($poster_dir)}}">
+									<div class="cell-12" style="padding:0px 0px 0px 0px;margin-left:-27px;">
+									<div class="post-img" style="padding-left: 20px;">
+				    						<img alt="" style="width:550px;" src="{{url($poster_dir)}}">
 									</div>
 									</div>
-									<div class="cell-9">
-									<div class="product-specs product-block list-results" style="margin-top:-17px;">
-									    <label class="control-label"><i class="fa fa-paper-plane-o"></i>Category:</label>
-										<a class="btn btn-md btn-orange btn-outlined fx animated fadeInDown" href="#" data-animate="fadeInDown" data-animation-delay="700" style="animation-delay: 700ms;">
-										<span><i class="fa fa-film"></i>{{$game->category_name->menu_name}}</span></a>
-										
-									</div>
+									<div class="cell-12" style="margin-left: -11px;margin-top: 20px;">
+									
 										<label class="control-label"><i class="fa fa-align-justify"></i>Requirment:</label>
-				                        <div class="showContent hideContent">{!!nl2br($game->details)!!}</div>
+				                        <div class="showContent hideContent" style="line-height: 16px;">{!!nl2br($game->details)!!}</div>
 										
 									</div>
 									</div>
@@ -199,6 +194,9 @@
 									  </li>
 									  
 									   <li>
+									  <label class="control-label">Category: {{$game->category_name->menu_name}}<font color="#bbb"></font></label>
+									  </li>
+									  <li>
 									  <label class="control-label">Size: {{$game->size}}<font color="#bbb"></font></label>
 									  </li>
 									  <br>

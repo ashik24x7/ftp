@@ -196,7 +196,7 @@
                     <!-- BEGIN TAB PORTLET-->
                     <div class="portlet light bordered">
                         <div class="portlet-title">
-                            <div class="caption col-md-6">
+                            <div class="caption col-md-4">
                                 <i class="fa fa-download font-red"></i>
                                 <span class="caption-subject font-red bold uppercase">Publish a Movie</span>
                                 <br>
@@ -210,19 +210,22 @@
                                         
                                         <br>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                <input type="text" id="MovieName" name="name" class="form-control" placeholder="Movie Name" style="border:2px solid #f1c40f"/>
+                                            </div>
+                                            </div>
+											<div class="col-md-2">
                                                 <div class="form-group">
                                                 <input type="text" id="MovieID" name="api_id" class="form-control" placeholder="tt4383594 , 770672122" style="border:2px solid #f1c40f"/>
                                             </div>
 												
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-2">
                                                 <a href="javascript:;" class="btn btn-warning" id="IMDB">
-												<i class="fa fa-info"></i>Get info from IMDB</a>
+												<i class="fa fa-info"></i>GET</a>
                                             </div>
-                                            <div class="col-md-6">
-                                                
-                                            </div>
+                                            
                                         </div>
                                     </div>
                                     <div class="portlet-body">
@@ -274,7 +277,7 @@
 																<div class="form-group">
 																	<label for="MovieTitle" class="control-label">Enter Movie Title</label>
 																	<!-- this is Movie Title -->
-																	<input type="text" id="MovieTitle" name="title" class="form-control" placeholder="Movie Title"/>
+																	<input type="text" id="MovieTitle" name="title" class="form-control" placeholder="Movie Title" required/>
 																</div>
 															</div>
 															
@@ -282,7 +285,7 @@
 																<div class="form-group">
 																	<label for="MovieYear" class="control-label">Enter Movie Year</label>
 																	<!-- this is Movie Year -->
-																	<input type="text" id="MovieYear" name="year" class="form-control" placeholder="Year"/>
+																	<input type="text" id="MovieYear" name="year" class="form-control" placeholder="Year"required/>
 																</div>
 															</div>
 															
@@ -290,7 +293,7 @@
                                                                 <div class="form-group">
                                                                     <label for="MovieTrailer" class="control-label">Youtube Trailer.</label>
                                                                     <!-- this is Youtube Trailer -->
-                                                                    <input type="text" id="MovieTrailer" name="trailer" class="form-control" placeholder="Youtube Trailer"/>
+                                                                    <input type="text" id="MovieTrailer" name="trailer" class="form-control" placeholder="Youtube Trailer" required/>
                                                                 </div>
                                                             </div>
 															
@@ -329,8 +332,7 @@
                                                                 <div class="form-group">
                                                                     <label for="MovieDate" class="control-label">Movie Release Date</label>
                                                                     <!-- this is Movie Release Date -->
-                                                                    <input type="text" id="MovieDate" name="release_date" class="form-control" value="
-                                                                        <?php // echo date('d-M-Y'); ?>" />
+                                                                    <input type="text" id="MovieDate" name="release_date" class="form-control" value="{{\Carbon\Carbon::today()}}" required />
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-3">
@@ -549,26 +551,21 @@ $(document).ready(function() {
 
 
     $('#IMDB').click(function() {  
-        var MovieID = $('#MovieID').val();
-        if(MovieID == null || MovieID == ""){
-                $('#MovieID').html('<span style="font-size:12px;" id="removeSolve">Please Enter Movie Title/IMDB ID first</span>');
-                $('#MovieID').css('background-color','#fbb8b8');
-         return false;
-        }else{
+        var id = $('#MovieID').val();
+        var name = $('#MovieName').val();
+        
 			$('#MovieID').css('background-color','#fff');
             $('#loading').show();
             var token = '{{ Session::token() }}';
             var route = '{{ url("/movie/api") }}';
-            var url = "http://api.themoviedb.org/3/movie/"+MovieID+"?append_to_response=credits,images&api_key=f7d5dae12ee54dc9f51ccac094671b00";
-            // alert(url);
+            
             $.ajax({
                 method:'POST',
                 url:route,
-                data:{url:url,_token:token}
+                data:{id:id,name:name,_token:token}
             }).done(function(e){
-                console.log(e);
+				console.log(e);
                 var data = JSON.parse(e);
-                console.log(data['title']);
                 var id = data.id;
                 var title = data.title;
                 var MovieYear = data.MovieYear;
@@ -591,6 +588,7 @@ $(document).ready(function() {
                 var images = data.images;
                
                     
+                document.getElementById('MovieID').value = id;
                 document.getElementById('MovieTitle').value = title;
                 document.getElementById('MovieYear').value = MovieYear;
                 document.getElementById("poster").src = poster; 
@@ -647,7 +645,6 @@ $(document).ready(function() {
 
 
             })
-        }
     });
 });
 

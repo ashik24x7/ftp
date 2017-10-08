@@ -179,7 +179,7 @@
                                 </li>
                                 <li class="divider"> </li>                               
                                 <li>
-                                    <a href="logout.php">
+                                    <a href="/logout">
                                         <i class="icon-key"></i> Log Out </a>
                                 </li>
                             </ul>

@@ -58,6 +58,9 @@
 		    line-height: 1em;
 		    height: auto;
 		}
+		a:hover{
+			text-decoration:none;
+		}
 	</style>
 
 	<script>
@@ -159,7 +162,7 @@
 									$poster_dir = 'storage'.ltrim($software->category_name->drive,'fs1').'/'.$software->cover;
 
 									$path = 'http://43.230.123.21';
-		    						$path .= '/'.$software->category_name->drive.'/'.$software->name;
+		    						$path .= '/'.$software->category_name->drive.'/'.$software->folder_name;
 		    						$path = str_replace(' ','%20',$path);
 		    						$path = str_replace('[','%5B',$path);
 		    						$path = str_replace(']','%5D',$path);
@@ -214,7 +217,7 @@
       <div class="modal-content" style="margin-top:150px;width: 700px;margin-left: -95px;">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">{{$software->name}}</h4>
+          <h4 class="modal-title">{{$software->folder_name}}</h4>
         </div>
         <div class="modal-body">
            <iframe src="{{$path}}" width="100%" height="200" frameborder="0" allowtransparency="true" ></iframe> 

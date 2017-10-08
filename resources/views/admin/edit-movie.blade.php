@@ -115,7 +115,9 @@
 			<div class="fileinput fileinput-new" data-provides="fileinput">
 			<div class="fileinput-new thumbnail">
 			@php
-				$poster_dir = '/storage/'.ltrim($movies->category_name->drive,'fs1/').'/'.$movies->year.'/'.$movies->poster; 
+				
+				$poster_dir = '/storage/'.str_replace('fs1/','',$movies->category_name->drive).'/'.$movies->year.'/'.$movies->poster;
+				$poster_dir = str_replace('fs2/','',$poster_dir);
 				
 				$path = '/'.$movies->category_name->drive.'/'.$movies->year.'/'.$movies->title.' ['.$movies->year.']/';
                 $path = str_replace(' ','%20',$path);
@@ -212,14 +214,14 @@
 									<div class="col-md-6">
 									<div class="form-group">
 									 <label for="MovieTrailer" class="control-label">Youtube Trailer.</label>
-<!-- this is Youtube Trailer --><input type="text" id="MovieTrailer" name="trailer" class="form-control" placeholder="Enter Youtube Trailer" value="{{$movies->trailer}}"/>
+<!-- this is Youtube Trailer --><input type="text" id="MovieTrailer" name="trailer" class="form-control" placeholder="Enter Youtube Trailer" value="{{$movies->trailer}}" required />
 									</div>
                                     </div> 
 									
 									<div class="col-md-3">
 									<div class="form-group">
 									 <label for="MovieTitle" class="control-label">Movie Title</label>
-<!-- this is Movie Title --> <input type="text" id="MovieTitle" name="title" class="form-control" placeholder="Enter Movie Title" value="{{$movies->title}}" />
+<!-- this is Movie Title --> <input type="text" id="MovieTitle" name="title" class="form-control" placeholder="Enter Movie Title" value="{{$movies->title}}" required />
 <!-- this is Movie Title --> <input type="text" id="MovieID" name="id" class="form-control" style="display:none;" value="{{$movies->id}}" />
 									</div>
                                     </div> 
@@ -227,7 +229,7 @@
 									<div class="col-md-3">
 									<div class="form-group">
 									 <label for="MovieYear" class="control-label">Movie Year</label>
-<!-- this is Movie Year --> <input type="text" id="MovieYear" name="year" class="form-control" placeholder="Enter Movie Year" value="{{$movies->year}}"/>
+<!-- this is Movie Year --> <input type="text" id="MovieYear" name="year" class="form-control" placeholder="Enter Movie Year" value="{{$movies->year or ''}}" required/>
 									</div>
                                     </div> 
                             </div>									
@@ -235,7 +237,7 @@
 									<div class="col-md-3">
                                        <div class="form-group">
 										<label for="MovieCategory" class="control-label">Select Category</label>
-<!-- this is Movie Category -->		<select class="form-control" id="category" name="category">
+<!-- this is Movie Category -->		<select class="form-control" id="category" name="category" required>
 											@foreach($category as $key)
                                               <option value="{{$key->id}}">{{ucwords($key->menu_name)}}</option>
                                             @endforeach
@@ -245,13 +247,13 @@
 									<div class="col-md-3">
                                        <div class="form-group">
 										<label for="MovieRatings" class="control-label">IMDB Ratings</label>
-<!-- this is IMDB Ratings -->		<input type="text" id="MovieRatings" name="rating" class="form-control" placeholder="IMDB Ratings" value="{{$movies->rating}}"/>
+<!-- this is IMDB Ratings -->		<input type="text" id="MovieRatings" name="rating" class="form-control" placeholder="IMDB Ratings" value="{{$movies->rating}}" required/>
 									   </div>
 									</div>
 									<div class="col-md-3">
                                        <div class="form-group">
 										<label for="Published" class="control-label">Published</label>
-<!-- this is Movie Category -->		<select class="form-control" id="Published" name="published">
+<!-- this is Movie Category -->		<select class="form-control" id="Published" name="published" required>
                                               <option value="1">Yes</option>
                                               <option value="0">No</option>
                                         </select>
@@ -260,17 +262,11 @@
 									
 <!-- this is Movie Genre -->		<div class="col-md-3">
                                             <label for="MovieGenre" class="control-label">Movie Genre</label>
-											<input type="text" id="MovieGenre" name="genre" class="form-control" placeholder="Movie Genre" value="{{$movies->genre}}"/>
+											<input type="text" id="MovieGenre" name="genre" class="form-control" placeholder="Movie Genre" value="{{$movies->genre or ''}}"/>
                                      </div>
 							</div>
 							<div class="col-md-12">
-									<div class="col-md-3">
-                                       <div class="form-group">
-										<label for="MovieDate" class="control-label">Movie Release Date</label>
-<!-- this is Movie Release Date -->		<input type="text" id="MovieDate" name="release_date" class="form-control" value="{{$movies->release_date}}" />
-									   </div>
-									</div>
-									<div class="col-md-3">
+									<div class="col-md-6">
                                        <div class="form-group">
 										<label for="Movielang" class="control-label">Movie Language</label>
 <!-- this is Movie language -->		    <input type="text" id="Movielang" name="language" class="form-control"  placeholder="Enter Movie Language" value="{{$movies->language}}"  />
@@ -285,7 +281,7 @@
 									<div class="col-md-3">
                                        <div class="form-group">
 										<label for="MovieRuntime" class="control-label">Movie Runtime</label>
-<!-- this is Movie Runtime --><input type="text" id="MovieRuntime" name="time" class="form-control"  placeholder="Enter Movie Runtime" value="{{$movies->time}}" />
+<!-- this is Movie Runtime --><input type="text" id="MovieRuntime" name="time" class="form-control"  placeholder="Enter Movie Runtime" value="{{$movies->time}}" required/>
 									   </div>
 									</div>
 							</div>
@@ -308,7 +304,7 @@
 <!-- this is Movie Stroy -->             <span class="required"> * </span>
                                                 </label>
                                                 <div class="col-md-10">
-         <textarea class="form-control" name="story" rows="10" id="MovieStory">{{$movies->story}}</textarea>
+         <textarea class="form-control" name="story" rows="10" id="MovieStory" required>{{$movies->story}}</textarea>
                                                     <br>
                                                 </div>
                                      </div>
@@ -322,7 +318,7 @@
 									<div class="col-md-12">
                                        <div class="form-group form-md-line-input">
 										<label for="MovieWatchLink" class="control-label">File Path</label>
-<!-- this is Movie Watch Link -->		<input type="text" id="MovieWatchLink" name="path" class="form-control"  placeholder="Enter Movie Link" value="{{$movies->path}}" />
+<!-- this is Movie Watch Link -->		<input type="text" id="MovieWatchLink" name="path" class="form-control"  placeholder="Enter Movie Link" value="{{$movies->path}}" required />
 									   </div>
 									</div>
 									<div class="col-md-12">

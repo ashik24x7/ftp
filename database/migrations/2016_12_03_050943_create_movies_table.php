@@ -30,7 +30,7 @@ class CreateMoviesTable extends Migration
             $table->string('time')->nullable();
             $table->string('size');
             $table->string('keyword',2500)->nullable();
-            $table->string('story',1500)->nullable();
+            $table->text('story')->nullable();
             $table->string('path');
             $table->string('subtitle')->nullable();
             $table->string('poster');

@@ -24,7 +24,9 @@
 								var movies = e.movies.data;
 								data += '<div class="category" style="padding-bottom:10px;"> MOVIES </div>';
 								for (var i = 0; i < movies.length ; i++) {
-									data += '<a href="/movie/'+movies[i].title.split(' ').join('-').toLowerCase()+'">';
+									var title = movies[i].title.split('-').join('*');
+									title = title.split(' ').join('-');
+									data += '<a href="/movie/'+title.toLowerCase()+'">';
 									var path = '/storage/'+movies[i].category_name.drive+'/'+movies[i].year+'/';
 									path = path.split(' ').join('%20');
 									path = path.replace('[','%5B');
@@ -48,8 +50,9 @@
 					    			path = path.replace(']','%5D');
 					    			path = path.replace('fs1/','');
 					    			var cover = path+softwares[i].cover
-									
-									data += '<a href="/software/'+softwares[i].name.split(' ').join('-').toLowerCase()+'">';
+									var software_name = softwares[i].name.split('-').join('*');
+									software_name = software_name.split(' ').join('-');
+									data += '<a href="/software/'+software_name.toLowerCase()+'">';
 									data += '<img src="'+cover+'" alt="" style="width:10.5%;"/>';
 									data += '<div class="searchheading" style="margin-top:-10px;font-size:12px;">'+softwares[i].name+'</div>';
 									data += '<div class="details" style="color:#3D3D3D;font-size:10px;">';
@@ -66,8 +69,9 @@
 					    			path = path.replace(']','%5D');
 					    			path = path.replace('fs1/','');
 					    			var cover = path+games[i].cover
-
-									data += '<a href="/game/'+games[i].name.split(' ').join('-').toLowerCase()+'">';
+									var game_name = games[i].name.split('-').join('*');
+									game_name = game_name.split(' ').join('-');
+									data += '<a href="/game/'+game_name.toLowerCase()+'">';
 									data += '<img src="'+cover+'" alt="" style="width:10.5%;"/>';
 									data += '<div class="searchheading" style="margin-top:-10px;font-size:12px;">'+games[i].name+'</div>';
 									data += '<div class="details" style="color:#3D3D3D;font-size:10px;">';
@@ -84,8 +88,9 @@
 					    			path = path.replace(']','%5D');
 					    			path = path.replace('fs1/','');
 					    			var poster = path+tvseries[i].poster
-									
-									data += '<a href="/tv-series/'+tvseries[i].title.split(' ').join('-').toLowerCase()+'">';
+									var tvseries_title = tvseries[i].title.split('-').join('*');
+									tvseries_title = tvseries_title.split(' ').join('-');
+									data += '<a href="/tv-series/'+tvseries_title.toLowerCase()+'">';
 									data += '<img src="'+poster+'" alt="" style="width:10.5%;"/>';
 									data += '<div class="searchheading" style="margin-top:-10px;font-size:12px;">'+tvseries[i].title+'</div>';
 									data += '<div class="details" style="color:#3D3D3D;font-size:10px;">';
@@ -125,11 +130,11 @@
 							    <nav class="top-nav mega-menu">
 								<ul>
 									@foreach($menu as $key)
-										<li class="hasChildren"><a href="/{{str_replace(' ','-',strtolower($key->menu_name))}}"><i class="fa fa-{{$key->icon}}"></i><span>{{$key->menu_name}}</span></a>
+										<li class="hasChildren"><a href="/{{str_replace(' ','-',strtolower($key->menu_name))}}/"><i class="fa fa-{{$key->icon}}"></i><span>{{$key->menu_name}}</span></a>
 									      	<ul style="max-width: 609px;">
 										      	@foreach($key->submenu as $submenu)
 											    <li style="transition-delay: 0ms;" class="">
-											    	<a href="/filter/{{str_replace(' ','-',strtolower($submenu->menu_name))}}">
+											    	<a href="/filter/{{str_replace(' ','-',strtolower($submenu->menu_name))}}/">
 
 											    	<i class="fa fa-{{$key->icon}}"></i>
 											    		{{ucwords($submenu->menu_name)}}

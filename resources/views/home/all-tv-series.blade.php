@@ -4,8 +4,8 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title><?php // echo WEBNAME.' - '.$movCategory; ?></title>
-		<meta name="description" content="{description}">
-		<meta name="author" content="Kamruddin bivob">
+		<meta name="description" content="">
+		<meta name="author" content="">
 		
 		<!-- Mobile Meta -->
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -186,9 +186,13 @@
 							    					    <span class="yellowbox">{{date('Y',strtotime($key->release_date))}}</span>
 														<span class="imdb-rating"><b><b class="fa fa-star"></b></b>{{$key->rating}}</span>
 													</div>
+													@php
+														$link = str_replace('-','*',$key->title);
+														$link = str_replace(' ','-',$link);
 													
-													<a href="/tv-series/{{strtolower(str_replace(' ','-',$key->title))}}">
-							    					<div class="team-details"  href="/tv-series/{{strtolower(str_replace(' ','-',$key->title))}}" style="height:267px;background-color:rgba(0, 0, 0, 0.5);margin-left:0px;width:97.5%;">
+													@endphp
+													<a href="/tv-series/{{strtolower($link)}}">
+							    					<div class="team-details"  href="/tv-series/{{strtolower($link)}}" style="height:267px;background-color:rgba(0, 0, 0, 0.5);margin-left:0px;width:97.5%;">
 						                               
 														<p style="height: 100px !important; margin: -4px 0px 0px 0px;">
 											{{ $key->title }}
@@ -197,7 +201,7 @@
 											@php
 												$trailer = explode(",",$key->trailer);
 											@endphp
-											<a href="/tv-series/{{strtolower(str_replace(' ','-',$key->title))}}" class="play-hover" ><i class="fa fa-play-circle play-btn" style="font-size: 60px;margin-top: -30px;margin-left: 55px;margin-bottom: 30px;"></i></a>
+											<a href="/tv-series/{{strtolower($link)}}" class="play-hover" ><i class="fa fa-play-circle play-btn" style="font-size: 60px;margin-top: -30px;margin-left: 55px;margin-bottom: 30px;"></i></a>
 											<br>
 											<p style="background: radial-gradient(#1E8CAB, #09009a); width:40%; font-size:13px;float:right;margin-left:5px;"><i class="fa fa-eye"></i> {{$key->views}}</p>
 											<p style="background: radial-gradient(#5bf77d, #1f730a);font-size:13px;width:55%;float:left;"><span style="color:#000;font-family:impact;"></span><span style="font-family:tahoma;font-weight:bold;color:#333;margin-bottom:10%;">{{trim($key->category_name->menu_name,'TV Series')}}</span></p>

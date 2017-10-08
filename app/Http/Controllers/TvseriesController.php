@@ -225,6 +225,7 @@ class TvseriesController extends Controller
 
     public function singleTvSeries($id){
     	$id = str_replace('-', ' ', $id);
+        $id = str_replace('*', '-', $id);
         DB::table('tvseries')->where('title',$id)->increment('views',1);
     	$data['tvseries'] = Tvseries::with(['category_name'])->where('title',$id)->first();
     	$data['menu'] = Menu::with(['submenu'])->get();

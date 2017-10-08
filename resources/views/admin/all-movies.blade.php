@@ -140,7 +140,8 @@
                                         @foreach($movies as $movie)
                                             @php
 											
-												$poster_dir = '/storage/'.ltrim($movie->category_name->drive,'fs1/').'/'.$movie->year.'/'.$movie->poster;
+												$poster_dir = '/storage/'.str_replace('fs1/','',$movie->category_name->drive).'/'.$movie->year.'/'.$movie->poster;
+												$poster_dir = str_replace('fs2/','',$poster_dir);
 												
                                                 $path = '/'.$movie->category_name->drive.'/'.$movie->year.'/'.$movie->title.' ['.$movie->year.']/'.$movie->poster;
                                                 $path = str_replace(' ','%20',$path);
@@ -223,7 +224,7 @@
 });
 		$(document).ready(function(){
     $("a.delete").click(function(e){
-        if(!confirm('Are you sure? it will Store in Trash Movies!')){
+        if(!confirm('Are you sure?')){
             e.preventDefault();
             return false;
         }

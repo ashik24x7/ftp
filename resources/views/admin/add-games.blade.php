@@ -148,6 +148,11 @@
                                                 <label for="form_control_1">Games Name</label>
                                                 <span class="help-block">Write Games Name</span>
                                             </div>
+											<div class="form-group form-md-line-input form-md-floating-label">
+                                                <input type="text" class="form-control" id="form_control_1" name="folder_name" />
+                                                <label for="form_control_1">Folder Name</label>
+                                                <span class="help-block">Write Folder Name</span>
+                                            </div>
                                             <div class="form-group form-md-line-input form-md-floating-label has-error">
                                                 <input type="text" class="form-control" id="form_control_1" name="trailer">
                                                 <label for="form_control_1">Youtube Trailer Link</label>

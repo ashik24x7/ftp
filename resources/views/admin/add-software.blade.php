@@ -136,6 +136,11 @@
                                                 <input type="text" class="form-control" id="form_control_1" name="name" />
                                                 <label for="form_control_1">Software Title</label>
                                                 <span class="help-block">Give Unique Software Title</span>
+                                            </div> 
+											<div class="form-group form-md-line-input form-md-floating-label">
+                                                <input type="text" class="form-control" id="form_control_1" name="folder_name" />
+                                                <label for="form_control_1">Folder Name</label>
+                                                <span class="help-block">Give a Folder Name</span>
                                             </div>
                                             <div class="form-group form-md-line-input form-md-floating-label">
                                                 <label for="form_control_1">Requirement: </label>

@@ -11,11 +11,24 @@ use App\Movie;
 use App\Software;
 use App\Tvseries;
 use App\Shout;
+use Session;
 
 class AdminController extends Controller
 {
+	public function __construct(){
+		$this->middleware('guest', ['except' => ['logout', 'getLogout']]);
+	}
+	public function logout(){
+		Session::flush();
+		auth()->guard('admin')->logout();
+		return redirect('/admin');
+	}
     public function getLogin(Request $request){
-    	return view('admin.login');
+		if(!auth()->guard('admin')->check()){
+			return view('admin.login');
+		}else{
+			return redirect()->to('admin/home');
+		}
     }
 
     public function postLogin(Request $request){
@@ -25,7 +38,7 @@ class AdminController extends Controller
     	]);
 
     	$data = $request->only('username','password');
-
+		
     	if(auth()->guard('admin')->attempt($data)){
         	return redirect()->to('/admin/home');
         }else{

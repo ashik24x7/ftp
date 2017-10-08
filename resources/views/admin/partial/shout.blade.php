@@ -76,7 +76,7 @@
 						<div class="message">
 							<span class="arrow"> </span>
 							<a href="javascript:;" class="name">{{$shout->username}}</a>
-							<span class="datetime pull-right"> {{$shout->created_at->diffForHumans()}}</span>
+							</span><span class="datetime pull-right"> [ {{$shout->user_ip}} ] &nbsp; &nbsp;{{$shout->created_at->diffForHumans()}}</span>
 							<span class="body">{{$shout->message}}</span>
 						</div>
 					</li>
@@ -86,6 +86,9 @@
 				    {{csrf_field()}}
 					
 						<div style="text-align:right">
+							<a href="/admin/shout/{{$shout->id}}/delete/" onClick="return alert('Are you sure?')" class="btn red icn-only">
+								<i class="fa fa-trash-o icon-white"></i>
+							</a>
 							<a href="#large{{$shout->id}}" data-toggle="modal"  class="btn blue icn-only">
 								<i class="fa fa-reply icon-white"></i>
 							</a>

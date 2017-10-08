@@ -48,6 +48,15 @@
 			a:hover{
 				text-decoration:none;
 			}
+			.block-head:before {
+				position: absolute;
+				bottom: 0px;
+				left: 0px;
+				width: 0px;
+				height: 0px;
+				content: "";
+				display: inline-block;
+			}
 		</style>
 	
 	</head>
@@ -103,6 +112,28 @@
 				.block-bg-1:before, .block-bg-2:before, .block-bg-3:before, .block-bg-4:before, .block-bg-5:before {
 					display:none;
 				}
+				span.greenbox {
+					position: absolute;
+					margin-top: 245px;
+					width: 95%;
+					margin-left:-1px;
+					max-height:30px;
+					text-align:center;
+					padding: 3px 3px;
+					color: rgba(255, 255, 255, 1);
+					text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+					font-size: 16px;
+					background: #39a739;
+					-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+					-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+					box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+					-webkit-border-bottom-right-radius: 3px;
+					-webkit-border-bottom-left-radius: 3px;
+					-moz-border-radius-bottomright: 3px;
+					-moz-border-radius-bottomleft: 3px;
+					border-bottom-right-radius: 3px;
+					border-bottom-left-radius: 3px;
+				}
 			</style>
 				
 				<div class="welcome gry-pattern" style="padding: 9px 0px 17px 0px;">
@@ -118,7 +149,8 @@
 								<div class="team-box" style="">
 				    					<div class="team-img" style="margin-right:5px;margin-left:5px;">
 				    					@php
-				    						$poster_dir = 'storage/'.ltrim($movie->category_name->drive,'fs1/').'/'.$movie->year.'/'.$movie->poster;
+				    						$poster_dir = 'storage/'.str_replace('fs1/','',$movie->category_name->drive).'/'.$movie->year.'/'.$movie->poster;
+				    						$poster_dir = str_replace('fs2/','',$poster_dir);
 
 				    						$path = 'http://fs.ebox.live/';
 				    						$path .= $movie->category_name->drive.'/'.$movie->year.'/'.$movie->title.' ['.$movie->year.']/'.$movie->poster;
@@ -136,9 +168,14 @@
 												N/A
 											@endif
 											</span>
+											<span class="greenbox">Added: {{$movie->created_at->diffForHumans()}}</span>
 										</div>
-
-										<a href="/movie/{{strtolower(str_replace(' ','-',$movie->title))}}">
+										@php
+											$link = str_replace('-','*',$movie->title);
+											$link = str_replace(' ','-',$link);
+										
+										@endphp
+										<a href="/movie/{{strtolower($link)}}">
 				    					<div class="team-details"  href="/movie/{{strtolower(str_replace(' ','-',$movie->title))}}" style="height:280px;background-color:rgba(0, 0, 0, 0.5);margin-left:0px;width:97.5%;">
 			                               
 											<p style="height: 100px !important; margin: -4px 0px 0px 0px;">
@@ -151,7 +188,7 @@
 											@php
 												$trailer = explode(",",$movie->trailer);
 											@endphp
-											<a href="/movie/{{strtolower(str_replace(' ','-',$movie->title))}}" class="play-hover" ><i class="fa fa-play-circle play-btn"></i></a>
+											<a href="/movie/{{strtolower($link)}}" class="play-hover" ><i class="fa fa-play-circle play-btn"></i></a>
 											<br>
 											<p style="background: radial-gradient(#1E8CAB, #09009a); width:40%; font-size:13px;float:right;margin-left:5px;"><i class="fa fa-eye"></i> {{$movie->views}}</p>
 											
@@ -179,7 +216,7 @@
 				<!-- Welcome Box end -->
 				
 				<!-- FUN Staff start -->
-				<div class="fun-staff staff-1 block-bg-2 sectionWrapper" style="height: 345px;">
+				<div class="fun-staff staff-1 block-bg-2 sectionWrapper" style="height: 355px; min-height: 355px;">
 					<div class="container">
 						<div class="row">
 							
@@ -208,14 +245,23 @@
 										<div class="portfolio-item">
 											<div class="img-holder">
 												<div class="img-over" style="display: none;">
-													<a href="/game/{{strtolower(str_replace(' ','-',$game->name))}}" class="fx link undefined animated fadeOutUp"><b class="fa fa-link"></b></a>
+												@php
+													$link = str_replace('-','*',$game->name);
+													$link = str_replace(' ','-',$link);
+												
+												@endphp
+													<a href="/game/{{strtolower($link)}}" class="fx link undefined animated fadeOutUp"><b class="fa fa-link"></b></a>
 													<a href="" class="fx zoom undefined animated fadeOutDown" data-gal="prettyPhoto[pp_gal]" title="Project Title"><b class="fa fa-search-plus"></b></a>
 												</div>
-												<a href="/game/{{str_replace(' ','-',$game->name)}}"><img alt="" src="{{$poster_dir}}"></a>
+												<a href="/game/{{strtolower($link)}}"><img alt="" src="{{$poster_dir}}"></a>
 											</div>
 											<div class="name-holder">
-											<a href="/game/{{str_replace(' ','-',$game->name)}}" class="project-name" style="height:45px;">{{$game->name}} [ {{$game->size}} ]</a>
-											<p style="width:40%; font-size:13px;float:right;margin-left:5px;"><i class="fa fa-eye"></i> {{$game->views}}</p><span class="project-options"> {{$game->category_name->menu_name}}</span>
+											<a href="/game/{{strtolower($link)}}" class="project-name" style="height:45px;">{{$game->name}}</a>
+											<p style="text-align:center;">
+											<span class="project-options"> {{$game->category_name->menu_name}}</span>
+											<span class="project-options"> [ {{$game->size}} ]</span>
+											<span class="project-options"><i class="fa fa-eye"></i> {{$game->views}}</span>
+											</p>
 										</div>
 										</div>
 									</div>
@@ -236,7 +282,7 @@
 				
 
 				<!-- Services boxes style 1 start -->
-				<div class="gry-pattern">
+				<div class="gry-pattern_tv">
 				<br>
 					<div class="container">
 						<div class="row">
@@ -269,6 +315,7 @@
 					<a href="/tv-series/{{$episode->tvseries->id}}/season/{{$episode->season}}/episode/{{$episode->episode}}">
 					<span class="sale" style="width: 80px;">Episode: {{$episode->episode}}</span>
 					<span class="sale2" style="width: 72px;">Seasons: {{$episode->season}}</span>
+					
 					<img alt="" src="{{\Storage::url($poster_dir.$episode->tvseries->poster)}}"></a>
 								</div>
 								<h3 class="item-title">
@@ -288,7 +335,7 @@
 							<!-- About us and Features container start -->
 
 				<!-- Portfolio start -->
-				<div class="sectionWrapper" style="background-color:#171717;height:330px;">
+				<div class="sectionWrapper" style="background-color:#171717;height:330px;min-height: 330px;">
 				
 					<div class="container" >
 					<h3 class="block-head" style="margin-top: -70px;margin-bottom: 28px;" >Recently Added Softwares
@@ -312,10 +359,15 @@
 		    					@endphp
 							<div class="cell-2 service-box-2 fx" data-animate="fadeInDown">
 								<div class="box-2-cont">
-									<i><a href="/software/{{str_replace(' ','-',$software->name)}}"><img src="{{$poster_dir}}" style="margin-top:-50px;width:100px;height:100px;" /></a></i>
+									@php
+										$link = str_replace('-','*',$software->name);
+										$link = str_replace(' ','-',$link);
+									
+									@endphp
+									<i><a href="/software/{{strtolower($link)}}"><img src="{{$poster_dir}}" style="margin-top:-50px;width:100px;height:100px;" /></a></i>
 									<h4 style="height:54px;font-size:14px;margin-top:10px;">{{$software->name}}</h4>
 									<div class="center sub-title main-color"> Filesize: - ({{$software->size}})</div>
-									<a class="r-more main-color" href="/software/{{str_replace(' ','-',$software->name)}}">Details</a>
+									<a class="r-more main-color" href="/software/{{strtolower($link)}}">Details</a>
 								</div>
 							</div>
 							@endforeach
@@ -324,62 +376,6 @@
 						</div>
 					</div>
 				</div>
-				<!-- Portfolio end 
-			
-							<div class="sectionWrapper">
-					<div class="container">
-					
-                        <div class="portfolioGallery portfolio" style="margin-top:-65px;margin-bottom:-35px;">
-						<h3 class="block-head" style="margin-left:-10px;">Populer Movies</h3> 
-						<?php // //$results = PopularMovies(6);  // this is limit number how many movie you want to show
-									   // foreach($results as $item)
-										// {
-									?>
-							<div>
-									<div class="team-box" style="background-color:#333;">
-				    					<div class="team-img" style="margin-right:5px;margin-left:5px;">
-				    						<img alt="" style="height:280px;" src="http://image.tmdb.org/t/p/w500/<?php //  //echo $item['poster']; ?>">
-				    					    <span class="yellowbox"><?php // //echo $item['MovieYear']; ?></span>
-											<span class="imdb-rating"><b><b class="fa fa-star"></b></b> <?php // //echo $item['MovieRatings']; ?></span>
-										</div>
-
-										<a href="single-movie.php?imdbid=<?php // //echo $item['MovieID']; ?>">
-				    					<div class="team-details"  href="single-movie.php?imdbid=<?php // //echo $item['MovieID']; ?>" style="height:280px;background-color:rgba(0, 0, 0, 0.5);margin-left:0px;width:97.5%;">
-			                               
-											<p style="height: 100px !important; margin: -4px 0px 0px 0px;">
-											<?php //  //echo $item['MovieTitle'].' ['.$item['MovieYear'].']'; ?>
-											</p>
-											
-											<?php // //$oneTrailer = explode(",",$item['MovieTrailer']); ?>
-											<a href="single-movie.php?imdbid=<?php // //echo $item['MovieID']; ?>" class="play-hover" ><i class="fa fa-play-circle play-btn"></i></a>
-											<br>
-											<p style="background: radial-gradient(#09009A, #1E8CAB); width:40%; float:right;margin-left:5px;"><i class="fa fa-eye"></i> <?php //// echo $item['views']; ?></p>
-											<p style="background:radial-gradient(#EA0A5D, #5A0000);"><?php // //echo $item['MovieQuality']; ?></p>
-											
-											<p style="background:radial-gradient(#ffffb8, #ce981d);"><span style="color:#000;font-family:impact;">IMDb &nbsp;</span><span style="font-family:tahoma;font-weight:bold;color:#333;margin-bottom:10%;"><?php // //echo $item['MovieRatings']; ?>/10</span></p>
-											
-				    					    
-											<ul class="gallery clearfix">
-											<a href="http://www.youtube.com/watch?v=<?php //// echo $oneTrailer[0]; ?>" rel="prettyPhoto" style="margin: 2.5% 0 5% 30%;width: 40%;"  title="<?php //// echo $item['MovieTitle']; ?>">
-											<img src="<?php // //echo URL.'/themes/'.THEME;?>/trailer.png" style="margin-left: -48px;margin-top:0px;margin-bottom: 10px;" />
-											</a>
-											</ul>
-											
-										</div>
-										</a>
-				    			</div>
-							</div>
-							<?php //// } ?>
-							
-							
-							
-						</div>
-					</div>
-				</div> -->
-				
-				
-		
-				
 			</div>
 			
 			
@@ -447,7 +443,7 @@
 			$(document).ready(function(){
 				$("area[rel^='prettyPhoto']").prettyPhoto();
 				
-				$(".gallery:first a[rel^='prettyPhoto']").prettyPhoto({animation_speed:'normal',theme:'light_square',slideshow:3000, autoplay_slideshow: true});
+				$(".gallery:first a[rel^='prettyPhoto']").prettyPhoto({animation_speed:'fast',theme:'light_square',slideshow:3000, hideflash: true});
 				$(".gallery:gt(0) a[rel^='prettyPhoto']").prettyPhoto({animation_speed:'fast',slideshow:10000, hideflash: true});
 		
 				$("#custom_content a[rel^='prettyPhoto']:first").prettyPhoto({

@@ -69,7 +69,7 @@
 					</div>
 				</div>-->
 				
-				<div class="sectionWrapper">
+				<div class="sectionWrapper" style="min-height:700px;">
 					<div class="container">
 						<div class="row">
 						@foreach($softwares as $software)
@@ -85,10 +85,15 @@
 		    					@endphp
 							<div class="cell-2 service-box-2 fx" data-animate="fadeInDown">
 								<div class="box-2-cont">
-									<i><a href="/software/{{str_replace(' ','-',$software->name)}}"><img src="{{$poster_dir}}" style="margin-top:-50px;width:100px;height:100px;" /></a></i>
+									@php
+										$link = str_replace('-','*',$software->name);
+										$link = str_replace(' ','-',$link);
+									
+									@endphp
+									<i><a href="/software/{{strtolower($link)}}"><img src="{{$poster_dir}}" style="margin-top:-50px;width:100px;height:100px;" /></a></i>
 									<h4 style="height:54px;font-size:14px;margin-top:10px;">{{$software->name}}</h4>
 									<div class="center sub-title main-color"> Filesize: - ({{$software->size}})</div>
-									<a class="r-more main-color" href="{{$path.$software->path}}">Download</a>
+									<a class="r-more main-color" href="/software/{{strtolower($link)}}">Details</a>
 								</div>
 							</div>
 							@endforeach
@@ -98,43 +103,7 @@
 				
 				
 				
-				<div class="sectionWrapper img-pattern">
-					<div class="container">
-						<h3 class="block-head">Recent Games</h3>
-						<div class="portfolioGallery portfolio">
-						@foreach($games as $game)
-							@php
-									$poster_dir = '/storage'.ltrim($game->category_name->drive,'fs1').'/'.$game->cover;
-									
-		    						$path = $game->category_name->drive.'/'.$game->name.'/';
-		    						$path = str_replace(' ','%20',$path);
-		    						$path = str_replace('[','%5B',$path);
-		    						$path = str_replace(']','%5D',$path);
-
-		    					@endphp
-							<div>
-								<div class="portfolio-item">
-									<div class="img-holder">
-										<div class="img-over">
-											<a href="" class="fx link"><b class="fa fa-link"></b></a>
-											<a href="" class="fx zoom" data-gal="prettyPhoto[pp_gal]" title="Project Title"><b class="fa fa-search-plus"></b></a>
-										</div>
-										<a href="/game/{{str_replace(' ','-',$game->name)}}"><img alt="" src="{{$poster_dir}}"></a>
-									</div>
-									<div class="name-holder">
-											<a href="/game/{{str_replace(' ','-',$game->name)}}" class="project-name" style="font-size:14px;height:40px;" >{{$game->name}}</a>
-											<span class="project-options">
-											{{$game->category_name->menu_name}} ({{$game->size}})</span>
-										</div>
-								</div>
-							</div>
-						@endforeach
-						</div>
-						<div class="clearfix"></div>
-					</div>
-				</div>
 				
-
 			
 				
 			</div>

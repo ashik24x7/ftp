@@ -96,7 +96,7 @@ class MenuController extends Controller
 		
 		$this->validate($request,[
     		'main_menu' => 'required',
-            'menu_name' => 'required|unique:submenus',
+            'menu_name' => 'required',
     		'drive' => 'required'
     	]);
 		

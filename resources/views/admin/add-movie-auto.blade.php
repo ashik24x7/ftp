@@ -84,7 +84,7 @@
                                         	   {{csrf_field()}}
                                         	<div class="row">
 
-                                        	<div class="col-md-5">
+                                        	<div class="col-md-4">
                                             	<div class="form-group">
                                                       <label>Select Category</label>
                                         			  <select class="form-control" name="category" style="" required="required">
@@ -95,16 +95,26 @@
                                         			  </select>
                                                 </div>
                                         	</div>
-                                        	<div class="col-md-3 col-md-offset-1">
+                                        	
+                                        	<div class="col-md-3">
                                         	   <div class="form-group">
                                         		<label for="exampleInputPassword1">Movie Year</label>
                                         		<input type="text" name="year" class="form-control" id="exampleInputPassword1" placeholder="Enter Movie Year" value="" required="">
                                                 </div>	
                                         	</div>
+											<div class="col-md-2">
+                                            	<div class="form-group">
+                                                      <label>Select Medium</label>
+                                        			  <select class="form-control" name="medium" style="" required="required">
+                                                            <option value="OMDB">OMDB</option>
+                                                            <option value="TMDB">TMDB</option>
+                                        			  </select>
+                                                </div>
+                                        	</div>
                                         	<div class="col-md-2">
-                                        	<div class="form-group">
-                                           
-                                        	 <input type="submit" class="btn btn-primary" value="Update" style="margin-top:23px;">
+												<div class="form-group">
+											   
+												 <input type="submit" class="btn btn-primary" value="Update" style="margin-top:23px;">
                                         	</div>	
                                         	</div>
                                         			
@@ -114,7 +124,7 @@
 										
 										
 										
-										</div><div class="slimScrollBar" style="background: red; width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 200px;"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: block; border-radius: 7px; background: blue; opacity: 0.2; z-index: 90; right: 1px;"></div></div>
+										</div><div class="slimScrollBar" style="background: red; width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 200px;"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: block; border-radius: 7px; opacity: 0.2; z-index: 90; right: 1px;"></div></div>
                                 </div>
                             </div>
                             <!-- END Portlet PORTLET-->

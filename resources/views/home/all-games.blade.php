@@ -52,7 +52,7 @@
 			<!-- Content Start -->
 			<div id="contentWrapper">
 				
-				<div class="sectionWrapper">
+				<div class="sectionWrapper" style="min-height:700px;">
 					<div class="container">
 						<div class="portfolio-filterable">
 							<div class="row" style="margin-top: -50px;">
@@ -79,14 +79,23 @@
 										<div class="portfolio-item" style="margin-top: 5px;margin-bottom:10px;">
 											<div class="img-holder">
 												<div class="img-over" style="display: none;">
-													<a href="/game/{{strtolower(str_replace(' ','-',$game->name))}}" class="fx link undefined // animated fadeOutUp"><b class="fa fa-link"></b></a>
-													<a href="/game/{{strtolower(str_replace(' ','-',$game->name))}}" class="fx zoom undefined animated fadeOutDown" data-gal="prettyPhoto[pp_gal]" title="Project Title"><b class="fa fa-search-plus"></b></a>
+												@php
+													$link = str_replace('-','*',$game->name);
+													$link = str_replace(' ','-',$link);
+												
+												@endphp
+													<a href="/game/{{strtolower($link)}}" class="fx link undefined // animated fadeOutUp"><b class="fa fa-link"></b></a>
+													<a href="/game/{{strtolower($link)}}" class="fx zoom undefined animated fadeOutDown" data-gal="prettyPhoto[pp_gal]" title="Project Title"><b class="fa fa-search-plus"></b></a>
 												</div>
-												<a href="/game/{{strtolower(str_replace(' ','-',$game->name))}}" ><img alt="" src="{{$poster_dir}}"></a>
+												<a href="/game/{{strtolower($link)}}" ><img alt="" src="{{$poster_dir}}"></a>
 											</div>
 											<div class="name-holder">
-											<a href="/game/{{strtolower(str_replace(' ','-',$game->name))}}" class="project-name" style="height:45px;" >{{$game->name}}</a>
-											<span class="project-options">{{$game->category_name->menu_name}} ({{$game->size}})</span>
+											<a href="/game/{{strtolower($link)}}" class="project-name" style="height:45px;" >{{$game->name}}</a>
+											<p style="text-align:center;">
+											<span class="project-options"> {{$game->category_name->menu_name}}</span>
+											<span class="project-options"> [ {{$game->size}} ]</span>
+											<span class="project-options"><i class="fa fa-eye"></i> {{$game->views}}</span>
+											</p>
 										</div>
 										</div>
 									</div>
@@ -114,7 +123,7 @@
 			<!-- Content End -->
 			
 			<!-- Footer start -->
-		    @include('admin.partial.footer')
+		    @include('home.partial.footer')
 		    <!-- Footer end -->
 		    
 		    <!-- Back to top Link -->

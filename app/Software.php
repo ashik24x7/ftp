@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Software extends Model
 {
     protected $fillable = [
-    	'name', 'category', 'platform', 'size', 'cover', 'views', 'path', 'requirement', 'added_by'
+    	'name', 'folder_name', 'category', 'platform', 'size', 'cover', 'views', 'path', 'requirement', 'added_by'
     ];
 
     public function category_name(){

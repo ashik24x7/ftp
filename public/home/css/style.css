@@ -105,7 +105,7 @@ body {
     line-height: 1.428571429;
 	font-family: "Open Sans", Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
-    background:#333 
+	background: #333 url("/home/images/bigbg1.jpg");
 }
 html, body, div, span, hr, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strong, sub, sup, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
 	-moz-box-sizing: border-box;
@@ -269,7 +269,34 @@ th, td, caption {
 /* =========================================================================
 	2.SITE PRELOADER & TOOLS
 ============================================================================ */
-				span.yellowbox {
+span.yellowbox {
+    position: absolute;
+    top: 0;
+    left: 3%;
+    padding: 3px 3px;
+    color: rgba(255, 255, 255, 1);
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    font-size: 16px;
+    background: rgba(255,175,75,1);
+    background: -moz-linear-gradient(top, rgb(55, 161, 253) 0%,  rgb(0, 60, 95) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,175,75,1)), color-stop(100%, rgba(255,146,10,1)));
+    background: -webkit-linear-gradient(top, rgb(55, 161, 253) 0%,  rgb(0, 60, 95) 100%);
+    background: -o-linear-gradient(top, rgb(55, 161, 253) 0%,  rgb(0, 60, 95) 100%);
+    background: -ms-linear-gradient(top, rgb(55, 161, 253) 0%,  rgb(0, 60, 95) 100%);
+    background: linear-gradient(to bottom, rgb(55, 161, 253) 0%, rgb(0, 60, 95) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffaf4b', endColorstr='#ff920a', GradientType=0 );
+    background-repeat: repeat-x;
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    -webkit-border-bottom-right-radius: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    -moz-border-radius-bottomright: 3px;
+    -moz-border-radius-bottomleft: 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+span.greenbox {
     position: absolute;
     top: 0;
     left: 3%;
@@ -1485,12 +1512,20 @@ header.top-head-4 .logo {
 	background: transparent url('../images/patterns/dots.png');
 }
 .gry-pattern {
-	background: linear-gradient(to bottom, #222 0%,#666 100%);
-	background: -moz-linear-gradient(to bottom, #222 0%,#666 100%);
-	background: -webkit-linear-gradient(to bottom, #222 0%,#666 100%);
-	background: -o-linear-gradient(to bottom, #222 0%,#666 100%);
+	background: linear-gradient(to bottom, #222 0%,#3e3d3d 100%);
+	background: -moz-linear-gradient(to bottom, #222 0%,#3e3d3d 100%);
+	background: -webkit-linear-gradient(to bottom, #222 0%,#3e3d3d 100%);
+	background: -o-linear-gradient(to bottom, #222 0%,#3e3d3d 100%);
 	background-repeat: repeat-x;
 	border-top: 1px #555 solid;
+}
+.gry-pattern_tv {
+	background: linear-gradient(to bottom, #444 0%,#222 100%);
+	background: -moz-linear-gradient(to bottom, #444 0%,#222 100%);
+	background: -webkit-linear-gradient(to bottom, #444 0%,#222 100%);
+	background: -o-linear-gradient(to bottom, #444 0%,#222 100%);
+	background-repeat: repeat-x;
+	/*border-top: 1px #555 solid;*/
 	border-bottom: 1px #555 solid;
 }
 .img-pattern {
@@ -1526,6 +1561,7 @@ header.top-head-4 .logo {
 }
 .left {
 	float: left;
+	margin-right: 8px;
 }
 .hidden {
 	display: none;
@@ -1535,6 +1571,7 @@ header.top-head-4 .logo {
 }
 .sectionWrapper {
 	padding: 80px 0;
+	min-height:700px;
 }
 .page-section,.scroll-section{
     padding:140px 0
@@ -1714,6 +1751,7 @@ header.top-head-4 .logo {
 .pager {
 	margin: 0 15px;
 	background: #3D3D3D;
+	margin-left: 25px;
 }
 .pager ul {
 	display: table;
@@ -2901,7 +2939,6 @@ blockquote span {
 }
 .project-options {
 	margin-top: 4px;
-	display:block;
 	text-align:center;
 	font-size: 12px;
 }
@@ -4618,12 +4655,12 @@ img.loader{
 }
 
 .toolsBar {
-	display: table;
-	margin: 0 0 10px 0;
-	padding: 10px;
-	width: 100%;
-	background: #222;
-	text-transform: uppercase;
+	height:50px;
+    margin: 0px 0 10px -5px;
+    padding: 10px;
+    width: 101.5%;
+    background: #222;
+    text-transform: uppercase;
 }
 .toolsBar span {
 	display: inline-block;
@@ -4631,10 +4668,12 @@ img.loader{
 }
 .toolsBar select {
 	margin-right: 10px;
-	background: #555;
+    padding: 2px;
+    background: #555;
+	font-size:15px;
 }
 .order-asc i.fa {
-	margin-top: 7px;
+	margin-top: 2px;
 	font-size: 20px;
 }
 .products-filter-top {
@@ -4903,7 +4942,6 @@ img.loader{
 	border-bottom: 1px #555 solid;
 }
 .price-box{
-	padding-bottom: 10px;
 }
 .pro-btns{
 	margin: 5px 0 0 15px;
@@ -8825,4 +8863,8 @@ i.icon {
 
 .item-img img {
     height: 280px;
+}
+
+span.project-options {
+    margin: 0px 10px;
 }

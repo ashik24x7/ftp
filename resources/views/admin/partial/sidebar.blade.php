@@ -18,19 +18,7 @@
                             <!-- BEGIN RESPONSIVE QUICK SEARCH FORM -->
                             <!-- DOC: Apply "sidebar-search-bordered" class the below search form to have bordered search box -->
                             <!-- DOC: Apply "sidebar-search-bordered sidebar-search-solid" class the below search form to have bordered & solid search box -->
-                            <form class="sidebar-search  " action="page_general_search_3.html" method="POST">
-                                <a href="javascript:;" class="remove">
-                                    <i class="icon-close"></i>
-                                </a>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search...">
-                                    <span class="input-group-btn">
-                                        <a href="javascript:;" class="btn submit">
-                                            <i class="icon-magnifier"></i>
-                                        </a>
-                                    </span>
-                                </div>
-                            </form>
+                            
                             <!-- END RESPONSIVE QUICK SEARCH FORM -->
                         </li>
 						<li class="nav-item start <?php // //echo active('dashboard.php'); ?>">
@@ -111,13 +99,6 @@
                                 <span class="title">View/Edit Movies</span> 
                             </a>
                         </li>
-						<li class="nav-item">
-                            <a href="/admin/movie/unpublished" class="nav-link nav-toggle">
-                                <i class="fa fa-ban"></i>
-                                <span class="title">Unpublished Movies</span> 
-                            </a>
-                        </li>
-						
 						<li class="nav-item start">
                             <a href="#" class="nav-link nav-toggle">
                                 <i class="fa fa-television"></i>
@@ -170,23 +151,9 @@
                                     </a>
                                 </li>
 								<li class="nav-item start  <?php // echo active('editgames.php'); ?>">
-                                    <a href="editgames.php" class="nav-link ">
+                                    <a href="/admin/game/all" class="nav-link ">
                                         <i class="fa fa-edit"></i>
-                                        <span class="title">Edit Games<span>
-                                        <span class="selected"></span>
-                                    </a>
-                                </li>
-								<li class="nav-item start  <?php // echo active('ungames.php'); ?>">
-                                    <a href="ungames.php" class="nav-link ">
-                                        <i class="fa fa-ban"></i>
-                                        <span class="title">Unpublished Games<span>
-                                        <span class="selected"></span>
-                                    </a>
-                                </li>
-								<li class="nav-item start  <?php // echo active('trashgames.php'); ?>">
-                                    <a href="trashgames.php" class="nav-link ">
-                                        <i class="fa fa-trash-o"></i>
-                                        <span class="title">Trash Games<span>
+                                        <span class="title">View All Games<span>
                                         <span class="selected"></span>
                                     </a>
                                 </li>
@@ -209,35 +176,14 @@
                                 <li class="nav-item start  <?php // echo active('software.php'); ?>">
                                     <a href="/admin/software/add" class="nav-link ">
                                         <i class="fa fa-plus"></i>
-                                        <span class="title">add Software</span>
+                                        <span class="title">Add Software</span>
                                         <span class="selected"></span>
                                     </a>
                                 </li>
 								<li class="nav-item start  <?php // echo active('editsoftware.php'); ?>">
-                                    <a href="editsoftware.php" class="nav-link ">
+                                    <a href="/admin/software/all" class="nav-link ">
                                         <i class="fa fa-edit"></i>
-                                        <span class="title">Edit Software<span>
-                                        <span class="selected"></span>
-                                    </a>
-                                </li>
-								<li class="nav-item start  <?php // echo active('unsoftware.php'); ?>">
-                                    <a href="unsoftware.php" class="nav-link ">
-                                        <i class="fa fa-ban"></i>
-                                        <span class="title">Unpublished Software<span>
-                                        <span class="selected"></span>
-                                    </a>
-                                </li>
-								<li class="nav-item start  <?php // echo active('Trashsoftware.php'); ?>">
-                                    <a href="Trashsoftware.php" class="nav-link ">
-                                        <i class="fa fa-trash-o"></i>
-                                        <span class="title">Trash Software<span>
-                                        <span class="selected"></span>
-                                    </a>
-                                </li>
-								<li class="nav-item start  <?php // echo active('Autosoftware.php'); ?>">
-                                    <a href="dashboard.php" class="nav-link ">
-                                        <i class="fa fa-sort-amount-asc"></i>
-                                        <span class="title">Automatic add Software<span>
+                                        <span class="title">View All Softwares<span>
                                         <span class="selected"></span>
                                     </a>
                                 </li>

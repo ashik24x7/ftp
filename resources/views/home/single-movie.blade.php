@@ -180,7 +180,7 @@
 								</div>
 								@endif	
 								@php
-									$poster_dir = 'storage/'.ltrim($movie->category_name->drive,'fs1/').'/'.$movie->year.'/'.$movie->poster;
+									$poster_dir = 'storage/'.ltrim($movie->category_name->drive,'fs2/').'/'.$movie->year.'/'.$movie->poster;
 
 									$path = 'http://fs.ebox.live';
 		    						$path .= '/'.$movie->category_name->drive.'/'.$movie->year.'/'.$movie->title.' ['.$movie->year.']';

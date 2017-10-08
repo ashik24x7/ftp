@@ -42,35 +42,35 @@ class SoftwareController extends Controller
     public function postAddSoftware(Request $request){
     	$this->validate($request,[
     		'name' => 'required',
+    		'folder_name' => 'required',
 	    	'category' => 'required'
     	]);
 
         $errors = [];
         $message = [];
-        $software = Software::pluck('name')->toArray();
-        if(!in_array($request->name, $software)){
-            $data = $request->only('name','category','requirement');
+        $software = Software::pluck('folder_name')->toArray();
+        if(!in_array($request->folder_name, $software)){
+            $data = $request->only('folder_name','name','category','requirement');
             $data['requirement'] = $request->requirement;
 
             $data['added_by'] = auth()->guard('admin')->user()->id;
 			
             $category = Submenu::where('id',$request->category)->first();
             
-            $path = $category->drive . DIRECTORY_SEPARATOR . $request->name;
-			$poster_dir = ltrim($category->drive,'fs1/');
+            $path = $category->drive . DIRECTORY_SEPARATOR . $request->folder_name;
+			$poster_dir = ltrim($category->drive,'fs1');
 			$poster_name = str_replace(' ', '_', $request->name).'.png';
 
         	if (Storage::disk('ftp')->exists($path)){
         		$dir = Storage::disk('ftp')->files($path);
+				$data['size'] = '';
         		foreach($dir as $files_path) {
 					$files = explode("/",$files_path);
     				$files = end($files);
-        			if(stripos($files,'.exe')){
-                        $data['path'] = $files;
-                        $data['size'] = $this->byte_to_human(Storage::disk('ftp')->size($files_path));
-                        $data['platform'] = 'Windows';
-                        $data['views'] = 1;
-                    }
+					$data['size'] += Storage::disk('ftp')->size($files_path);
+					$data['platform'] = 'Windows';
+                    $data['views'] = 1;
+                    $data['path'] = 'N/A';
         		}
 
                 if($cover = $request->file('cover')){
@@ -81,17 +81,19 @@ class SoftwareController extends Controller
 					$data['cover'] = $poster_name;
                 }
 
-                if(!isset($data['path'])){
+                if(empty($data['size'])){
                     $errors[] = 'There is no software in <b style="font-weight:bold;">'.$path.'</b>';
                 }elseif(!isset($data['cover'])){
                     $errors[] = 'There is no cover in <b style="font-weight:bold;">'.$path.'</b>';
-                }
+                }elseif(!empty($data['size'])){
+					$data['size'] = $this->byte_to_human($data['size']);
+				}
 
         	}else{
         		$errors[] = 'This is not a directory';
         	}
         }else{
-            $errors[] = $request->name.' is already exist!';
+            $errors[] = $request->folder_name.' is already exist!';
         }
         
         if(empty($errors) && Software::create($data)){
@@ -111,12 +113,46 @@ class SoftwareController extends Controller
 	
 	public function singleSoftware($id){
         $id = str_replace('-', ' ', $id);
+        $id = str_replace('*', '-', $id);
         DB::table('softwares')->where('name',$id)->increment('views',1);
         $data['menu'] = Menu::with(['submenu'])->get();
-        $data['shout'] = Shout::orderBy('created_at','DESC')->paginate(15);
+        $data['shout'] = Shout::orderBy('created_at','DESC')->paginate(200);
     	$data['software'] = Software::with(['category_name'])->where('name',$id)->first();
         return view('home.single-software',$data);
     }
 	
+	public function getAdminAllSoftwares(){
+		$search = Software::pluck('name');
+    	$str = '';
+    	foreach ($search as $key) {
+    		$str .= '"'.$key.'",';
+    	}
+    	$data['search'] = rtrim($str,',');
+    	$data['softwares'] = Software::with(['category_name'])->orderBy('id','DESC')->paginate(18);
+    	return view('admin.all-softwares',$data);
+    }
+	
+	public function deleteSoftware($id){
+    	$software = Software::find($id);
+    	$software_name = $software->name;
+    	if($software->delete()){
+    		return redirect()->to('/admin/software/all')->with('messages',$software_name.' has deleted!');
+    	}else{
+    		return redirect()->to('/admin/software/all')->with('messages',$software_name.' deleatation failed!');
+    	}
+    }
+	
+	public function adminFilterSoftwares(Request $request){
+    	$search = Software::pluck('name');
+		
+    	$str = '';
+    	foreach ($search as $key) {
+    		$str .= '"'.$key.'",';
+    	}
+    	$data['search'] = rtrim($str,',');
+    	$data['softwares'] = Software::where('name',$request->str)->paginate(5);
+		$data['history'] = $request->str;
+    	return view('admin.all-softwares',$data);
+    }
 	
 }

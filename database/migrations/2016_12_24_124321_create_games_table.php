@@ -16,6 +16,7 @@ class CreateGamesTable extends Migration
         Schema::create('games', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name',1500);
+            $table->string('folder_name',1500);
             $table->integer('category')->unsigned();
             $table->string('platform',1500);
             $table->string('size',1500);

@@ -84,7 +84,7 @@ class EpisodeController extends Controller
 
     public function singleEpisode($tv,$season,$episode){
 		DB::table('episodes')->where('id',$episode)->increment('views',1);
-		$data['shout'] = Shout::orderBy('created_at','DESC')->paginate(15);
+		$data['shout'] = Shout::orderBy('created_at','DESC')->paginate(200);
     	$data['episode'] = Episode::with(['category_name','tvseries'])->where(['tvseries_id'=>$tv,'season'=>$season,'episode'=>$episode])->first();
     	$data['menu'] = Menu::with(['submenu'])->get();
     	return view('home.single-tv-episode',$data);
