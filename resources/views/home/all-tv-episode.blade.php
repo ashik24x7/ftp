@@ -174,7 +174,7 @@
 				</style>
 				@foreach($episodes as $episode)
 					@php
-						$poster_dir = ltrim($episode->category_name->drive,'fs1/').'/';
+						$poster_dir = strtolower($episode->category_name->drive).'/';
                         $path = $episode->category_name->drive.'/'.$episode->tvseries->title.'/';
                         $path = str_replace(' ','%20',$path);
                     @endphp

@@ -3,8 +3,8 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Ebox Live</title>
-		<meta name="keywords" content="fileserver –">
-		<meta name="description" content="fileserver –">
+		<meta name="keywords" content="fileserver ï¿½">
+		<meta name="description" content="fileserver ï¿½">
 		<meta name="author" content="">
 		
 		<!-- Mobile Meta -->
@@ -240,10 +240,10 @@
 							
 							<aside class="cell-3 left-shop">
 
-							<div class="widget r-posts-w sale-widget fx" data-animate="fadeInRight">
-							<h3 class="widget-head">Shout Box</h3>
-			            @include('home.shoutbox')
-							</div>
+{{--							<div class="widget r-posts-w sale-widget fx" data-animate="fadeInRight">--}}
+{{--							<h3 class="widget-head">Shout Box</h3>--}}
+{{--			            @include('home.shoutbox')--}}
+{{--							</div>--}}
 							
 							</aside>
 						</div>

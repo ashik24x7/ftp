@@ -77,7 +77,30 @@
                     <h3 class="page-title">All TV SERIES
                         
                     </h3>
-                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="task-list" style="list-style: none">
+                            @if(session('errors'))
+                                @foreach(session('errors') as $error)
+                                    <li>
+                                        <div class="task-title">
+                                            <span class="task-title-sp" style="color: red"><i class="fa fa-times" aria-hidden="true"></i> {!!$error!!}</span>
+                                            <span class="label label-sm label-danger"></span>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            @endif
+                            @if(session('messages'))
+                                    <li>
+                                        <div class="task-title">
+                                            <span class="task-title-sp"><i class="fa fa-check-square-o" aria-hidden="true" style="color:green"></i> {{session('messages')}}</span>
+                                            <span class="label label-sm label-success"></span>
+                                        </div>
+                                    </li>
+                            @endif
+                            </ul>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-12">
                             <!-- BEGIN EXAMPLE TABLE PORTLET-->
@@ -114,7 +137,7 @@
                                         <tbody>
 										@foreach($tvseries as $key)
                                             @php
-												$poster_dir = ltrim($key->category_name->drive,'fs1/').'/'.$key->year.'/'.$key->poster;
+												$poster_dir = strtolower(ltrim($key->category_name->drive,'fs1/')).'/'.$key->year.'/'.$key->poster;
 
                                                 $path = '/'.$key->category_name->drive.'/'.$key->title.'/'.$key->poster;
                                                 $path = str_replace(' ','%20',$path);
@@ -131,7 +154,7 @@
                                                 <td>
                                     				
                                     				<a class="btn purple btn-outline sbold" href="#large{{$key->id}}" data-toggle="modal" title="Edit"> <i class="fa fa-edit"></i> </a>
-                                    				<a href="action/trash.php?id=tt3685622" class="btn btn-warning delete" data-toggle="tooltip" title="" data-original-title="delete"><i class="fa fa-trash"></i></a>
+                                    				<a href="/admin/tv-series/delete/{{$key->id}}" class="btn btn-warning delete" data-toggle="tooltip" title="" data-original-title="delete"><i class="fa fa-trash"></i></a>
                                     			</td>
                                             </tr>
                                         @endforeach 
@@ -305,7 +328,7 @@
 });
 		$(document).ready(function(){
     $("a.delete").click(function(e){
-        if(!confirm('Are you sure? it will Store in Trash Games!')){
+        if(!confirm('Are you sure? it will delete all episode belongs to it!')){
             e.preventDefault();
             return false;
         }

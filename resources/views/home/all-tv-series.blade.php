@@ -170,7 +170,9 @@
 				</style>
 								@foreach($tvseries as $key)
 											@php
-												$poster_dir = ltrim($key->category_name->drive,'fs1/').'/'.$key->year.'/'.$key->poster;
+												$poster_dir = strtolower($key->category_name->drive).'/'.$key->year.'/'.$key->poster;
+												
+												//$poster_dir=str_replace("-", "", $poster_dir);
 												
 						                        $path = $key->category_name->drive.'/'.$key->title.'/';
 						                        $path = str_replace(' ','%20',$path);

@@ -3,7 +3,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title><?php // echo $title; ?>  TV Series</title>
-		<meta name="description" content="EXCEPTION – Responsive Business HTML Template">
+		<meta name="description" content="EXCEPTION ï¿½ Responsive Business HTML Template">
 		<meta name="author" content="EXCEPTION">
 		
 		<!-- Mobile Meta -->
@@ -66,7 +66,7 @@ img.img-circle {
 						<div class="my-img">
 							<div class="my-details" style="background: linear-gradient(to bottom right, #580114, #05023b);">
 								@php
-									$poster_dir = ltrim($tvseries->category_name->drive,'fs1/').'/';
+									$poster_dir = strtolower($tvseries->category_name->drive).'/';
 									
 									$path = $tvseries->category_name->drive.'/'.$tvseries->title.'/';
 						            $path = str_replace(' ','%20',$path);
@@ -127,19 +127,24 @@ img.img-circle {
 										$episodes = \App\Episode::where(['tvseries_id'=>$tvseries->id,'season' => $i])->get();
 									@endphp
 									@foreach($episodes as $episode)
-									<div class="per-episode" style="">   
-                                        <div class="image" style="float:left;">
-										  <a href="/tv-series/{{$tvseries->id}}/season/{{$episode->season}}/episode/{{$episode->episode}}"><img src="{{\Storage::url($poster_dir.$tvseries->poster)}}" style="width:227px;height:127px;" /></a>
+									<div class="row" style="height:127px;background: linear-gradient(to bottom right, #580114, #05023b);">
+                                        <div class="col-md-3" style="float:left;">
+										  <a href="/tv-series/{{$tvseries->id}}/season/{{$episode->season}}/episode/{{$episode->episode}}"><img src="{{\Storage::url($poster_dir.$tvseries->poster)}}" style="width:110px;height:127px;" /></a>
 										</div>
-										<a href="/tv-series/{{$tvseries->id}}/season/{{$episode->season}}/episode/{{$episode->episode}}"><img src="/home/images/play-icon.png" style="width:50px;height:50px;margin-bottom: -85px;margin-top: 19px;margin-left: 72%;" /></a>
-									    <div class="info" data-role="tooltip" style="padding:10px;margin-left:0px;margin-top:-18px;width:79%;float: left;height:127px;background: linear-gradient(to bottom right, #580114, #05023b);">
+
+									    <div class="col-md-6" data-role="tooltip" style="float: left;">
 											<div class="title">
-											  <a href="/tv-series/{{$tvseries->id}}/season/{{$episode->season}}/episode/{{$episode->episode}}" style="float:left;"><h3>SEASON: {{$episode->season}} , EPISODE: {{$episode->episode}}</h3></a> 
-											  <p style="background: radial-gradient(#09009A, #1E8CAB); width:auto;float:left;margin-top: 7px;margin-left: 15px;padding: 0px 5px 2px 0px;">&nbsp;&nbsp;{{$episode->quality}}</p>
-											  <div class="date" style="clear:left;" >Size: {{$episode->size}}</div>
+											  <a href="/tv-series/{{$tvseries->id}}/season/{{$episode->season}}/episode/{{$episode->episode}}" style="float:left;padding: 40px">
+												  <h3>SEASON: {{$episode->season}} , EPISODE: {{$episode->episode}}</h3>
+											  </a>
+											  <p style="float:left;padding: 5px;margin-top:40px;background: radial-gradient(#09009A, #1E8CAB)">&nbsp;&nbsp;{{$episode->quality}} </p>
+											  <p style="float:left;padding: 25px;margin-top:15px">Size: {{$episode->size}}</p>
 											</div>
 
                                          </div>
+										<div class="col-md-3">
+											<a href="/tv-series/{{$tvseries->id}}/season/{{$episode->season}}/episode/{{$episode->episode}}"><img src="/home/images/play-icon.png" style="width:50px;height:50px;margin-bottom: -85px;margin-top: 19px;" /></a>
+										</div>
 								    </div>
 									@endforeach
 									<div style="clear:left;" ></div>

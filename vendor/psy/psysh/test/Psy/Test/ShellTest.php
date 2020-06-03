@@ -151,9 +151,9 @@ class ShellTest extends \PHPUnit_Framework_TestCase
         rewind($stream);
         $streamContents = stream_get_contents($stream);
 
-        $this->assertContains('PHP error:', $streamContents);
-        $this->assertContains('wheee',      $streamContents);
-        $this->assertContains('line 13',    $streamContents);
+        $this->assertContains('PHP Notice:', $streamContents);
+        $this->assertContains('wheee',       $streamContents);
+        $this->assertContains('line 13',     $streamContents);
     }
 
     /**
@@ -200,7 +200,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($shell->hasCode());
         $code = preg_replace('/\s+/', ' ', $code);
         $this->assertNotNull($code);
-        $this->assertEquals('class a { }', $code);
+        $this->assertEquals('class a { } return new \\Psy\\CodeCleaner\\NoReturnValue();', $code);
     }
 
     public function testKeepCodeBufferOpen()

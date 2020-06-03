@@ -3,8 +3,8 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Ebox Live</title>
-		<meta name="keywords" content="fileserver –">
-		<meta name="description" content="fileserver –">
+		<meta name="keywords" content="fileserver ï¿½">
+		<meta name="description" content="fileserver ï¿½">
 		<meta name="author" content="">
 		
 		<!-- Mobile Meta -->
@@ -160,9 +160,11 @@
 									</div>
 						
 								@php
-									$poster_dir = 'storage'.ltrim($game->category_name->drive,'fs1').'/'.$game->cover;
+									$folder_name=strtolower($game->category_name->drive);
+									$folder_name=str_replace(' ','.',$folder_name);
+									$poster_dir = 'storage/'.$folder_name.'/'.$game->cover;
 
-									$path = 'http://43.230.123.21';
+									$path = 'http://43.230.123.18';
 		    						$path .= '/'.$game->category_name->drive.'/'.$game->folder_name;
 		    						$path = str_replace(' ','%20',$path);
 		    						$path = str_replace('[','%5B',$path);
@@ -202,7 +204,7 @@
 									  <br>
 									  <li>
 									  <a class="btn btn-md btn-3d btn-blue fx animated fadeInUp" href="" data-animate="fadeInUp" data-animation-delay="100" style="animation-delay: 100ms;" data-toggle="modal" data-target="#myModal">
-										<span><i class="fa fa-download"></i>Download</span> </a>
+										<span><i class="fa fa-download"></i>Downlooad</span> </a>
 									  </li>
 									  <li>&nbsp;</li>
 									 
@@ -219,7 +221,7 @@
           <h4 class="modal-title">{{$game->name}}</h4>
         </div>
         <div class="modal-body">
-           <iframe src="{{$path}}" width="100%" height="200" frameborder="0" allowtransparency="true" ></iframe> 
+           <iframe src="http://43.230.123.18/Games/PC%20Games/" width="100%" height="200" frameborder="0" allowtransparency="true" ></iframe>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -245,10 +247,10 @@
 							
 							<aside class="cell-3 left-shop">
 
-							<div class="widget r-posts-w sale-widget fx" data-animate="fadeInRight">
-							<h3 class="widget-head">Shout Box</h3>
-			            @include('home.shoutbox')
-							</div>
+{{--							<div class="widget r-posts-w sale-widget fx" data-animate="fadeInRight">--}}
+{{--							<h3 class="widget-head">Shout Box</h3>--}}
+{{--			            @include('home.shoutbox')--}}
+{{--							</div>--}}
 							
 							</aside>
 						</div>

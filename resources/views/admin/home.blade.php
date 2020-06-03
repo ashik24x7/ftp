@@ -146,7 +146,7 @@
                     </div>
                     <!-- END PORTLET-->
                 </div>
-				@include('admin.partial.shout')
+				
                 
             </div>
             

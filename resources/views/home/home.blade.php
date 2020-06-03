@@ -103,8 +103,8 @@
 				div.team-details > a.play-hover > i {
 				    font-size: 55px;
 				    margin-left: 37%;
-				    margin-bottom: 5px;
-				    margin-top: -16px;
+				    margin-bottom: 20px;
+				    margin-top: -35px;
 				}
 				div.team-details > a.play-hover > i:hover {
 					color:#fff;
@@ -114,7 +114,7 @@
 				}
 				span.greenbox {
 					position: absolute;
-					margin-top: 245px;
+					margin-top: 267px;
 					width: 95%;
 					margin-left:-1px;
 					max-height:30px;
@@ -138,19 +138,110 @@
 				
 				<div class="welcome gry-pattern" style="padding: 9px 0px 17px 0px;">
 					<div class="container">
+						<h3 class="block-head" style="margin-left:-9px;margin-bottom: 12px;margin-top: 2px;">Most Popular Movies in last 7 Days
+					<!-- 	<a class="btn btn-md btn-3d main-bg fx animated fadeInUp pull-right" href="/movies" data-animate="fadeInUp" data-animation-delay="100" style="animation-delay: 100ms;-webkit-box-shadow: 0 0 0 0;box-shadow: 0 0 0 0;margin-right: -9px;padding: 2px 10px;">
+										<span>View All Movies ({{$total_movies}})</span>
+									</a> --> </h3>
+
+
+
+
+
+									<div class="grid-list">
+												<div class="row">
+													@foreach($most_popular_movies as $most_popular_movie)
+														@php
+															$poster_dir = 'storage/'.strtolower($most_popular_movie->category_name->drive).'/'.$most_popular_movie->year.'/'.$most_popular_movie->poster;
+															//$poster_dir = str_replace('fs2/','',$poster_dir);
+
+															$path = 'http://43.230.123.18';
+								    						$path .= '/'.$most_popular_movie->category_name->drive.'/'.$most_popular_movie->year.'/'.$most_popular_movie->title.' ['.$most_popular_movie->year.']/'.$most_popular_movie->poster;
+								    						$path = str_replace(' ','%20',$path);
+								    						$path = str_replace('[','%5B',$path);
+								    						$path = str_replace(']','%5D',$path);
+								    					@endphp
+														<div class="cell-2 fx shop-item" data-animate="fadeInUp" style="margin-bottom:15px;padding-right: 0px;">
+												    			<div class="team-box" style="background-color:#333;margin-right: -5px;height: 297px;">
+										    					<div class="team-img" style="margin-right:5px;margin-left:5px;">
+										    					@if(!empty($most_popular_movie->poster) && isset($most_popular_movie->poster))
+										    						<img alt="" style="height:267px;" src="{{url($poster_dir)}}">
+										    					@else
+																	<img alt="" style="height:267px;" src="/home/images/no_image.png">
+										    					@endif
+										    					    <span class="yellowbox">{{$most_popular_movie->year}}</span>
+																	<span class="imdb-rating"><b><b class="fa fa-star"></b></b>
+																	@if($most_popular_movie->rating > 0)
+																	{{$most_popular_movie->rating}}
+																	@else
+																		N/A
+																	@endif
+																	</span>
+																	<span class="greenbox" style="background: linear-gradient(to bottom, rgb(55, 161, 253) 0%, rgb(0, 60, 95) 100%)">Viewed {{$most_popular_movie->views}} times</span>
+																</div>
+																@php
+																	$link = str_replace('-','*',$most_popular_movie->title);
+																	$link = str_replace(' ','-',$link);
+																
+																@endphp
+																<a href="/movie/{{strtolower($link)}}">
+										    					<div class="team-details"  href="/movie/{{strtolower($link)}}" style="height:268px;background-color:rgba(0, 0, 0, 0.5);margin-left:0px;width:97.5%;">
+									                               
+																	<p style="height: 100px !important; margin: -4px 0px 0px 0px;">
+														{{ $most_popular_movie->title.' ['.$most_popular_movie->year.']' }}
+														</p>
+														
+														@php
+															$trailer = explode(",",$most_popular_movie->trailer);
+														@endphp
+														<a href="/movie/{{strtolower($link)}}" class="play-hover" ><i class="fa fa-play-circle play-btn"></i></a>
+														<br>
+														<p style="background: radial-gradient(#1E8CAB, #09009a); width:40%; font-size:13px;float:right;margin-left:5px;"><i class="fa fa-eye"></i> {{$most_popular_movie->views}}</p>
+														
+														<p style="background:radial-gradient(#EA0A5D, #5A0000);font-size:13px; margin-left: 0px;">{{$most_popular_movie->quality}}</p>
+														<p style="background: radial-gradient(#5bf77d, #1f730a);font-size:13px;width:60%;float:left;margin-left: 0px;"><span style="color:#000;font-family:impact;"></span><span style="font-family:tahoma;font-weight:bold;color:#333;margin-bottom:10%;">{{$most_popular_movie->category_name->menu_name}}</span></p>
+														<p style="background: radial-gradient(#b0e2ff, #337ab7);font-size:13px;width:37%;float:right;margin-left: 0px;"><span style="color:#000;font-family:impact;"></span><span style="font-family:tahoma;font-weight:bold;color:#333;margin-bottom:10%;">{{$most_popular_movie->size}}</span></p>
+																	
+														<ul class="gallery clearfix">
+														<a href="http://www.youtube.com/watch?v={{$trailer[0]}}" rel="prettyPhoto" style="margin: 2.5% 0 5% 30%;width: 40%;"  title="{{$most_popular_movie->title}}" />
+														<img src="/home/images/trailer.png" style="top: 70px;margin-left: -50px;" />
+														</a>
+														</ul>
+																	
+													</div>
+													</a>
+										    			</div>
+												    		</div>
+												    @endforeach
+												</div>
+											</div>
+
+
+
+
+									
+									<div class="clearfix"></div>
+								</div>
+							</div>
+							<!-- Welcome Box end -->
+
+
+
+
+						<div class="welcome gry-pattern" style="padding: 9px 0px 17px 0px;">
+					<div class="container" style="padding-right: 24px">
 						<h3 class="block-head" style="margin-left:-9px;margin-bottom: 12px;margin-top: 2px;">Recently Added Movies
 						<a class="btn btn-md btn-3d main-bg fx animated fadeInUp pull-right" href="/movies" data-animate="fadeInUp" data-animation-delay="100" style="animation-delay: 100ms;-webkit-box-shadow: 0 0 0 0;box-shadow: 0 0 0 0;margin-right: -9px;padding: 2px 10px;">
 										<span>View All Movies ({{$total_movies}})</span>
 									</a> </h3>
 						
-						<div class="portfolioGallery portfolio" style="margin-top: -6px;">
-						@foreach($movies as $movie)
+						<!-- <div class="portfolioGallery portfolio" style="margin-top: -6px;">
+						@foreach($most_popular_movies as $movie)
 							<div>
 								<div class="team-box" style="">
 				    					<div class="team-img" style="margin-right:5px;margin-left:5px;">
 				    					@php
-				    						$poster_dir = 'storage/'.str_replace('fs1/','',$movie->category_name->drive).'/'.$movie->year.'/'.$movie->poster;
-				    						$poster_dir = str_replace('fs2/','',$poster_dir);
+				    						$poster_dir = 'storage/'.strtolower($movie->category_name->drive).'/'.$movie->year.'/'.$movie->poster;
+				    						//$poster_dir=strtolower($poster_dir);
 
 				    						$path = 'http://fs.ebox.live/';
 				    						$path .= $movie->category_name->drive.'/'.$movie->year.'/'.$movie->title.' ['.$movie->year.']/'.$movie->poster;
@@ -208,12 +299,142 @@
 				    			</div>
 							</div>
 						@endforeach
-						</div>
+						</div> -->
+
+
+						<div class="grid-list">
+									<div class="row">
+										@foreach($movies as $movie)
+											@php
+												$poster_dir = 'storage/'.strtolower($movie->category_name->drive).'/'.$movie->year.'/'.$movie->poster;
+												//$poster_dir = str_replace('fs2/','',$poster_dir);
+
+												$path = 'http://43.230.123.18';
+					    						$path .= '/'.$movie->category_name->drive.'/'.$movie->year.'/'.$movie->title.' ['.$movie->year.']/'.$movie->poster;
+					    						$path = str_replace(' ','%20',$path);
+					    						$path = str_replace('[','%5B',$path);
+					    						$path = str_replace(']','%5D',$path);
+					    					@endphp
+											<div class="cell-2 fx shop-item" data-animate="fadeInUp" style="margin-bottom:15px;padding-right: 0px;">
+									    			<div class="team-box" style="background-color:#333;margin-right: -4px;height: 297px;">
+							    					<div class="team-img" style="margin-right:4px;margin-left:5px;">
+							    					@if(!empty($movie->poster) && isset($movie->poster))
+							    						<img alt="" style="height:267px;" src="{{url($poster_dir)}}">
+							    					@else
+														<img alt="" style="height:267px;" src="/home/images/no_image.png">
+							    					@endif
+							    					    <span class="yellowbox">{{$movie->year}}</span>
+														<span class="imdb-rating"><b><b class="fa fa-star"></b></b>
+														@if($movie->rating > 0)
+														{{$movie->rating}}
+														@else
+															N/A
+														@endif
+														</span>
+														<span class="greenbox">Added: {{$movie->created_at->diffForHumans()}}</span>
+													</div>
+													@php
+														$link = str_replace('-','*',$movie->title);
+														$link = str_replace(' ','-',$link);
+													
+													@endphp
+													<a href="/movie/{{strtolower($link)}}">
+							    					<div class="team-details"  href="/movie/{{strtolower($link)}}" style="height:268px;background-color:rgba(0, 0, 0, 0.5);margin-left:0px;width:97.5%;">
+						                               
+														<p style="height: 100px !important; margin: -4px 0px 0px 0px;">
+											{{ $movie->title.' ['.$movie->year.']' }}
+											</p>
+											
+											@php
+												$trailer = explode(",",$movie->trailer);
+											@endphp
+											<a href="/movie/{{strtolower($link)}}" class="play-hover" ><i class="fa fa-play-circle play-btn"></i></a>
+											<br>
+											<p style="background: radial-gradient(#1E8CAB, #09009a); width:40%; font-size:13px;float:right;margin-left:5px;"><i class="fa fa-eye"></i> {{$movie->views}}</p>
+											
+											<p style="background:radial-gradient(#EA0A5D, #5A0000);font-size:13px; margin-left: 0px;">{{$movie->quality}}</p>
+											<p style="background: radial-gradient(#5bf77d, #1f730a);font-size:13px;width:60%;float:left;margin-left: 0px;"><span style="color:#000;font-family:impact;"></span><span style="font-family:tahoma;font-weight:bold;color:#333;margin-bottom:10%;">{{$movie->category_name->menu_name}}</span></p>
+											<p style="background: radial-gradient(#b0e2ff, #337ab7);font-size:13px;width:37%;float:right;margin-left: 0px;"><span style="color:#000;font-family:impact;"></span><span style="font-family:tahoma;font-weight:bold;color:#333;margin-bottom:10%;">{{$movie->size}}</span></p>
+														
+											<ul class="gallery clearfix">
+											<a href="http://www.youtube.com/watch?v={{$trailer[0]}}" rel="prettyPhoto" style="margin: 2.5% 0 5% 30%;width: 40%;"  title="{{$movie->title}}" />
+											<img src="/home/images/trailer.png" style="top: 70px;margin-left: -50px;" />
+											</a>
+											</ul>
+														
+										</div>
+										</a>
+							    			</div>
+									    		</div>
+									    @endforeach
+									</div>
+								</div>
+
+
+
+
 						
 						<div class="clearfix"></div>
 					</div>
 				</div>
 				<!-- Welcome Box end -->
+				<div class="welcome gry-pattern" style="padding: 9px 0px 17px 0px;">
+					<div class="container" style="padding-right: 24px">
+						<div class="row">
+						<style>
+						.shop-item p {
+							overflow: hidden;
+							padding: -1px 2px;
+							max-height: 22px;
+							font-size: 17px;
+							margin-left: 37px;
+							margin-top: -6px;
+						}
+						</style>
+						<h3 class="block-head" style=" padding: 0px 0px 0px 7px;" >Recently Added TV Series
+						<a class="btn btn-md btn-3d main-bg fx animated fadeInUp pull-right" href="/tv-series" data-animate="fadeInUp" data-animation-delay="100" style="animation-delay: 100ms;-webkit-box-shadow: 0 0 0 0;box-shadow: 0 0 0 0;margin-right: 8px;margin-top: 4px; padding: 2px 10px;"> <span>View All TV Series ({{$total_tvseries}})</span></a>
+						
+						<a class="btn btn-md btn-3d main-bg fx animated fadeInUp pull-right" href="/tv-episodes" data-animate="fadeInUp" data-animation-delay="100" style="animation-delay: 100ms;-webkit-box-shadow: 0 0 0 0;box-shadow: 0 0 0 0;margin-right: 20px;margin-top: 4px; padding: 2px 10px;"> <span>View All Episodes ({{$total_episodes}})</span></a>
+						</h3> 
+					@foreach($episodes as $episode)
+					@php
+						$poster_dir = strtolower($episode->category_name->drive).'/';
+
+                        $path = $episode->category_name->drive.'/'.$episode->tvseries->title.'/';
+                        $path = str_replace(' ','%20',$path);
+                    @endphp
+					   <div class="cell-2 fx shop-item animated fadeInUp" data-animate="fadeInUp" style="padding-left:0px;padding-right:8px;">
+							
+							<div class="item-box">
+							
+								<div class="item-img">
+					<a href="/tv-series/{{$episode->tvseries->id}}/season/{{$episode->season}}/episode/{{$episode->episode}}">
+					<span class="sale" style="width: 80px;">Episode: {{$episode->episode}}</span>
+					<span class="sale2" style="width: 72px;">Seasons: {{$episode->season}}</span>
+					
+					<img alt="" src="{{\Storage::url($poster_dir.$episode->tvseries->poster)}}"></a>
+
+								</div>
+								<h3 class="item-title">
+							<a href="/tv-series/{{$episode->tvseries->id}}/season/{{$episode->season}}/episode/{{$episode->episode}}">{{$episode->tvseries->title}}</a>
+							</h3>
+							</div>
+					   </div>
+					   
+					@endforeach	
+										
+										
+						
+						</div>
+					</div>
+				</div>
+				<!-- Welcome Box end -->
+
+
+				<div>
+
+					
+				</div>
 				
 				<!-- FUN Staff start -->
 				<div class="fun-staff staff-1 block-bg-2 sectionWrapper" style="height: 355px; min-height: 355px;">
@@ -232,7 +453,10 @@
 									<div class="portfolio-items" id="container">
                                 @foreach($games as $game)
                                 	@php
-											$poster_dir = 'storage'.ltrim($game->category_name->drive,'fs1').'/'.$game->cover;
+										$folder_name=strtolower($game->category_name->drive);
+										$folder_name=str_replace(' ','.',$folder_name);
+
+										$poster_dir = 'storage/'.$folder_name.'/'.$game->cover;
 											
 											$path = 'http://43.230.123.21/';
 				    						$path .= $game->category_name->drive.'/'.$game->name.'/';
@@ -282,55 +506,7 @@
 				
 
 				<!-- Services boxes style 1 start -->
-				<div class="gry-pattern_tv">
-				<br>
-					<div class="container">
-						<div class="row">
-						<style>
-						.shop-item p {
-							overflow: hidden;
-							padding: -1px 2px;
-							max-height: 22px;
-							font-size: 17px;
-							margin-left: 37px;
-							margin-top: -6px;
-						}
-						</style>
-						<h3 class="block-head" style="margin-top:-10px;    padding: 0px 0px 0px 7px;" >Recently Added TV Series
-						<a class="btn btn-md btn-3d main-bg fx animated fadeInUp pull-right" href="/tv-series" data-animate="fadeInUp" data-animation-delay="100" style="animation-delay: 100ms;-webkit-box-shadow: 0 0 0 0;box-shadow: 0 0 0 0;margin-right: 8px;margin-top: 4px; padding: 2px 10px;"> <span>View All TV Series ({{$total_tvseries}})</span></a>
-						
-						<a class="btn btn-md btn-3d main-bg fx animated fadeInUp pull-right" href="/tv-episodes" data-animate="fadeInUp" data-animation-delay="100" style="animation-delay: 100ms;-webkit-box-shadow: 0 0 0 0;box-shadow: 0 0 0 0;margin-right: 20px;margin-top: 4px; padding: 2px 10px;"> <span>View All Episodes ({{$total_episodes}})</span></a>
-						</h3> 
-					@foreach($episodes as $episode)
-					@php
-						$poster_dir = ltrim($episode->category_name->drive,'fs1/').'/';
-                        $path = $episode->category_name->drive.'/'.$episode->tvseries->title.'/';
-                        $path = str_replace(' ','%20',$path);
-                    @endphp
-					   <div class="cell-2 fx shop-item animated fadeInUp" data-animate="fadeInUp" style="padding-left:0px;padding-right:8px;">
-							
-							<div class="item-box">
-							
-								<div class="item-img">
-					<a href="/tv-series/{{$episode->tvseries->id}}/season/{{$episode->season}}/episode/{{$episode->episode}}">
-					<span class="sale" style="width: 80px;">Episode: {{$episode->episode}}</span>
-					<span class="sale2" style="width: 72px;">Seasons: {{$episode->season}}</span>
-					
-					<img alt="" src="{{\Storage::url($poster_dir.$episode->tvseries->poster)}}"></a>
-								</div>
-								<h3 class="item-title">
-							<a href="/tv-series/{{$episode->tvseries->id}}/season/{{$episode->season}}/episode/{{$episode->episode}}">{{$episode->tvseries->title}}</a>
-							</h3>
-							</div>
-					   </div>
-					   
-					@endforeach	
-										
-										
-						
-						</div>
-					</div>
-				</div>
+				
 				<!-- Services boxes style 1 start -->
 							<!-- About us and Features container start -->
 

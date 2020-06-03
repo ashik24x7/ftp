@@ -91,7 +91,7 @@
 						    		</ul>
 					    		</div>
 							<div class="toolsBar">
-									<div class="cell-10 left products-filter-top">
+									<div class="cell-10 left products-filter-top" style="padding-right: 0px; padding-left: 0px;margin-right: 0px;">
 										<div class="left">
 											<span style="position: relative;color: #e8522f;font-size: 16px;text-transform: capitalize;height: 1px;"> Showing: </span>
 											
@@ -162,10 +162,10 @@
 									<div class="row">
 										@foreach($movies as $movie)
 											@php
-												$poster_dir = 'storage/'.str_replace('fs1/','',$movie->category_name->drive).'/'.$movie->year.'/'.$movie->poster;
-												$poster_dir = str_replace('fs2/','',$poster_dir);
+												$poster_dir = 'storage/'.strtolower($movie->category_name->drive).'/'.$movie->year.'/'.$movie->poster;
+												//$poster_dir = str_replace('fs2/','',$poster_dir);
 
-												$path = 'http://43.230.123.21';
+												$path = 'http://43.230.123.18';
 					    						$path .= '/'.$movie->category_name->drive.'/'.$movie->year.'/'.$movie->title.' ['.$movie->year.']/'.$movie->poster;
 					    						$path = str_replace(' ','%20',$path);
 					    						$path = str_replace('[','%5B',$path);

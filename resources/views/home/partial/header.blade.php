@@ -32,6 +32,7 @@
 									path = path.replace('[','%5B');
 					    			path = path.replace(']','%5D');
 					    			path = path.replace('fs1/','');
+					    			path = path.toLowerCase();
 					    			var poster = path+movies[i].poster
 									
 									data += '<img src="'+poster+'" alt="" style="width:10.5%;"/>';

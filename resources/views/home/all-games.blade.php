@@ -66,7 +66,9 @@
 								<div class="portfolio-items" id="container">
                                 @foreach($games as $game)
                                 	@php
-										$poster_dir = '/storage/'.ltrim($game->category_name->drive,'fs1/').'/'.$game->cover;
+										$folder_name=strtolower($game->category_name->drive);
+									    $folder_name=str_replace(' ','.',$folder_name);
+										$poster_dir = '/storage/'.$folder_name.'/'.$game->cover;
 										
 										$path = 'http://43.230.123.21/';
 			    						$path .= $game->category_name->drive.'/'.$game->name.'/';

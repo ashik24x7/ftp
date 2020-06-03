@@ -116,7 +116,9 @@
 			<div class="fileinput-new thumbnail">
 			@php
 				
-				$poster_dir = '/storage/'.str_replace('fs1/','',$movies->category_name->drive).'/'.$movies->year.'/'.$movies->poster;
+				$poster_dir = '/storage/'.str_replace('fs1/','',$movies->category_name->drive).'/'.$movies->year.'/';
+                $poster_dir = strtolower($poster_dir);
+                $poster_dir .= $movies->poster;
 				$poster_dir = str_replace('fs2/','',$poster_dir);
 				
 				$path = '/'.$movies->category_name->drive.'/'.$movies->year.'/'.$movies->title.' ['.$movies->year.']/';

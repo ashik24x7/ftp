@@ -29,6 +29,7 @@ class Movie extends Model
     	'uploaded_by',
     	'views',
     	'published',
+        'created_at',
     ];
 	
 	protected $dates = [

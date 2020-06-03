@@ -70,6 +70,7 @@ Route::group(['middleware'=>['admin']],function(){
 	Route::get('/admin/sub-menu','MenuController@getSubMenu');
 	Route::post('/admin/sub-menu','MenuController@postSubMenu');
 
+	Route::get('/admin/movie/all-unpublished','MovieController@getAllUnpublisedMovies');
 	Route::get('/admin/movie/all','MovieController@getAllMovies');
 	Route::get('/admin/movie/{id}/edit','MovieController@getEditMovie');
 	Route::post('/admin/movie/update','MovieController@updateMovie');
@@ -78,6 +79,8 @@ Route::group(['middleware'=>['admin']],function(){
 	Route::post('/admin/movie/search','MovieController@adminFilterMovies');
 
 	Route::get('/admin/movie/{id}','MovieController@deleteMovie');
+
+	Route::get('/admin/movie-publish/{publish}/{id}','MovieController@publishMovie');
 
 	Route::get('/admin/software/add','SoftwareController@getAddSoftware');
 	Route::post('/admin/software/add','SoftwareController@postAddSoftware');
@@ -95,8 +98,12 @@ Route::group(['middleware'=>['admin']],function(){
 	Route::post('/admin/game/search','GameController@adminFilterGames');
 	Route::get('/admin/game/{id}','GameController@deleteGame');
 	
+	Route::get('/admin/tv-series/add-new','TvseriesController@getAddTvSeriesNew');
+	Route::post('/admin/tv-series/add-new','TvseriesController@postAddGameNew');
+
 	Route::get('/admin/tv-series/add','TvseriesController@getAddTvSeries');
-	Route::post('/admin/tv-series/add','TvseriesController@postAddGame');
+	Route::post('/admin/tv-series/manual','TvseriesController@postAddTvSeries');
+	Route::post('/tv-series/api','TvseriesController@api');
 	
 	Route::get('/admin/tv-series/auto','TvseriesController@getAutoTvSeries');
 	Route::post('/admin/tv-series/auto','TvseriesController@postAutoTvSeries');	
@@ -104,6 +111,8 @@ Route::group(['middleware'=>['admin']],function(){
 	Route::get('/admin/tv-series/all','TvseriesController@getAllTvSeries');
 	Route::post('/admin/tv-series/all','TvseriesController@postAllTvSeries');
 	
+	Route::get('/admin/tv-series/delete/{id}','TvseriesController@deleteTvseries');
+
 	Route::get('/admin/tv-series/search','TvseriesController@getAllTvSeries');
 	Route::post('/admin/tv-series/search','TvseriesController@adminFilterTvSeries');
 	

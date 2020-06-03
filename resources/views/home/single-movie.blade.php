@@ -69,66 +69,7 @@
 		
 	</script>
 	
-	<script type="text/javascript">
-		$(document).ready(function(){
-			$("#exordid").focusout(function(){
-				var exordid = $("#exordid").val().trim();
 
-				if(exordid == ""){
-				   $("#message").text('Name/Id can not be empty');
-				}else{
-					$("#message").text('');
-				}
-			})
-			$("#text").focusout(function(){
-				var text = $("#text").val().trim();
-				
-				if(text == ""){
-				   $("#message").text('Message can not be empty');
-				}else{
-					$("#message").text('');
-				}
-			})
-			
-			$("#submit").click(function(e){
-					e.preventDefault();
-					
-					var exordid = $("#exordid").val().trim();
-					var text = $("#text").val().trim();
-					
-					if(exordid == ""){
-					   $("#message").html('Name/Id can not be empty');
-					}else{
-						$("#message").html('');
-					}
-					if(text == ""){
-					   $("#message").text('Message can not be empty');
-					}else{
-						$("#message").text('');
-					}
-
-					if(exordid != "" && text != ""){
-						var url = '{{ url("shout") }}';
-						var value = $("#form").serialize();
-						console.log(value);
-						$.ajax({
-							type:"POST",
-							url:url,
-							data:value,
-							success:function(res){
-								$("#message").html(res);
-							}
-						});
-					}
-
-					setTimeout(function(){
-						$("#load").load(location.href + " #load");
-					}, 500);
-			})
-		})
-
-
-	</script>
 	
 	<script src="/home/player/jquery.js"></script>	
 	<script src="/home/player/mediaelement-and-player.min.js"></script>
@@ -180,7 +121,7 @@
 								</div>
 								@endif	
 								@php
-									$poster_dir = 'storage/'.ltrim($movie->category_name->drive,'fs2/').'/'.$movie->year.'/'.$movie->poster;
+									$poster_dir = 'storage/'.strtolower($movie->category_name->drive).'/'.$movie->year.'/'.$movie->poster;
 
 									$path = 'http://fs.ebox.live';
 		    						$path .= '/'.$movie->category_name->drive.'/'.$movie->year.'/'.$movie->title.' ['.$movie->year.']';
@@ -250,7 +191,7 @@
 									      
 									  </li>
 									  <li>
-									  <label class="control-label">Last Updated: <font color="#bbb"> {{$movie->updated_at->diffForHumans()}}</font></label>
+									  <label class="control-label">Added Time: <font color="#bbb"> {{$movie->updated_at->format('d-M-Y H:i A')}}</font></label>
 									      
 									  </li>
 									  <li>
@@ -379,10 +320,10 @@
 							
 							</div>
 							
-							<div class="widget r-posts-w sale-widget fx" data-animate="fadeInRight">
-							<h3 class="widget-head">Shout Box</h3>
-			            @include('home.shoutbox')
-							</div>
+{{--							<div class="widget r-posts-w sale-widget fx" data-animate="fadeInRight">--}}
+{{--							<h3 class="widget-head">Shout Box</h3>--}}
+{{--			            @include('home.shoutbox')--}}
+{{--							</div>--}}
 							
 							</aside>
 						</div>

@@ -95,8 +95,15 @@
 				<div class="sectionWrapper" style="padding:20px 0;">
 					<div class="container">
 						<div class="row">
+						@if(!strpos($episode->path,'.mkv') AND !strpos($episode->path,'.mp4'))	
+									<div class="box error-box round fx animated fadeInLeft" data-animate="fadeInLeft" style="padding:9px;">
+									<a class="close-box" href="#"><i class="fa fa-times"></i></a>
+									<h3 style="margin-top:-7px;">Playback Error!</h3>
+									<p>This video might not play due to unsupported video format e.g. (*.avi, *.dat) <br>If the video doesn't play please download the file and play with any media player</p>
+								</div>
+						@endif	
 						@php
-							$poster_dir = ltrim($episode->category_name->drive,'fs1/').'/';
+							$poster_dir = strtolower($episode->category_name->drive).'/';
 							
 							$path = 'http://fs.ebox.live/'.$episode->category_name->drive.'/'.$episode->tvseries->title.'/';
 				            $path = str_replace(' ','%20',$path);
@@ -321,10 +328,10 @@ var disqus_config = function () {
 							
 							</div>
 							
-							<div class="widget r-posts-w sale-widget fx" data-animate="fadeInRight">
-							<h3 class="widget-head">Shout Box</h3>
-			            @include('home.shoutbox')
-							</div>
+{{--							<div class="widget r-posts-w sale-widget fx" data-animate="fadeInRight">--}}
+{{--							<h3 class="widget-head">Shout Box</h3>--}}
+{{--			            @include('home.shoutbox')--}}
+{{--							</div>--}}
 							
 							</aside>
 							

@@ -78,8 +78,10 @@ class AdminController extends Controller
         $data['softwares'] = Software::all()->count();
         $data['games'] = Game::all()->count();
         $data['tvseries'] = Tvseries::all()->count();
+		
 		$data['shouts'] = Shout::orderBy('created_at','DESC')->get();
-    	return view('admin.home',$data);
+    	//return $data;
+		return view('admin.home',$data);
     }
 	
 	

@@ -99,6 +99,12 @@
                                 <span class="title">View/Edit Movies</span> 
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="/admin/movie/all-unpublished" class="nav-link nav-toggle">
+                                <i class="fa fa-edit"></i>
+                                <span class="title">Unpublished Movies</span> 
+                            </a>
+                        </li>
 						<li class="nav-item start">
                             <a href="#" class="nav-link nav-toggle">
                                 <i class="fa fa-television"></i>

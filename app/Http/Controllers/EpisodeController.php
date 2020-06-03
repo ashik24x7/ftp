@@ -39,6 +39,7 @@ class EpisodeController extends Controller
     	$message = [];
     	$data = [];
     	$data['tvseries_id'] = $request->tvseries;
+        $tmp_tvseries = Tvseries::with(['category_name'])->find($request->tvseries);
     	$data['season'] = (int)trim(str_replace('Season', '', $request->session));
     	$data['category'] = (int)$request->category;
     	$data['uploaded_by'] = auth()->guard('admin')->user()->id;
@@ -64,9 +65,9 @@ class EpisodeController extends Controller
 						$data['episode'] = (int) end($tmp_episode);
 						
 	    				if(Episode::create($data)){
-							$message[] = '<b style="color:green;font-weight:bold;">Episode: '.$data['episode'].'</b> has added successfully';
+							$message[] = '<b style="color:green;font-weight:bold;">Episode: '.$data['episode'].'</b> of Tv Series <b style="color:green;font-weight:bold;">'.$tmp_tvseries->title.'</b> has added successfully';
 						}else{
-							$errors[] = 'Error at <b style="font-weight:bold;">Episode: '.$data['episode'].'</b>';
+							$errors[] = 'Error at <b style="font-weight:bold;">Episode: '.$data['episode'].'</b> of Tv Series <b style="font-weight:bold;">'.$tmp_tvseries->title.'</b>';
 						}
 	    			}
     			}

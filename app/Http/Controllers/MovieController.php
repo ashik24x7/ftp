@@ -55,7 +55,7 @@ class MovieController extends Controller
 	
 	private function get_imdb_id_from_omdb($name,$year){
 		$name = str_replace(" ","%20",$name);
-	    $data = @file_get_contents("http://www.omdbapi.com/?t=$name&y=$year&plot=full&apikey=d6eaf39c");
+	    $data = @file_get_contents("http://www.omdbapi.com/?t=$name&y=$year&plot=full&apikey=f96ceddd");
 	    				
 	    $movie = json_decode($data);
 		if(isset($movie) && !empty($movie)){
@@ -80,6 +80,7 @@ class MovieController extends Controller
     	$category = Submenu::where('id',$request->category)->first();
     	
     	$path = $category->drive . DIRECTORY_SEPARATOR .$request->year;
+
 
     	if (Storage::disk('ftp')->exists($path)){
     		$dir = Storage::disk('ftp')->directories($path);
@@ -106,7 +107,7 @@ class MovieController extends Controller
 					
     				$movie_name = str_replace(" ","%20",$movie_name);
 					
-					$api_data = $this->get_imdb_id_from_omdb($movie_name,$request->year);
+					 $api_data = $this->get_imdb_id_from_omdb($movie_name,$request->year);
 					
 					$api_id = isset($api_data->imdbID) ? $api_data->imdbID : false;
 					
@@ -117,6 +118,8 @@ class MovieController extends Controller
 					
                     
                     $movie_poster = $api_data->Poster;
+
+                    $data['published'] = 1;
 					
                     $data['genre'] = $api_data->Genre;
 
@@ -146,7 +149,7 @@ class MovieController extends Controller
 			    	$data['category'] = $request->category;
 
 			    	$trailer_api = @file_get_contents("http://api.themoviedb.org/3/movie/".$api_id."/videos?api_key=f7d5dae12ee54dc9f51ccac094671b00");
-			    	if(!$trailer_api){
+			    	if(empty($trailer_api)){
     					$errors[] = 'No Trailer found from API for <b style="font-weight:bold">'.$tmp_movie_name.'</b>';
     					continue;
     				}
@@ -161,6 +164,15 @@ class MovieController extends Controller
 					}
 			    	$data['trailer'] = isset($finaltrailers) ? trim($finaltrailers,',') : '';
 					unset($finaltrailers);
+
+					if(empty($data['trailer'])){
+						$errors[] = 'No kewywords found from API for <b style="font-weight:bold">'.$tmp_movie_name.'</b>';
+						$data['published'] = 0;
+    					continue;
+					}
+
+
+
 
 			    	$keywords_api = @file_get_contents("http://api.themoviedb.org/3/movie/".$api_id."/keywords?api_key=f7d5dae12ee54dc9f51ccac094671b00");
 			    	if(!$keywords_api){
@@ -226,6 +238,7 @@ class MovieController extends Controller
 					$poster_dir = str_replace('fs2','',$poster_dir);
 					$poster_dir = str_replace('fs3','',$poster_dir);
 					$poster_dir = str_replace('fs4','',$poster_dir);
+					$poster_dir = strtolower($poster_dir);
 					
 					if(!Storage::exists($poster_dir.DIRECTORY_SEPARATOR.$poster_name) && !empty($movie_poster)){
 						if(!Storage::exists($poster_dir)){
@@ -247,6 +260,7 @@ class MovieController extends Controller
 
 					if(empty($data['poster'])){
 						$errors[] = 'Poster is not exist in <b style="font-weight:bold;">API ID: '.$tmp_movie_name.'</b>';
+						$data['published'] = 0;
 						continue;
 					}
 					if(!isset($data['quality']) or empty($data['quality'])){
@@ -292,6 +306,7 @@ class MovieController extends Controller
 
 				if(!in_array($movie_name, $movies)){
 					$data = [];
+					$data['published'] = 1;
 					$api_id = '';
 					$json = '';
 					$json2 = '';
@@ -318,8 +333,14 @@ class MovieController extends Controller
 
     				$json = json_decode($api);
 					
+                    if(!empty(trim($json->poster_path))){
+                    	$movie_poster = "http://image.tmdb.org/t/p/w342".$json->poster_path;
+                    }elseif(empty(trim($json->poster_path))){
+                    	$errors[] = 'Poster not found from API for <b style="font-weight:bold">'.$tmp_movie_name.'</b>';
+                    	$data['published'] = 0;
+    					continue;
+                    }
                     
-                    $movie_poster = "http://image.tmdb.org/t/p/w342".$json->poster_path;
 					
                     $data['genre'] = '';
                     foreach ($json->genres as $key) {
@@ -355,7 +376,15 @@ class MovieController extends Controller
 					   } 
 					}
 			    	$data['trailer'] = isset($finaltrailers) ? trim($finaltrailers,',') : '';
-					unset($finaltrailers);
+
+			    	if(!empty($data['trailer'])){
+			    		unset($finaltrailers);
+			    	}elseif(!empty(trim($data['trailer']))){
+			    		$errors[] = 'Trailer not found from API for <b style="font-weight:bold">'.$tmp_movie_name.'</b>';
+			    		$data['published'] = 0;
+    					continue;
+			    	}
+					
 
 			    	$fp3 = @file_get_contents("http://api.themoviedb.org/3/movie/".$api_id."/keywords?api_key=f7d5dae12ee54dc9f51ccac094671b00");
 			    	if(!$fp3){
@@ -435,6 +464,7 @@ class MovieController extends Controller
 					$poster_dir = str_replace('fs2/','',$poster_dir);
 					$poster_dir = str_replace('fs3/','',$poster_dir);
 					$poster_dir = str_replace('fs4/','',$poster_dir);
+					$poster_dir = strtolower($poster_dir);
 
 					
 
@@ -538,6 +568,7 @@ class MovieController extends Controller
 		$poster_dir = str_replace('fs2/','',$poster_dir);
 		$poster_dir = str_replace('fs3/','',$poster_dir);
 		$poster_dir = str_replace('fs4/','',$poster_dir);
+		$poster_dir = strtolower($poster_dir);
 		
 		$poster_name = str_replace(' ', '_', $request->title);
 		$poster_name = str_replace('?', '', $poster_name);
@@ -555,6 +586,8 @@ class MovieController extends Controller
 		
 		
     	$data['uploaded_by'] = auth()->guard('admin')->user()->id;
+    	
+    	$data['published'] = 1;
 
     	$movies = Movie::pluck('title')->toArray();
 
@@ -740,7 +773,7 @@ class MovieController extends Controller
     }
 
 	public function omdb(Request $request){
-    	$omdb = file_get_contents("http://www.omdbapi.com/?t=$request->name&plot=full&apikey=d6eaf39c");
+    	$omdb = file_get_contents("http://www.omdbapi.com/?t=$request->name&plot=full&apikey=f96ceddd");
 		
 		$movie = json_decode($omdb); //This will convert it to an array
 		
@@ -823,6 +856,17 @@ class MovieController extends Controller
     	}
     }
 
+    public function getAllUnpublisedMovies(){
+
+    	$search = Movie::pluck('title');
+    	$str = '';
+    	foreach ($search as $key) {
+    		$str .= '"'.$key.'",';
+    	}
+    	$data['search'] = rtrim($str,',');
+    	$data['movies'] = Movie::orderBy('id','DESC')->where('published',0)->paginate(50);
+    	return view('admin.all-unpublished-movies',$data);
+    }
     public function getAllMovies(){
 
     	$search = Movie::pluck('title');
@@ -853,7 +897,7 @@ class MovieController extends Controller
     	dd($category);
         $data['menu'] = Menu::with(['submenu'])->get();
         $data['shout'] = Shout::orderBy('created_at','DESC')->paginate(15);
-    	$data['movie'] = Movie::with(['category_name'])->where('category',$id)->first();
+    	$data['movie'] = Movie::with(['category_name'])->where('category',$id)->where('published',1)->first();
 		$data['years'] =  Movie::groupBy('year')->pluck('year');
 		$data['ratings'] =  Movie::groupBy('rating')->pluck('rating');
 		$data['qualitys'] =  Movie::groupBy('quality')->pluck('quality');
@@ -864,10 +908,15 @@ class MovieController extends Controller
     public function singleMovie($id){
         $id = str_replace('-', ' ', $id);
         $id = str_replace('*', '-', $id);
-        DB::table('movies')->where('title',$id)->increment('views',1);
         $data['menu'] = Menu::with(['submenu'])->get();
-        $data['shout'] = Shout::orderBy('created_at','DESC')->paginate(200);
-    	$data['movie'] = Movie::with(['category_name'])->where('title',$id)->first();
+        $data['movie'] = Movie::with(['category_name'])->where('title',$id)->where('published',1)->first();
+    	if(empty($data['movie'])){
+    		return view('home.404');
+    	}
+
+        DB::table('movies')->where('title',$id)->increment('views',1);
+
+       
         return view('home.single-movie',$data);
     }
 
@@ -883,19 +932,24 @@ class MovieController extends Controller
         $data['menu'] = Menu::with(['submenu'])->get();
 		$data['url'] = '/movies';
         
-		if(!empty($key) && !empty($value)){
-			$data['movies'] = Movie::with(['category_name'])->where($key,'like','%'.$value.'%')->orderBy('id',$order)->paginate(42);
+		if(!empty($key) && !empty($value) && $key == 'rating'){
+			$data['movies'] = Movie::with(['category_name'])->where($key,$value)->where('published',1)->orderBy('id',$order)->paginate(42);
+			
+			$data['total_movies'] = Movie::with(['category_name'])->where($key,'like','%'.$value.'%')->count();
+			$data['sort'] = ucfirst($key).' [ '.ucfirst($value).' ]';
+		}else if(!empty($key) && !empty($value)){
+			$data['movies'] = Movie::with(['category_name'])->where($key,'like','%'.$value.'%')->where('published',1)->orderBy('id',$order)->paginate(42);
 			
 			$data['total_movies'] = Movie::with(['category_name'])->where($key,'like','%'.$value.'%')->count();
 			$data['sort'] = ucfirst($key).' [ '.ucfirst($value).' ]';
 		}else{
 			$data['order'] = "";
-			$data['movies'] = Movie::with(['category_name'])->orderBy('id',$order)->paginate(42);
+			$data['movies'] = Movie::with(['category_name'])->where('published',1)->orderBy('id',$order)->where('published',1)->paginate(42);
 			$data['total_movies'] = Movie::with(['category_name'])->count();
 		}
 		
 		$data['years'] =  Movie::groupBy('year')->pluck('year');
-		$data['ratings'] =  Movie::groupBy('rating')->pluck('rating');
+		$data['ratings'] =  Movie::groupBy('rating')->orderBy('rating','DESC')->pluck('rating');
 		$data['qualitys'] =  Movie::groupBy('quality')->pluck('quality');
 		
 		$result_genre =  Movie::groupBy('genre')->pluck('genre');
@@ -933,6 +987,7 @@ class MovieController extends Controller
     	]);
 		
     	$data = $request->only('trailer','title','year','category','rating','published','genre','release_date','language','website','time','kewyword','story','path','poster');
+    	$data['created_at'] = Carbon::now();
 		
     	$category = Submenu::where('id',$request->category)->first();
 		
@@ -940,6 +995,7 @@ class MovieController extends Controller
 		$poster_dir = str_replace('fs2/','',$poster_dir);
 		$poster_dir = str_replace('fs3/','',$poster_dir);
 		$poster_dir = str_replace('fs4/','',$poster_dir);
+		$poster_dir = strtolower($poster_dir);
 		
 		
 		$poster_name = str_replace(' ', '_', $request->title);
@@ -974,6 +1030,16 @@ class MovieController extends Controller
     		return redirect()->to('/admin/movie/all')->with('messages',$movie_name.' has deleted!');
     	}else{
     		return redirect()->to('/admin/movie/all')->with('messages',$movie_name.' deleatation failed!');
+    	}
+    }
+
+    public function publishMovie($publish,$id){
+    	$movie = Movie::find($id);
+    	$movie->published = $publish;
+    	if($movie->save()){
+    		return redirect()->to('/admin/movie/all-unpublished')->with('messages',$movie->title.' has published!');
+    	}else{
+    		return redirect()->to('/admin/movie/all-unpublished')->with('messages',$movie->title.' published failed!');
     	}
     }
 

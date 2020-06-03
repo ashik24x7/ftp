@@ -68,13 +68,13 @@ return [
 
         'ftp' => [
             'driver'   => 'ftp',
-            'host'     => '43.230.123.21',
-            'username' => 'ebox',
-            'password' => 'ebox@3214',
+            'host'     => '43.230.123.18',
+            'username' => 'eboxfs',
+            'password' => 'ebox2020_ftp',
 
             // Optional FTP Settings...
-            'port'     => 21,
-            'root'     => '/var/www/html/files/',
+           'port'     => 21,
+            'root'     => '/',
             // 'root'     => '',
             // 'passive'  => true,
             // 'ssl'      => true,

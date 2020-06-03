@@ -18,11 +18,18 @@ class HomeController extends Controller
 	
     public function index()
     {
+
+    	$date = \Carbon\Carbon::today()->subDays(7);
 		$data['menu'] = Menu::with(['submenu'])->get();
-        $data['movies'] = Movie::with(['category_name'])->orderBy('created_at','DESC')->paginate(18);
-        $data['episodes'] = Episode::with(['category_name','tvseries'])->orderBy('id','DESC')->paginate(6);
+        $data['movies'] = Movie::with(['category_name'])->orderBy('created_at','DESC')->where('published',1)->paginate(12);
+        $data['most_popular_movies'] = Movie::with(['category_name'])->where('published',1)->where('created_at', '>=', $date)->orderBy('views','DESC')->paginate(6);
+        
+
+        $data['tvseries'] = Tvseries::with(['category_name'])->orderBy('created_at','DESC')->paginate(12);
+        $data['episodes'] = Episode::with(['category_name','tvseries'])->orderBy('id','DESC')->paginate(12);
     	$data['softwares'] = Software::with(['category_name'])->orderBy('id','DESC')->paginate(18);
         $data['games'] = Game::with(['category_name'])->orderBy('id','DESC')->paginate(4);
+
 		$data['total_movies'] = Movie::count();
 		$data['total_tvseries'] = Tvseries::count();
 		$data['total_episodes'] = Episode::count();
@@ -33,7 +40,7 @@ class HomeController extends Controller
 	public function main()
     {
 		$data['menu'] = Menu::with(['submenu'])->get();
-        $data['movies'] = Movie::with(['category_name'])->orderBy('created_at','DESC')->paginate(18);
+        $data['movies'] = Movie::with(['category_name'])->orderBy('created_at','DESC')->where('published',1)->paginate(18);
         $data['episodes'] = Episode::with(['category_name','tvseries'])->orderBy('id','DESC')->paginate(6);
     	$data['softwares'] = Software::with(['category_name'])->orderBy('id','DESC')->paginate(18);
         $data['games'] = Game::with(['category_name'])->orderBy('id','DESC')->paginate(4);
@@ -90,12 +97,12 @@ class HomeController extends Controller
 		
         if(strpos($filter,'mov') !== false){
 			if(!empty($key) && !empty($value)){
-				$data['movies'] = Movie::with(['category_name'])->where([['category','=',$category->id],[$key,'like','%'.$value.'%']])->orderBy('id',$order)->paginate(42);
+				$data['movies'] = Movie::with(['category_name'])->where([['category','=',$category->id],[$key,'like','%'.$value.'%']])->orderBy('id',$order)->where('published',1)->paginate(42);
 				
 				$data['total_movies'] = Movie::with(['category_name'])->where([['category','=',$category->id],[$key,'like','%'.$value.'%']])->count();
 				$data['sort'] = ucfirst($key).' [ '.ucfirst($value).' ]';
 			}else{
-				$data['movies'] = Movie::with(['category_name'])->where('category','=',$category->id)->orderBy('id','DESC')->paginate(42);
+				$data['movies'] = Movie::with(['category_name'])->where('category','=',$category->id)->orderBy('id','DESC')->where('published',1)->paginate(42);
 				
 				$data['total_movies'] = Movie::with(['category_name'])->where('category','=',$category->id)->count();
 			}

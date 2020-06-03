@@ -127,6 +127,7 @@
                                             <tr>
                                                 <th class="all">Movie Cover</th>
                                                 <th class="min-phone-l">Movie Title</th>
+                                                <th class="min-phone-l">Published</th>
                                                 <th class="min-phone-l">IMDB ID</th>
                                                 <th class="min-tablet">Movie Category</th>
                                                 <th class="min-tablet">Movie Quality</th>
@@ -140,7 +141,9 @@
                                         @foreach($movies as $movie)
                                             @php
 											
-												$poster_dir = '/storage/'.str_replace('fs1/','',$movie->category_name->drive).'/'.$movie->year.'/'.$movie->poster;
+												$poster_dir = '/storage/'.str_replace('fs1/','',$movie->category_name->drive).'/'.$movie->year;
+                                                $poster_dir = strtolower($poster_dir);
+                                                $poster_dir .='/'.$movie->poster;
 												$poster_dir = str_replace('fs2/','',$poster_dir);
 												
                                                 $path = '/'.$movie->category_name->drive.'/'.$movie->year.'/'.$movie->title.' ['.$movie->year.']/'.$movie->poster;
@@ -153,8 +156,8 @@
                                             <tr>
                                                 <td><img src="{{$poster_dir}}" width="75px" height="100px"/>
                                                 </td>
-                                                <td>
-                                                {{$movie->title}} [{{$movie->year}}]</td>
+                                                <td>{{$movie->title}} [{{$movie->year}}]</td>
+                                                <td>@if($movie->published == 0 ) No @else Yes @endif</td>
                                                 <td>
                                                 {{$movie->api_id}}</td>
                                                 <td><p>{{ucfirst($movie->category_name->menu_name)}}</p></td>
